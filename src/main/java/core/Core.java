@@ -1,25 +1,25 @@
 package core;
 
 public class Core extends CoreSuper {
-    public static int gameboardx = 500;
-    public static int gameboardy = 1000;
+    public static int gameBoardX = 500;
+    public static int gameBoardY = 1000;
     private int difficulty = 1; // number from 1 to infinity
-    private int missiledetonationrange = 20;
+    private int missileDetonationRange = 20;
     private int ufoPeng = 50;
     private int basePeng = 120;
-    private Position baseposition = new Position(0, 0);
+    private Position basePosition = new Position(0, 0);
     private Missile[] activeMissiles;
     private UFO[] activeUFOs;
     private Explosion[] activeExplosions;
-    private Base baseop;
-    private boolean gameover;
+    private Base baseOp;
+    private boolean gameOver;
 
     /*
      * Konstruktor und öffentliche Methoden
      * */
     public Core() {
-        baseop = new Base(baseposition);
-        gameover = false;
+        baseOp = new Base(basePosition);
+        gameOver = false;
         activeMissiles = new Missile[0];
         activeUFOs = new UFO[0];
         activeExplosions = new Explosion[0];
@@ -39,19 +39,19 @@ public class Core extends CoreSuper {
     }
 
     public Base getPlayer() {
-        return baseop;
+        return baseOp;
     }
 
     // Aktionsmethoden
     public void shootMissile(Position target, int range) {
-        if (baseop.alive()) {
+        if (baseOp.alive()) {
             Missile o = new Missile();
-            o.setDetonationRadius(missiledetonationrange);
+            o.setDetonationRadius(missileDetonationRange);
             o.setTargetVector(target);
             o.setRange(range);
-            o.setInitialCoordinates(baseop.getPosition());
+            o.setInitialCoordinates(baseOp.getPosition());
             this.addObserver(o);
-            baseop.addScore(-10);
+            baseOp.addScore(-10);
             activeMissiles = addMissile(o, activeMissiles);
         }
     }
@@ -59,7 +59,7 @@ public class Core extends CoreSuper {
     public void tick() {
         this.setChanged();
         this.notifyObservers();
-        if (!gameover) {
+        if (!gameOver) {
             // Raketen zünden
             missileIgnitionRoutine();
             // UFOs kaputt machen
@@ -71,8 +71,8 @@ public class Core extends CoreSuper {
             //alte Explosionen löschen
             deleteDecayedExplosions();
             // neue Schwierigkeit einstellen
-            if (baseop.getScore() < 0) difficulty = 1;
-            else difficulty = baseop.getScore() / 10000 + 1;
+            if (baseOp.getScore() < 0) difficulty = 1;
+            else difficulty = baseOp.getScore() / 10000 + 1;
         } else explodeBase();
     }
 
@@ -101,13 +101,13 @@ public class Core extends CoreSuper {
         Explosion baeng = new Explosion(ufoPeng, o.getPosition());
         this.addObserver(baeng);
         activeExplosions = addExplosion(baeng, activeExplosions);
-        baseop.addScore(250);
+        baseOp.addScore(250);
     }
 
     private void explodeBase() {
         int bang = (int) (basePeng * Math.random());
-        int xpos = (int) (gameboardx * Math.random() - gameboardx / 2);
-        Position pos = new Position(xpos, baseposition.getY());
+        int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
+        Position pos = new Position(xpos, basePosition.getY());
         Explosion baeng = new Explosion(bang, pos);
         this.addObserver(baeng);
         activeExplosions = addExplosion(baeng, activeExplosions);
@@ -159,10 +159,10 @@ public class Core extends CoreSuper {
         for (int i = 0; i < toExplode.length; i++) explodeUFO(toExplode[i]);
         // schauen ob die basis putt ist
         for (int i = 0; i < activeExplosions.length; i++) {
-            if (activeExplosions[i].withinRange(baseop.getPosition())) baseop.impact();
+            if (activeExplosions[i].withinRange(baseOp.getPosition())) baseOp.impact();
         }
-        if (!baseop.alive()) {
-            gameover = true;
+        if (!baseOp.alive()) {
+            gameOver = true;
             Explosion baeng = new Explosion(250, new Position(0, 0));
             this.addObserver(baeng);
             activeExplosions = addExplosion(baeng, activeExplosions);
@@ -170,13 +170,13 @@ public class Core extends CoreSuper {
     }
 
     private void createEnemy() {
-        int xpos = (int) (gameboardx * Math.random() - gameboardx / 2);
-        int ypos = gameboardy;
+        int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
+        int ypos = gameBoardY;
         Position target;
         int speed = (int) (difficulty * Math.random() * 10 + 10) / 2;
         Position p = new Position(xpos, ypos);
-        if (Math.random() < 0.1 * difficulty) target = baseop.getPosition();
-        else target = new Position((int) (gameboardx * Math.random() - gameboardx / 2), 0);
+        if (Math.random() < 0.1 * difficulty) target = baseOp.getPosition();
+        else target = new Position((int) (gameBoardX * Math.random() - gameBoardX / 2), 0);
         newUFO(p, target, speed);
     }
 

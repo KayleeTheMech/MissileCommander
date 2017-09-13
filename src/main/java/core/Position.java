@@ -1,8 +1,8 @@
 package core;
 
 public class Position {
-    public static int gameboardx = Core.gameboardx;
-    public static int gameboardy = Core.gameboardy;
+    public static int gameboardx = Core.gameBoardX;
+    public static int gameboardy = Core.gameBoardY;
     private int xstd;
     private int ystd;
 

@@ -9,6 +9,7 @@ public abstract class FlightObject implements IFlightObject, Observer {
     protected Position target;
     protected int s;
     protected int clock;
+    //FIXME seems dirty
     protected int speed = 10; // immer überschreiben in den unterklassen
 
     FlightObject() {

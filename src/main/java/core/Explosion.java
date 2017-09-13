@@ -8,7 +8,7 @@ public class Explosion implements Observer {
     private int range;
     private int ticks;
     private Position r;
-    private double decayconstant = 0.125;
+    private double decayConstant = 0.125;
 
     Explosion(int range, Position r) {
         this.r = r;
@@ -36,7 +36,7 @@ public class Explosion implements Observer {
     }
 
     public void update(Observable arg0, Object arg1) {
-        if (ticks > 2) range = (int) (range - ticks * decayconstant * range);
+        if (ticks > 2) range = (int) (range - ticks * decayConstant * range);
         else if (ticks == 1 || ticks == 2) range = (int) (range * 1.2);
         ticks++;
     }

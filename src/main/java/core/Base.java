@@ -2,12 +2,12 @@ package core;
 
 public class Base {
     private int score;
-    private Position loc;
+    private Position location;
     private boolean dead;
 
 
-    Base(Position loc) {
-        this.loc = loc;
+    Base(Position location) {
+        this.location = location;
         this.score = 0;
         this.dead = false;
     }
@@ -21,7 +21,7 @@ public class Base {
     }
 
     public Position getPosition() {
-        return loc;
+        return location;
     }
 
     public boolean alive() {

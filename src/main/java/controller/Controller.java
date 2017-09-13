@@ -8,7 +8,7 @@ import core.Position;
 
 public class Controller extends Observable {
     Core kern;
-    Taktroutine takt;
+    TimerRoutine takt;
     Timer timer;
     long delay = 10;
     long runtime = 50;
@@ -16,7 +16,7 @@ public class Controller extends Observable {
 
     public Controller(Core kern) {
         this.kern = kern;
-        this.takt = new Taktroutine(this);
+        this.takt = new TimerRoutine(this);
         timer = new Timer();
         timer.schedule(takt, delay, runtime);
 
