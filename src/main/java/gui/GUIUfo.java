@@ -8,7 +8,8 @@ import core.UFO;
  */
 public class GUIUfo extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
-
+    private static final int breite = 32 / 2;
+    private static final int hoehe = 16;
     /**
      * This constructor takes an UFO Object and re-calculates the hard coded array into the position on screen.
      *
@@ -17,8 +18,20 @@ public class GUIUfo extends AbstractGUIObject {
     GUIUfo(UFO ufo) {
         this.direction = new GUIPosition(ufo.getTargetVector());
         this.centerOfMass = new GUIPosition(ufo.getPosition());
-        int breite = 32 / 2;
-        int hoehe = 16;
+
+        this.x = getXShape();
+        this.y = getYShape();
+
+        rotateShapeArrays(Math.PI/2);
+        moveShapeArrays();
+
+        this.npoints = (y.length + x.length) / 2;
+        this.xpoints = this.x;
+        this.ypoints = this.y;
+
+    }
+
+    int[] getXShape() {
         int[] xShape = {
                 +(int) ((double) 0 * breite),
                 +(int) ((double) 2 / 16 * breite),
@@ -40,7 +53,10 @@ public class GUIUfo extends AbstractGUIObject {
                 -(int) ((double) 4 / 16 * breite),
                 -(int) ((double) 2 / 16 * breite)
         };
-        this.x = xShape;
+        return xShape;
+    }
+
+    int[] getYShape() {
         int[] yShape = {
                 +(int) ((double) 6 / 16 * hoehe),
                 +(int) ((double) 2 / 16 * hoehe),
@@ -62,15 +78,6 @@ public class GUIUfo extends AbstractGUIObject {
                 +(int) ((double) 2 / 16 * hoehe),
                 +(int) ((double) 2 / 16 * hoehe)
         };
-        this.y = yShape;
-
-        rotateShapeArrays(Math.PI/2);
-
-        moveShapeArrays();
-
-        this.npoints = (y.length + x.length) / 2;
-        this.xpoints = this.x;
-        this.ypoints = this.y;
-
+        return yShape;
     }
 }

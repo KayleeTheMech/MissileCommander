@@ -9,6 +9,18 @@ public class GUIExplosion extends AbstractGUIObject {
     GUIExplosion(Explosion explosion) {
         radius = explosion.getRange();
         centerOfMass = new GUIPosition(explosion.getPosition());
+
+        x = getXShape();
+        y = getYShape();
+
+        moveShapeArrays();
+
+        this.npoints = (x.length + y.length) / 2;
+        this.xpoints = x;
+        this.ypoints = y;
+    }
+
+    private void calculateShape() {
         // form erzeugen
         int anzahlpunkte = (int) (radius * 2 * Math.PI) / 4;
         double winkelabschnitt = 2 * Math.PI / anzahlpunkte;
@@ -20,11 +32,19 @@ public class GUIExplosion extends AbstractGUIObject {
             x[i] = (int) (radius * r * Math.cos(i * winkelabschnitt));
             y[i] = (int) (radius * r * Math.sin(i * winkelabschnitt));
         }
+    }
 
-        moveShapeArrays();
+    protected int[] getXShape() {
+        if (x == null) {
+            calculateShape();
+        }
+        return x;
+    }
 
-        this.npoints = anzahlpunkte;
-        this.xpoints = x;
-        this.ypoints = y;
+    protected int[] getYShape() {
+        if (y == null) {
+            calculateShape();
+        }
+        return y;
     }
 }

@@ -4,8 +4,8 @@ import java.awt.Polygon;
 
 public class GUIBase extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
-    private int xquer = 30;
-    private int yhoch = 20;
+    private static final int xquer = 30;
+    private static final int yhoch = 20;
     private int xstd;
     private int ystd;
 
@@ -13,7 +13,15 @@ public class GUIBase extends AbstractGUIObject {
         super();
         this.xstd = p.getX();
         this.ystd = p.getY();
-        int[] x = {
+        this.x = getXShape();
+        this.y = getYShape();
+        this.npoints = 6;
+        this.xpoints = x;
+        this.ypoints = y;
+    }
+
+    int[] getXShape() {
+        int[] xShape = {
                 xstd - xquer,
                 xstd - xquer,
                 xstd + xquer,
@@ -21,7 +29,11 @@ public class GUIBase extends AbstractGUIObject {
                 xstd + xquer / 2,
                 xstd - xquer / 2
         };
-        int[] y = {
+        return xShape;
+    }
+
+    int[] getYShape() {
+        int[] yShape = {
                 ystd - yhoch,
                 ystd + 0,
                 ystd + 0,
@@ -29,9 +41,6 @@ public class GUIBase extends AbstractGUIObject {
                 ystd - yhoch / 2,
                 ystd - yhoch / 2
         };
-
-        this.npoints = 6;
-        this.xpoints = x;
-        this.ypoints = y;
+        return yShape;
     }
 }

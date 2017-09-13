@@ -13,6 +13,9 @@ public abstract class AbstractGUIObject extends Polygon {
         super();
     }
 
+    abstract int[] getXShape();
+    abstract int[] getYShape();
+
     /**
      * Turning the polygon array
      */
