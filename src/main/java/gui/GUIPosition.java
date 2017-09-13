@@ -3,47 +3,47 @@ package gui;
 import core.Position;
 
 public class GUIPosition {
-    public static int WindowHeight = 600;
-    public static int WindowWidth = 300;
-    private static double stretchx = ((double) WindowWidth) / ((double) Position.gameboardx);
-    private static double stretchy = ((double) WindowHeight) / ((double) Position.gameboardy);
-    private int xstd;
-    private int ystd;
+    public static int WindowHeight = 750;
+    public static int WindowWidth = 400;
+    private static double stretchX = ((double) WindowWidth) / ((double) Position.gameBoardX);
+    private static double stretchY = ((double) WindowHeight) / ((double) Position.gameBoardY);
+    private int xStd;
+    private int yStd;
 
     GUIPosition(int x, int y) {
-        this.xstd = x;
-        this.ystd = y;
+        this.xStd = x;
+        this.yStd = y;
     }
 
     GUIPosition(Position blub) {
         // Koordinatentransform intern to gui
-        this.xstd = (int) (blub.getX() * stretchx + WindowWidth / 2);
-        this.ystd = (int) (WindowHeight - stretchx * blub.getY());
+        this.xStd = (int) (blub.getX() * stretchX + WindowWidth / 2);
+        this.yStd = (int) (WindowHeight - stretchX * blub.getY());
     }
 
     public Position getCorePosition() {
-        int x = ((int) (this.xstd / stretchx) - Position.gameboardx / 2);
-        int y = (Position.gameboardy - (int) (this.ystd / stretchy));
+        int x = ((int) (this.xStd / stretchX) - Position.gameBoardX / 2);
+        int y = (Position.gameBoardY - (int) (this.yStd / stretchY));
         Position pos = new Position(x, y);
         return pos;
     }
 
     public double getDrehWinkel(GUIPosition p) {
-        int vergleichx = -10; // und (y=0)
-        int vectorx = p.xstd - this.xstd;
-        int vectory = p.ystd - this.ystd;
-        int skalarprodukt = vergleichx * vectorx;
-        double laengevector = Math.sqrt(vectorx * vectorx + vectory * vectory);
-        double winkel = Math.acos(skalarprodukt / (10 * laengevector));
-        if (vectory < 0) return -(winkel);
+        int vergleichX = -10; // und (y=0)
+        int vectorX = p.xStd - this.xStd;
+        int vectorY = p.yStd - this.yStd;
+        int skalarProdukt = vergleichX * vectorX;
+        double laengeVector = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
+        double winkel = Math.acos(skalarProdukt / (10 * laengeVector));
+        if (vectorY < 0) return -(winkel);
         else return (winkel);
     }
 
     public int getX() {
-        return xstd;
+        return xStd;
     }
 
     public int getY() {
-        return ystd;
+        return yStd;
     }
 }

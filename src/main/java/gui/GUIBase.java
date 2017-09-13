@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.Polygon;
 
-public class GUIBase extends Polygon {
+public class GUIBase extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
     private int xquer = 30;
     private int yhoch = 20;
