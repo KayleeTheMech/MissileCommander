@@ -18,7 +18,6 @@ public class GUIUfo extends AbstractGUIObject {
      */
     GUIUfo(UFO ufo) {
         super(ufo);
-        this.direction = new GUIPosition(ufo.getTargetVector());
         rotateShapeArrays(Math.PI / 2);
         initialize();
     }

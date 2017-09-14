@@ -1,5 +1,6 @@
 package gui;
 
+import core.FlightObject;
 import core.GameObject;
 
 import java.awt.*;
@@ -14,13 +15,17 @@ public abstract class AbstractGUIObject extends Polygon {
 
     AbstractGUIObject(GameObject gameObject) {
         super();
-        this.gameObject=gameObject;
-        this.centerOfMass=new GUIPosition(gameObject.getPosition());
+        this.gameObject = gameObject;
+        if (gameObject instanceof FlightObject) {
+            this.direction = new GUIPosition(((FlightObject) gameObject).getTargetVector());
+        }
+        this.centerOfMass = new GUIPosition(gameObject.getPosition());
         this.x = getXShape();
         this.y = getYShape();
     }
 
     abstract int[] getXShape();
+
     abstract int[] getYShape();
 
     /**
@@ -56,7 +61,7 @@ public abstract class AbstractGUIObject extends Polygon {
         }
     }
 
-    protected void initialize(){
+    protected void initialize() {
         moveShapeArrays();
         this.npoints = (x.length + y.length) / 2;
         this.xpoints = x;
