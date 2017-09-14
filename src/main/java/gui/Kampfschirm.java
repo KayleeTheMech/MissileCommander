@@ -23,7 +23,7 @@ public class Kampfschirm extends KampfschirmSuper {
         super();
         this.setBackground(Color.black);
         this.setSize(GUIPosition.WindowWidth, GUIPosition.WindowHeight);
-        this.base = new GUIBase(new GUIPosition(spielkern.getPlayer().getPosition()));
+        this.base = new GUIBase(spielkern.getBase());
         this.spielkern = spielkern;
     }
 

@@ -1,13 +1,11 @@
 package core;
 
-public class Base {
+public class Base extends GameObject {
     private int score;
-    private Position location;
     private boolean dead;
-
-
+    
     Base(Position location) {
-        this.location = location;
+        super(location);
         this.score = 0;
         this.dead = false;
     }
@@ -18,10 +16,6 @@ public class Base {
 
     public int getScore() {
         return score;
-    }
-
-    public Position getPosition() {
-        return location;
     }
 
     public boolean alive() {

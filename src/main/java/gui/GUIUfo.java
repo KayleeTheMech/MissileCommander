@@ -1,20 +1,29 @@
 package gui;
 
-import java.awt.Polygon;
-
 import core.UFO;
 
-public class GUIUfo extends Polygon {
+/**
+ * This class manually defines the shape of an enemy UFO.
+ * It further rotates and moves this values to fit the object the shape shall represent.
+ */
+public class GUIUfo extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
-    GUIPosition direction;
-    GUIPosition centerofmass;
+    private static final int breite = 32 / 2;
+    private static final int hoehe = 16;
 
+    /**
+     * This constructor takes an UFO Object and re-calculates the hard coded array into the position on screen.
+     *
+     * @param ufo
+     */
     GUIUfo(UFO ufo) {
-        direction = new GUIPosition(ufo.getTargetVector());
-        centerofmass = new GUIPosition(ufo.getPosition());
-        int breite = 32 / 2;
-        int hoehe = 16;
-        int[] x = {
+        super(ufo);
+        rotateShapeArrays(Math.PI / 2);
+        initialize();
+    }
+
+    int[] getXShape() {
+        int[] xShape = {
                 +(int) ((double) 0 * breite),
                 +(int) ((double) 2 / 16 * breite),
                 +(int) ((double) 4 / 16 * breite),
@@ -35,7 +44,11 @@ public class GUIUfo extends Polygon {
                 -(int) ((double) 4 / 16 * breite),
                 -(int) ((double) 2 / 16 * breite)
         };
-        int[] y = {
+        return xShape;
+    }
+
+    int[] getYShape() {
+        int[] yShape = {
                 +(int) ((double) 6 / 16 * hoehe),
                 +(int) ((double) 2 / 16 * hoehe),
                 +(int) ((double) 2 / 16 * hoehe),
@@ -56,24 +69,6 @@ public class GUIUfo extends Polygon {
                 +(int) ((double) 2 / 16 * hoehe),
                 +(int) ((double) 2 / 16 * hoehe)
         };
-        this.npoints = (y.length + x.length) / 2;
-        // drehen
-
-        double alpha = centerofmass.getDrehWinkel(direction) + Math.PI / 2;
-        for (int i = 0; i < npoints; i++) {
-            int xold = x[i];
-            int yold = y[i];
-            x[i] = (int) (xold * Math.cos(alpha) - yold * Math.sin(alpha));
-            y[i] = -(int) (xold * Math.sin(alpha) + yold * Math.cos(alpha));
-        }
-
-        // relativ verschieben
-        for (int i = 0; i < npoints; i++) {
-            x[i] = centerofmass.getX() + x[i];
-            y[i] = centerofmass.getY() + y[i];
-        }
-        this.xpoints = x;
-        this.ypoints = y;
-
+        return yShape;
     }
 }
