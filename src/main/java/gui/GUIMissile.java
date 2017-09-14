@@ -19,7 +19,7 @@ public class GUIMissile extends AbstractGUIObject {
         moveShapeArrays();
         this.xpoints = x;
         this.ypoints = y;
-        this.npoints = 9;
+        this.npoints = (x.length+y.length)/2;
     }
 
     int[] getXShape() {

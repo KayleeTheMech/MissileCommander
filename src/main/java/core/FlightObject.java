@@ -3,9 +3,8 @@ package core;
 import java.util.Observable;
 import java.util.Observer;
 
-public abstract class FlightObject implements IFlightObject, Observer {
+public abstract class FlightObject extends GameObject implements IFlightObject, Observer {
 
-    protected Position r;
     protected Position target;
     protected int s;
     protected int clock;
@@ -13,13 +12,14 @@ public abstract class FlightObject implements IFlightObject, Observer {
     protected int speed = 10; // immer überschreiben in den unterklassen
 
     FlightObject() {
+        super(null);
         this.clock = 0;
     }
 
     public Position getPosition() {
-        Position rel = target.subtract(r);
+        Position rel = target.subtract(location);
         double norm = Math.sqrt(rel.getX() * rel.getX() + rel.getY() * rel.getY());
-        return r.add(rel.multiply((double) (clock * speed) / norm));
+        return location.add(rel.multiply((double) (clock * speed) / norm));
     }
 
     public void setTargetVector(Position target) {
@@ -31,7 +31,7 @@ public abstract class FlightObject implements IFlightObject, Observer {
     }
 
     public void setInitialCoordinates(Position r) {
-        this.r = r;
+        this.location = r;
     }
 
     public void update(Observable arg0, Object arg1) {

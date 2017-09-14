@@ -3,15 +3,14 @@ package core;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Explosion implements Observer {
+public class Explosion extends GameObject implements Observer {
 
     private int range;
     private int ticks;
-    private Position r;
     private double decayConstant = 0.125;
 
-    Explosion(int range, Position r) {
-        this.r = r;
+    Explosion(int range, Position location) {
+        super(location);
         this.range = range;
         this.ticks = 0;
     }
@@ -21,7 +20,7 @@ public class Explosion implements Observer {
     }
 
     public Position getPosition() {
-        return r;
+        return location;
     }
 
     public int getRange() {
@@ -29,7 +28,7 @@ public class Explosion implements Observer {
     }
 
     public boolean withinRange(Position abs) {
-        Position rel = new Position(abs.getX() - r.getX(), abs.getY() - r.getY());
+        Position rel = new Position(abs.getX() - location.getX(), abs.getY() - location.getY());
         if (Math.sqrt(rel.getX() * rel.getX() + rel.getY() * rel.getY()) < range)
             return true;
         else return false;
