@@ -38,7 +38,7 @@ public class Core extends CoreSuper {
         return activeExplosions;
     }
 
-    public Base getPlayer() {
+    public Base getBase() {
         return baseOp;
     }
 

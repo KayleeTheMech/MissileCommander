@@ -21,7 +21,7 @@ public class KampfschirmFenster extends JFrame implements MouseListener,
     String fensterzeile;
 
     public KampfschirmFenster(Core spielkern, Controller controller, String fensterzeile) {
-        super(fensterzeile + "   Score: " + spielkern.getPlayer().getScore());
+        super(fensterzeile + "   Score: " + spielkern.getBase().getScore());
         this.fensterzeile = fensterzeile;
         this.spielkern = spielkern;
         this.controller = controller;
@@ -80,7 +80,7 @@ public class KampfschirmFenster extends JFrame implements MouseListener,
 
     public void update(Observable bla, Object blub) {
         click++;
-        this.setTitle(fensterzeile + "  Score: " + spielkern.getPlayer().getScore() + " Takt:" + click);
+        this.setTitle(fensterzeile + "  Score: " + spielkern.getBase().getScore() + " Takt:" + click);
     }
 
 }
