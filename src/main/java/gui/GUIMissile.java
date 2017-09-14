@@ -11,14 +11,9 @@ public class GUIMissile extends AbstractGUIObject {
 
     GUIMissile(Missile missile) {
         super(missile);
-
         direction = new GUIPosition(missile.getTargetVector());
-
         rotateShapeArrays(0);
-        moveShapeArrays();
-        this.xpoints = x;
-        this.ypoints = y;
-        this.npoints = (x.length+y.length)/2;
+        initialize();
     }
 
     int[] getXShape() {

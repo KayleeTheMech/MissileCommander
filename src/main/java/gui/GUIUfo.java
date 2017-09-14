@@ -10,6 +10,7 @@ public class GUIUfo extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
     private static final int breite = 32 / 2;
     private static final int hoehe = 16;
+
     /**
      * This constructor takes an UFO Object and re-calculates the hard coded array into the position on screen.
      *
@@ -17,16 +18,9 @@ public class GUIUfo extends AbstractGUIObject {
      */
     GUIUfo(UFO ufo) {
         super(ufo);
-
         this.direction = new GUIPosition(ufo.getTargetVector());
-
-        rotateShapeArrays(Math.PI/2);
-        moveShapeArrays();
-
-        this.npoints = (y.length + x.length) / 2;
-        this.xpoints = this.x;
-        this.ypoints = this.y;
-
+        rotateShapeArrays(Math.PI / 2);
+        initialize();
     }
 
     int[] getXShape() {

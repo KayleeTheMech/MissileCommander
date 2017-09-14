@@ -9,34 +9,29 @@ public class GUIBase extends AbstractGUIObject {
 
     GUIBase(Base base) {
         super(base);
-
-        this.npoints = (x.length+y.length)/2;
-        this.xpoints = x;
-        this.ypoints = y;
+        initialize();
     }
 
     int[] getXShape() {
-        int center = this.centerOfMass.getX();
         int[] xShape = {
-                center - xquer,
-                center - xquer,
-                center + xquer,
-                center + xquer,
-                center + xquer / 2,
-                center - xquer / 2
+                -xquer,
+                -xquer,
+                +xquer,
+                +xquer,
+                +xquer / 2,
+                -xquer / 2
         };
         return xShape;
     }
 
     int[] getYShape() {
-        int center = this.centerOfMass.getY();
         int[] yShape = {
-                center - yhoch,
-                center + 0,
-                center + 0,
-                center - yhoch,
-                center - yhoch / 2,
-                center - yhoch / 2
+                -yhoch,
+                +0,
+                +0,
+                -yhoch,
+                -yhoch / 2,
+                -yhoch / 2
         };
         return yShape;
     }

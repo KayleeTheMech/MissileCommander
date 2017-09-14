@@ -55,4 +55,11 @@ public abstract class AbstractGUIObject extends Polygon {
             if (y[i] < 0) y[i] = 0;
         }
     }
+
+    protected void initialize(){
+        moveShapeArrays();
+        this.npoints = (x.length + y.length) / 2;
+        this.xpoints = x;
+        this.ypoints = y;
+    }
 }

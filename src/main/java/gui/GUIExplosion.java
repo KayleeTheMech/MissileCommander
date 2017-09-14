@@ -9,12 +9,7 @@ public class GUIExplosion extends AbstractGUIObject {
 
     GUIExplosion(Explosion explosion) {
         super(explosion);
-
-        moveShapeArrays();
-
-        this.npoints = (x.length + y.length) / 2;
-        this.xpoints = x;
-        this.ypoints = y;
+        initialize();
     }
 
     private void calculateShape() {
