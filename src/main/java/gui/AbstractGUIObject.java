@@ -1,5 +1,7 @@
 package gui;
 
+import core.GameObject;
+
 import java.awt.*;
 
 public abstract class AbstractGUIObject extends Polygon {
@@ -8,9 +10,14 @@ public abstract class AbstractGUIObject extends Polygon {
     protected int[] y;
     protected GUIPosition direction;
     protected GUIPosition centerOfMass;
+    protected GameObject gameObject;
 
-    AbstractGUIObject() {
+    AbstractGUIObject(GameObject gameObject) {
         super();
+        this.gameObject=gameObject;
+        this.centerOfMass=new GUIPosition(gameObject.getPosition());
+        this.x = getXShape();
+        this.y = getYShape();
     }
 
     abstract int[] getXShape();

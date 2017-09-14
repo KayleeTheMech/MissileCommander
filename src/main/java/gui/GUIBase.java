@@ -1,45 +1,42 @@
 package gui;
 
-import java.awt.Polygon;
+import core.Base;
 
 public class GUIBase extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
     private static final int xquer = 30;
     private static final int yhoch = 20;
-    private int xstd;
-    private int ystd;
 
-    GUIBase(GUIPosition p) {
-        super();
-        this.xstd = p.getX();
-        this.ystd = p.getY();
-        this.x = getXShape();
-        this.y = getYShape();
-        this.npoints = 6;
+    GUIBase(Base base) {
+        super(base);
+
+        this.npoints = (x.length+y.length)/2;
         this.xpoints = x;
         this.ypoints = y;
     }
 
     int[] getXShape() {
+        int center = this.centerOfMass.getX();
         int[] xShape = {
-                xstd - xquer,
-                xstd - xquer,
-                xstd + xquer,
-                xstd + xquer,
-                xstd + xquer / 2,
-                xstd - xquer / 2
+                center - xquer,
+                center - xquer,
+                center + xquer,
+                center + xquer,
+                center + xquer / 2,
+                center - xquer / 2
         };
         return xShape;
     }
 
     int[] getYShape() {
+        int center = this.centerOfMass.getY();
         int[] yShape = {
-                ystd - yhoch,
-                ystd + 0,
-                ystd + 0,
-                ystd - yhoch,
-                ystd - yhoch / 2,
-                ystd - yhoch / 2
+                center - yhoch,
+                center + 0,
+                center + 0,
+                center - yhoch,
+                center - yhoch / 2,
+                center - yhoch / 2
         };
         return yShape;
     }
