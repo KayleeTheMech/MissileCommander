@@ -156,10 +156,12 @@ public class Core extends CoreSuper {
             }
         }
         // ufos explodieren lassen
-        for (int i = 0; i < toExplode.length; i++) explodeUFO(toExplode[i]);
+        for (UFO ufo : toExplode) {
+            explodeUFO(ufo);
+        }
         // schauen ob die basis putt ist
-        for (int i = 0; i < activeExplosions.length; i++) {
-            if (activeExplosions[i].withinRange(baseOp.getPosition())) baseOp.impact();
+        for (Explosion bam : activeExplosions) {
+            if (bam.withinRange(baseOp.getPosition())) baseOp.impact();
         }
         if (!baseOp.alive()) {
             gameOver = true;
@@ -182,9 +184,9 @@ public class Core extends CoreSuper {
 
     private void deleteDecayedExplosions() {
         Explosion[] toDelete = new Explosion[0];
-        for (int i = 0; i < activeExplosions.length; i++) {
-            if (activeExplosions[i].getRange() < 0) {
-                toDelete = addExplosion(activeExplosions[i], toDelete);
+        for (Explosion bam : activeExplosions) {
+            if (bam.getRange() < 0) {
+                toDelete = addExplosion(bam, toDelete);
             }
         }
         for (int i = 0; i < toDelete.length; i++) activeExplosions = removeExplosion(toDelete[i], activeExplosions);
