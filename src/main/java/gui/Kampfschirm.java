@@ -3,18 +3,20 @@ package gui;
 import controller.Controller;
 import core.*;
 
+import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Observable;
+import java.util.Observer;
 
-public class Kampfschirm extends KampfschirmSuper {
+public class Kampfschirm extends JPanel implements Observer {
+    static final long serialVersionUID = 2001;
     public static final int WindowHeight = 750;
     public static final int WindowWidth = 400;
 
     private GUIObjectFactory factory;
     private Core spielKern;
 
-    static final long serialVersionUID = 2001;
 
     public Kampfschirm(Core spielKern, Controller controller) {
         super();
