@@ -161,12 +161,9 @@ public class Core extends Observable {
     private void impactRoutine() {
         List<UFO> toExplode = new ArrayList<UFO>();
         // ufos die einschlagen ermitteln und explodieren lassen
-        for (UFO ufo : activeUFOs) {
-            if (ufo.getPosition().getY() < 0) {
-                toExplode.add(ufo);
-            }
-        }
-        toExplode.forEach(ufo -> explodeUFO(ufo));
+        activeUFOs.stream()
+            .filter( ufo -> ufo.getPosition().getY() < 0)
+            .forEach( ufo -> Core::explodeUFO)
 
         for (Explosion explosion : activeExplosions) {
             if (explosion.withinRange(baseOp.getPosition())) baseOp.impact();
