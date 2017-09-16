@@ -3,10 +3,12 @@ package gui;
 import core.FlightObject;
 import core.GameObject;
 
-import java.awt.*;
+import java.awt.Polygon;
+import java.util.List;
 
 public abstract class AbstractGUIObject extends Polygon {
 
+    private List<GUIPosition> shape;
     protected int[] x;
     protected int[] y;
     protected GUIPosition direction;
@@ -20,13 +22,20 @@ public abstract class AbstractGUIObject extends Polygon {
             this.direction = new GUIPosition(((FlightObject) gameObject).getTargetVector());
         }
         this.centerOfMass = new GUIPosition(gameObject.getPosition());
-        this.x = getXShape();
-        this.y = getYShape();
+        this.shape = getShape();
+        writePolygon();
     }
 
-    abstract int[] getXShape();
+    protected abstract List<GUIPosition> getShape();
 
-    abstract int[] getYShape();
+    private void writePolygon() {
+        x = new int[shape.size()];
+        y = new int[shape.size()];
+        for (int i = 0; i < shape.size(); i++) {
+            x[i] = shape.get(i).getX();
+            y[i] = shape.get(i).getY();
+        }
+    }
 
     /**
      * Turning the polygon array
@@ -67,4 +76,6 @@ public abstract class AbstractGUIObject extends Polygon {
         this.xpoints = x;
         this.ypoints = y;
     }
+
+
 }

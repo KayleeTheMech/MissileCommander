@@ -72,7 +72,7 @@ public class KampfschirmFenster extends JFrame implements MouseListener,
 
     public void mousePressed(MouseEvent arg0) {
         GUIPosition pos = new GUIPosition(arg0.getX(), arg0.getY());
-        controller.action(pos.getCorePosition());
+        controller.action(pos.getBoardPosition());
     }
 
     public void mouseReleased(MouseEvent arg0) {

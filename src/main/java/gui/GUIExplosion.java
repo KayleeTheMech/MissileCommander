@@ -2,41 +2,29 @@ package gui;
 
 import core.Explosion;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GUIExplosion extends AbstractGUIObject {
     final static long serialVersionUID = 2001;
-
-    private double winkelabschnitt;
 
     GUIExplosion(Explosion explosion) {
         super(explosion);
         initialize();
     }
 
-    private void calculateShape() {
+    public List<GUIPosition> getShape() {
         int radius = ((Explosion) this.gameObject).getRange();
         int numberOfPoints = (int) (radius * 2 * Math.PI) / 4;
         double winkelabschnitt = 2 * Math.PI / numberOfPoints;
-        x = new int[numberOfPoints];
-        y = new int[numberOfPoints];
+        List<GUIPosition> points = new ArrayList<GUIPosition>();
         for (int i = 0; i < numberOfPoints; i++) {
             double r = 1;
             if (i % 2 == 1) r = r * 1.2;
-            x[i] = (int) (radius * r * Math.cos(i * winkelabschnitt));
-            y[i] = (int) (radius * r * Math.sin(i * winkelabschnitt));
+            int x = (int) (radius * r * Math.cos(i * winkelabschnitt));
+            int y = (int) (radius * r * Math.sin(i * winkelabschnitt));
+            points.add(new GUIPosition(x, y));
         }
-    }
-
-    protected int[] getXShape() {
-        if (x == null) {
-            calculateShape();
-        }
-        return x;
-    }
-
-    protected int[] getYShape() {
-        if (y == null) {
-            calculateShape();
-        }
-        return y;
+        return points;
     }
 }

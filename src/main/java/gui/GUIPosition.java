@@ -3,35 +3,35 @@ package gui;
 import core.Position;
 
 public class GUIPosition {
-    public static int WindowHeight = 750;
-    public static int WindowWidth = 400;
+    public static final int WindowHeight = 750;
+    public static final int WindowWidth = 400;
     private static double stretchX = ((double) WindowWidth) / ((double) Position.gameBoardX);
     private static double stretchY = ((double) WindowHeight) / ((double) Position.gameBoardY);
-    private int xStd;
-    private int yStd;
+    private int x;
+    private int y;
 
-    GUIPosition(int x, int y) {
-        this.xStd = x;
-        this.yStd = y;
+    public GUIPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
-    GUIPosition(Position blub) {
+    GUIPosition(Position boardPosition) {
         // Koordinatentransform intern to gui
-        this.xStd = (int) (blub.getX() * stretchX + WindowWidth / 2);
-        this.yStd = (int) (WindowHeight - stretchX * blub.getY());
+        this.x = (int) (boardPosition.getX() * stretchX + WindowWidth / 2);
+        this.y = (int) (WindowHeight - stretchX * boardPosition.getY());
     }
 
-    public Position getCorePosition() {
-        int x = ((int) (this.xStd / stretchX) - Position.gameBoardX / 2);
-        int y = (Position.gameBoardY - (int) (this.yStd / stretchY));
+    public Position getBoardPosition() {
+        int x = ((int) (this.x / stretchX) - Position.gameBoardX / 2);
+        int y = (Position.gameBoardY - (int) (this.y / stretchY));
         Position pos = new Position(x, y);
         return pos;
     }
 
     public double getDrehWinkel(GUIPosition p) {
         int vergleichX = -10; // und (y=0)
-        int vectorX = p.xStd - this.xStd;
-        int vectorY = p.yStd - this.yStd;
+        int vectorX = p.x - this.x;
+        int vectorY = p.y - this.y;
         int skalarProdukt = vergleichX * vectorX;
         double laengeVector = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
         double winkel = Math.acos(skalarProdukt / (10 * laengeVector));
@@ -40,10 +40,10 @@ public class GUIPosition {
     }
 
     public int getX() {
-        return xStd;
+        return x;
     }
 
     public int getY() {
-        return yStd;
+        return y;
     }
 }

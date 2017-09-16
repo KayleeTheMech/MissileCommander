@@ -1,6 +1,9 @@
 package gui;
 
+import Util.ArrayUtil;
 import core.UFO;
+
+import java.util.List;
 
 /**
  * This class manually defines the shape of an enemy UFO.
@@ -8,8 +11,6 @@ import core.UFO;
  */
 public class GUIUfo extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
-    private static final int breite = 32 / 2;
-    private static final int hoehe = 16;
 
     /**
      * This constructor takes an UFO Object and re-calculates the hard coded array into the position on screen.
@@ -22,7 +23,10 @@ public class GUIUfo extends AbstractGUIObject {
         initialize();
     }
 
-    int[] getXShape() {
+    protected List<GUIPosition> getShape() {
+        final int breite = 16;
+        final int hoehe = 16;
+
         int[] xShape = {
                 +(int) ((double) 0 * breite),
                 +(int) ((double) 2 / 16 * breite),
@@ -44,10 +48,6 @@ public class GUIUfo extends AbstractGUIObject {
                 -(int) ((double) 4 / 16 * breite),
                 -(int) ((double) 2 / 16 * breite)
         };
-        return xShape;
-    }
-
-    int[] getYShape() {
         int[] yShape = {
                 +(int) ((double) 6 / 16 * hoehe),
                 +(int) ((double) 2 / 16 * hoehe),
@@ -69,6 +69,6 @@ public class GUIUfo extends AbstractGUIObject {
                 +(int) ((double) 2 / 16 * hoehe),
                 +(int) ((double) 2 / 16 * hoehe)
         };
-        return yShape;
+        return ArrayUtil.getListFromArrays(xShape, yShape);
     }
 }
