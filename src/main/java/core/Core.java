@@ -47,6 +47,7 @@ public class Core extends Observable {
         returnList.addAll(activeMissiles);
         returnList.addAll(activeUFOs);
         returnList.addAll(activeExplosions);
+        returnList.add(baseOp);
         return returnList;
     }
 

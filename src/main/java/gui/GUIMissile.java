@@ -6,7 +6,7 @@ import core.Missile;
 import java.awt.*;
 import java.util.List;
 
-public class GUIMissile extends AbstractGUIObject {
+public class GUIMissile extends GUIObject {
     static final long serialVersionUID = 2001;
 
     GUIMissile(Missile missile) {

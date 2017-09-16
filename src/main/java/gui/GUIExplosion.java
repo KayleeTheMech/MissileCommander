@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUIExplosion extends AbstractGUIObject {
+public class GUIExplosion extends GUIObject {
     final static long serialVersionUID = 2001;
 
     GUIExplosion(Explosion explosion) {

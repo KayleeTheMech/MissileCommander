@@ -10,7 +10,7 @@ import java.util.List;
  * This class manually defines the shape of an enemy UFO.
  * It further rotates and moves this values to fit the object the shape shall represent.
  */
-public class GUIUfo extends AbstractGUIObject {
+public class GUIUfo extends GUIObject {
     static final long serialVersionUID = 2001;
 
     /**

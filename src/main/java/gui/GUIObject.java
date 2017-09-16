@@ -6,7 +6,7 @@ import core.GameObject;
 import java.awt.*;
 import java.util.List;
 
-public abstract class AbstractGUIObject extends Polygon {
+public abstract class GUIObject extends Polygon {
 
     protected Color fillColor;
     protected Color borderColor;
@@ -27,7 +27,7 @@ public abstract class AbstractGUIObject extends Polygon {
     protected GUIPosition centerOfMass;
     protected GameObject gameObject;
 
-    AbstractGUIObject(GameObject gameObject) {
+    GUIObject(GameObject gameObject) {
         super();
         this.gameObject = gameObject;
         if (gameObject instanceof FlightObject) {
