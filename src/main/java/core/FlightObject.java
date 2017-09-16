@@ -5,8 +5,8 @@ import java.util.Observer;
 
 public abstract class FlightObject extends GameObject implements IFlightObject, Observer {
 
+    protected Position flightVector;
     protected Position target;
-    protected int s;
     protected int clock;
     //FIXME seems dirty
     protected int speed = 10; // immer überschreiben in den unterklassen
@@ -16,10 +16,11 @@ public abstract class FlightObject extends GameObject implements IFlightObject, 
         this.clock = 0;
     }
 
+    @Override
     public Position getPosition() {
-        Position rel = target.subtract(location);
-        double norm = Math.sqrt(rel.getX() * rel.getX() + rel.getY() * rel.getY());
-        return location.add(rel.multiply((double) (clock * speed) / norm));
+        flightVector = target.subtract(location);
+        double norm = flightVector.getLength();
+        return location.add(flightVector.multiply((double) (clock * speed) / norm));
     }
 
     public void setTargetVector(Position target) {
@@ -28,10 +29,6 @@ public abstract class FlightObject extends GameObject implements IFlightObject, 
 
     public Position getTargetVector() {
         return target;
-    }
-
-    public void setInitialCoordinates(Position r) {
-        this.location = r;
     }
 
     public void update(Observable arg0, Object arg1) {

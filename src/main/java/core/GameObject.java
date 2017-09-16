@@ -1,9 +1,8 @@
 package core;
 
-public abstract class GameObject {
+public abstract class GameObject implements IGameObject {
 
-    protected Position location;
-
+    Position location;
 
     GameObject(Position location) {
         this.location = location;
@@ -12,4 +11,9 @@ public abstract class GameObject {
     public Position getPosition() {
         return location;
     }
+
+    public void setPosition(Position r) {
+        this.location = r;
+    }
+
 }

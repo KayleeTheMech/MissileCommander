@@ -62,7 +62,7 @@ public class Core extends Observable {
             missile.setDetonationRadius(missileDetonationRange);
             missile.setTargetVector(target);
             missile.setRange(range);
-            missile.setInitialCoordinates(baseOp.getPosition());
+            missile.setPosition(baseOp.getPosition());
             this.addObserver(missile);
             baseOp.addScore(-10);
             activeMissiles.add(missile);
@@ -96,7 +96,7 @@ public class Core extends Observable {
     private void newUFO(Position r, Position target, int speed) {
         UFO o = new UFO();
         o.setTargetVector(target);
-        o.setInitialCoordinates(r);
+        o.setPosition(r);
         o.setSpeed(speed);
         this.addObserver(o);
         activeUFOs.add(o);

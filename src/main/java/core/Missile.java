@@ -4,6 +4,7 @@ public class Missile extends FlightObject {
     private int detonationRadius;
     private int speed = 50;
     private int startrunden = 3;
+    private int maxFlightDistance;
 
     Missile() {
         super();
@@ -11,15 +12,15 @@ public class Missile extends FlightObject {
 
     @Override
     public Position getPosition() {
-        double actspeed = (speed * Math.exp(-(20 / (clock + 0.0000000001))));
-        Position rel = target.subtract(location);
-        double alpha = (actspeed * clock / rel.getLength());
-        rel = rel.multiply(alpha);
-        return location.add(rel);
+        double currentSpeed = (speed * Math.exp(-(20 / (clock + 0.0000000001))));
+        flightVector = target.subtract(location);
+        double alpha = (currentSpeed * clock / flightVector.getLength());
+        flightVector = flightVector.multiply(alpha);
+        return location.add(flightVector);
     }
 
     public void setRange(int range) {
-        this.s = range;
+        this.maxFlightDistance = range;
     }
 
     public void setDetonationRadius(int r) {
@@ -34,7 +35,7 @@ public class Missile extends FlightObject {
         Position act = getPosition();
         Position rel = abs.subtract(act);
         Position rel2 = location.subtract(act);
-        if (rel.getLength() < detonationRadius && clock > startrunden || rel2.getLength() > s)
+        if (rel.getLength() < detonationRadius && clock > startrunden || rel2.getLength() > maxFlightDistance)
             return true;
         else return false;
     }
