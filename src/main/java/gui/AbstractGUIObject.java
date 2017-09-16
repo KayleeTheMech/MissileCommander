@@ -8,7 +8,6 @@ import java.util.List;
 
 public abstract class AbstractGUIObject extends Polygon {
 
-
     protected int[] x;
     protected int[] y;
     protected GUIPosition direction;

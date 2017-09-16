@@ -2,8 +2,9 @@ package core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Core extends CoreSuper {
+public class Core extends Observable {
     public static int gameBoardX = 500;
     public static int gameBoardY = 1000;
     private int difficulty = 1; // number from 1 to infinity
@@ -23,9 +24,9 @@ public class Core extends CoreSuper {
     public Core() {
         baseOp = new Base(basePosition);
         gameOver = false;
-        activeMissiles = new ArrayList<Missile>();
-        activeUFOs = new ArrayList<UFO>();
-        activeExplosions = new ArrayList<Explosion>();
+        activeMissiles = new ArrayList<>();
+        activeUFOs = new ArrayList<>();
+        activeExplosions = new ArrayList<>();
     }
 
     // get Methoden
