@@ -3,15 +3,10 @@ package gui;
 import Util.ArrayUtil;
 import core.Missile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GUIMissile extends AbstractGUIObject {
     static final long serialVersionUID = 2001;
-
-    private static final int laenge = 25;
-    private static final int breite = 10;
-
 
     GUIMissile(Missile missile) {
         super(missile);
@@ -20,6 +15,9 @@ public class GUIMissile extends AbstractGUIObject {
     }
 
     protected List<GUIPosition> getShape() {
+        final int laenge = 25;
+        final int breite = 10;
+
         int[] xShape = {
                 -(laenge * 1 / 2),
                 -(laenge * 3 / 8),

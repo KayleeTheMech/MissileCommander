@@ -1,28 +1,27 @@
 package gui;
 
+import controller.Controller;
+import core.Core;
+import core.Explosion;
+import core.Missile;
+import core.UFO;
+
 import java.awt.*;
-import javax.swing.*;
 import java.util.Observable;
 
-import core.Core;
-import core.*;
-import controller.Controller;
-
 public class Kampfschirm extends KampfschirmSuper {
-    /*
-     *
-     */
-    JPanel panel;
-    GUIBase base;
-    GUIMissile[] missile;
-    GUIUfo[] ufo;
-    Core spielkern;
+    public static final int WindowHeight = 750;
+    public static final int WindowWidth = 400;
+
+    private GUIBase base;
+    private Core spielkern;
+
     static final long serialVersionUID = 2001;
 
     public Kampfschirm(Core spielkern, Controller controller) {
         super();
         this.setBackground(Color.black);
-        this.setSize(GUIPosition.WindowWidth, GUIPosition.WindowHeight);
+        this.setSize(WindowWidth, WindowHeight);
         this.base = new GUIBase(spielkern.getBase());
         this.spielkern = spielkern;
     }

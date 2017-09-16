@@ -8,7 +8,7 @@ import java.util.List;
 
 public abstract class AbstractGUIObject extends Polygon {
 
-    private List<GUIPosition> shape;
+
     protected int[] x;
     protected int[] y;
     protected GUIPosition direction;
@@ -22,13 +22,22 @@ public abstract class AbstractGUIObject extends Polygon {
             this.direction = new GUIPosition(((FlightObject) gameObject).getTargetVector());
         }
         this.centerOfMass = new GUIPosition(gameObject.getPosition());
-        this.shape = getShape();
         writePolygon();
     }
 
+    /**
+     * This method needs to be overwritten by any GameObject.
+     * An ordered List of GUIPositions is expected in order to construct the edges of the polygon.
+     *
+     * @return
+     */
     protected abstract List<GUIPosition> getShape();
 
+    /**
+     * Writes the points into the polygon array.
+     */
     private void writePolygon() {
+        List<GUIPosition> shape = getShape();
         x = new int[shape.size()];
         y = new int[shape.size()];
         for (int i = 0; i < shape.size(); i++) {

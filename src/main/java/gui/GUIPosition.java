@@ -2,9 +2,10 @@ package gui;
 
 import core.Position;
 
+import static gui.Kampfschirm.WindowHeight;
+import static gui.Kampfschirm.WindowWidth;
+
 public class GUIPosition {
-    public static final int WindowHeight = 750;
-    public static final int WindowWidth = 400;
     private static double stretchX = ((double) WindowWidth) / ((double) Position.gameBoardX);
     private static double stretchY = ((double) WindowHeight) / ((double) Position.gameBoardY);
     private int x;
