@@ -3,10 +3,23 @@ package gui;
 import core.FlightObject;
 import core.GameObject;
 
-import java.awt.Polygon;
+import java.awt.*;
 import java.util.List;
 
 public abstract class AbstractGUIObject extends Polygon {
+
+    protected Color fillColor;
+    protected Color borderColor;
+
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
 
     protected int[] x;
     protected int[] y;

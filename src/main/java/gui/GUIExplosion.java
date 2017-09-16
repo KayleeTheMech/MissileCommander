@@ -2,6 +2,7 @@ package gui;
 
 import core.Explosion;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,8 @@ public class GUIExplosion extends AbstractGUIObject {
     GUIExplosion(Explosion explosion) {
         super(explosion);
         initialize();
+        fillColor = Color.yellow;
+        borderColor = Color.red;
     }
 
     public List<GUIPosition> getShape() {

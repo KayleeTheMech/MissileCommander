@@ -1,10 +1,7 @@
 package gui;
 
 import controller.Controller;
-import core.Core;
-import core.Explosion;
-import core.Missile;
-import core.UFO;
+import core.*;
 
 import java.util.List;
 import java.awt.Color;
@@ -37,33 +34,24 @@ public class Kampfschirm extends KampfschirmSuper {
         g.setColor(Color.white);
         g.fillPolygon(base);
         // Spielobjekte bekommen
-        List<UFO> ufos = spielkern.getActiveUFOs();
-        List<Missile> raketen = spielkern.getActiveMissiles();
-        List<Explosion> explosions = spielkern.getActiveExplosions();
-        // ufos malen
-        for (UFO ufo : ufos) {
-            GUIUfo poly = new GUIUfo(ufo);
-            g.setColor(Color.green);
-            g.fillPolygon(poly);
-            g.setColor(Color.yellow);
-            g.drawPolygon(poly);
+        List<GameObject> gameElements = spielkern.getGameObjects();
+        for (GameObject element : gameElements) {
+            AbstractGUIObject graphicalObject;
+            if (element instanceof UFO) {
+                graphicalObject = new GUIUfo((UFO) element);
+            } else if (element instanceof Missile) {
+                graphicalObject = new GUIMissile((Missile) element);
+            } else if (element instanceof Explosion) {
+                graphicalObject = new GUIExplosion((Explosion) element);
+            } else {
+                throw new RuntimeException("GameObject is of a not supported Class");
+            }
+            g.setColor(graphicalObject.getFillColor());
+            g.fillPolygon(graphicalObject);
+            g.setColor(graphicalObject.getBorderColor());
+            g.drawPolygon(graphicalObject);
         }
-        // raketen malen
-        for(Missile missile:raketen){
-            GUIMissile poly = new GUIMissile(missile);
-            g.setColor(Color.gray);
-            g.fillPolygon(poly);
-            g.setColor(Color.white);
-            g.drawPolygon(poly);
-        }
-        // explosionen malen
-        for(Explosion explosion:explosions){
-            GUIExplosion poly = new GUIExplosion(explosion);
-            g.setColor(Color.yellow);
-            g.fillPolygon(poly);
-            g.setColor(Color.red);
-            g.drawPolygon(poly);
-        }
+
     }
 
 }

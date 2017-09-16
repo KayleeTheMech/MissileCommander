@@ -3,6 +3,7 @@ package gui;
 import Util.ArrayUtil;
 import core.UFO;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -21,6 +22,9 @@ public class GUIUfo extends AbstractGUIObject {
         super(ufo);
         rotateShapeArrays(Math.PI / 2);
         initialize();
+        fillColor=Color.green;
+        borderColor=Color.yellow;
+
     }
 
     protected List<GUIPosition> getShape() {

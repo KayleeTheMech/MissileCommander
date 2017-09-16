@@ -3,6 +3,7 @@ package gui;
 import Util.ArrayUtil;
 import core.Missile;
 
+import java.awt.*;
 import java.util.List;
 
 public class GUIMissile extends AbstractGUIObject {
@@ -12,6 +13,8 @@ public class GUIMissile extends AbstractGUIObject {
         super(missile);
         rotateShapeArrays(0);
         initialize();
+        fillColor = Color.gray;
+        borderColor = Color.white;
     }
 
     protected List<GUIPosition> getShape() {

@@ -42,6 +42,14 @@ public class Core extends Observable {
         return activeExplosions;
     }
 
+    public List<GameObject> getGameObjects() {
+        List<GameObject> returnList = new ArrayList<>();
+        returnList.addAll(activeMissiles);
+        returnList.addAll(activeUFOs);
+        returnList.addAll(activeExplosions);
+        return returnList;
+    }
+
     public Base getBase() {
         return baseOp;
     }
