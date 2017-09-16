@@ -1,30 +1,27 @@
 package gui;
 
-import java.awt.*;
-import javax.swing.*;
+import controller.Controller;
+import core.*;
+
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Observable;
 
-import core.Core;
-import core.*;
-import controller.Controller;
-
 public class Kampfschirm extends KampfschirmSuper {
-    /*
-     *
-     */
-    JPanel panel;
-    GUIBase base;
-    GUIMissile[] missile;
-    GUIUfo[] ufo;
-    Core spielkern;
+    public static final int WindowHeight = 750;
+    public static final int WindowWidth = 400;
+
+    private GUIObjectFactory factory;
+    private Core spielKern;
+
     static final long serialVersionUID = 2001;
 
-    public Kampfschirm(Core spielkern, Controller controller) {
+    public Kampfschirm(Core spielKern, Controller controller) {
         super();
+        factory = new GUIObjectFactory();
         this.setBackground(Color.black);
-        this.setSize(GUIPosition.WindowWidth, GUIPosition.WindowHeight);
-        this.base = new GUIBase(spielkern.getBase());
-        this.spielkern = spielkern;
+        this.setSize(WindowWidth, WindowHeight);
+        this.spielKern = spielKern;
     }
 
     public void update(Observable arg0, Object arg1) {
@@ -33,36 +30,15 @@ public class Kampfschirm extends KampfschirmSuper {
 
     public void paint(Graphics g) {
         super.paint(g);
-        g.setColor(Color.white);
-        g.fillPolygon(base);
         // Spielobjekte bekommen
-        UFO[] ufos = spielkern.getActiveUFOs();
-        Missile[] raketen = spielkern.getActiveMissiles();
-        Explosion[] explosionen = spielkern.getActiveExplosions();
-        // ufos malen
-        for (int i = 0; i < ufos.length; i++) {
-            GUIUfo poly = new GUIUfo(ufos[i]);
-            g.setColor(Color.green);
-            g.fillPolygon(poly);
-            g.setColor(Color.yellow);
-            g.drawPolygon(poly);
+        for (GameObject element : spielKern.getGameObjects()) {
+            GUIObject graphicalObject = factory.getGUIObject(element);
+            g.setColor(graphicalObject.getFillColor());
+            g.fillPolygon(graphicalObject);
+            g.setColor(graphicalObject.getBorderColor());
+            g.drawPolygon(graphicalObject);
         }
-        // raketen malen
-        for (int i = 0; i < raketen.length; i++) {
-            GUIMissile poly = new GUIMissile(raketen[i]);
-            g.setColor(Color.gray);
-            g.fillPolygon(poly);
-            g.setColor(Color.white);
-            g.drawPolygon(poly);
-        }
-        // explosionen malen
-        for (int i = 0; i < explosionen.length; i++) {
-            GUIExplosion poly = new GUIExplosion(explosionen[i]);
-            g.setColor(Color.yellow);
-            g.fillPolygon(poly);
-            g.setColor(Color.red);
-            g.drawPolygon(poly);
-        }
+
     }
 
 }

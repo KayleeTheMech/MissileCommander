@@ -4,8 +4,22 @@ import core.FlightObject;
 import core.GameObject;
 
 import java.awt.*;
+import java.util.List;
 
-public abstract class AbstractGUIObject extends Polygon {
+public abstract class GUIObject extends Polygon {
+
+    protected Color fillColor;
+    protected Color borderColor;
+
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
 
     protected int[] x;
     protected int[] y;
@@ -13,20 +27,36 @@ public abstract class AbstractGUIObject extends Polygon {
     protected GUIPosition centerOfMass;
     protected GameObject gameObject;
 
-    AbstractGUIObject(GameObject gameObject) {
+    GUIObject(GameObject gameObject) {
         super();
         this.gameObject = gameObject;
         if (gameObject instanceof FlightObject) {
             this.direction = new GUIPosition(((FlightObject) gameObject).getTargetVector());
         }
         this.centerOfMass = new GUIPosition(gameObject.getPosition());
-        this.x = getXShape();
-        this.y = getYShape();
+        writePolygon();
     }
 
-    abstract int[] getXShape();
+    /**
+     * This method needs to be overwritten by any GameObject.
+     * An ordered List of GUIPositions is expected in order to construct the edges of the polygon.
+     *
+     * @return
+     */
+    protected abstract List<GUIPosition> getShape();
 
-    abstract int[] getYShape();
+    /**
+     * Writes the points into the polygon array.
+     */
+    private void writePolygon() {
+        List<GUIPosition> shape = getShape();
+        x = new int[shape.size()];
+        y = new int[shape.size()];
+        for (int i = 0; i < shape.size(); i++) {
+            x[i] = shape.get(i).getX();
+            y[i] = shape.get(i).getY();
+        }
+    }
 
     /**
      * Turning the polygon array
@@ -67,4 +97,6 @@ public abstract class AbstractGUIObject extends Polygon {
         this.xpoints = x;
         this.ypoints = y;
     }
+
+
 }

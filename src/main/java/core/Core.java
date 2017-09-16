@@ -1,6 +1,10 @@
 package core;
 
-public class Core extends CoreSuper {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
+
+public class Core extends Observable {
     public static int gameBoardX = 500;
     public static int gameBoardY = 1000;
     private int difficulty = 1; // number from 1 to infinity
@@ -8,9 +12,9 @@ public class Core extends CoreSuper {
     private int ufoPeng = 50;
     private int basePeng = 120;
     private Position basePosition = new Position(0, 0);
-    private Missile[] activeMissiles;
-    private UFO[] activeUFOs;
-    private Explosion[] activeExplosions;
+    private List<Missile> activeMissiles;
+    private List<UFO> activeUFOs;
+    private List<Explosion> activeExplosions;
     private Base baseOp;
     private boolean gameOver;
 
@@ -20,22 +24,31 @@ public class Core extends CoreSuper {
     public Core() {
         baseOp = new Base(basePosition);
         gameOver = false;
-        activeMissiles = new Missile[0];
-        activeUFOs = new UFO[0];
-        activeExplosions = new Explosion[0];
+        activeMissiles = new ArrayList<>();
+        activeUFOs = new ArrayList<>();
+        activeExplosions = new ArrayList<>();
     }
 
     // get Methoden
-    public Missile[] getActiveMissiles() {
+    public List<Missile> getActiveMissiles() {
         return activeMissiles;
     }
 
-    public UFO[] getActiveUFOs() {
+    public List<UFO> getActiveUFOs() {
         return activeUFOs;
     }
 
-    public Explosion[] getActiveExplosions() {
+    public List<Explosion> getActiveExplosions() {
         return activeExplosions;
+    }
+
+    public List<GameObject> getGameObjects() {
+        List<GameObject> returnList = new ArrayList<>();
+        returnList.addAll(activeMissiles);
+        returnList.addAll(activeUFOs);
+        returnList.addAll(activeExplosions);
+        returnList.add(baseOp);
+        return returnList;
     }
 
     public Base getBase() {
@@ -45,14 +58,14 @@ public class Core extends CoreSuper {
     // Aktionsmethoden
     public void shootMissile(Position target, int range) {
         if (baseOp.alive()) {
-            Missile o = new Missile();
-            o.setDetonationRadius(missileDetonationRange);
-            o.setTargetVector(target);
-            o.setRange(range);
-            o.setInitialCoordinates(baseOp.getPosition());
-            this.addObserver(o);
+            Missile missile = new Missile();
+            missile.setDetonationRadius(missileDetonationRange);
+            missile.setTargetVector(target);
+            missile.setRange(range);
+            missile.setInitialCoordinates(baseOp.getPosition());
+            this.addObserver(missile);
             baseOp.addScore(-10);
-            activeMissiles = addMissile(o, activeMissiles);
+            activeMissiles.add(missile);
         }
     }
 
@@ -86,21 +99,21 @@ public class Core extends CoreSuper {
         o.setInitialCoordinates(r);
         o.setSpeed(speed);
         this.addObserver(o);
-        activeUFOs = addUFO(o, activeUFOs);
+        activeUFOs.add(o);
     }
 
     private void explodeMissile(Missile o) {
-        activeMissiles = removeMissile(o, activeMissiles);
+        activeMissiles.remove(o);
         Explosion baeng = new Explosion(o.getDetonationRadius(), o.getPosition());
         this.addObserver(baeng);
-        activeExplosions = addExplosion(baeng, activeExplosions);
+        activeExplosions.add(baeng);
     }
 
     private void explodeUFO(UFO o) {
-        activeUFOs = removeUFO(o, activeUFOs);
+        activeUFOs.remove(o);
         Explosion baeng = new Explosion(ufoPeng, o.getPosition());
         this.addObserver(baeng);
-        activeExplosions = addExplosion(baeng, activeExplosions);
+        activeExplosions.add(baeng);
         baseOp.addScore(250);
     }
 
@@ -110,62 +123,60 @@ public class Core extends CoreSuper {
         Position pos = new Position(xpos, basePosition.getY());
         Explosion baeng = new Explosion(bang, pos);
         this.addObserver(baeng);
-        activeExplosions = addExplosion(baeng, activeExplosions);
+        activeExplosions.add(baeng);
     }
 
     private void missileIgnitionRoutine() {
-        Missile[] toExplode = new Missile[0];
         // get Missiles to Explode
-        for (int i = 0; i < activeMissiles.length; i++) {
-            // trotzdem z�nden wenn strecke geflogen
-            if (activeMissiles[i].withinRange(new Position(0, 1400))) {
-                toExplode = addMissile(activeMissiles[i], toExplode);
+        List<Missile> toExplode = new ArrayList<>();
+        for (Missile missile : activeMissiles) {
+            if (missile.withinRange(new Position(0, 1400))) {
+                toExplode.add(missile);
             } else {
-                // oder z�nden wenn in n�he von ziel
-                for (int k = 0; k < activeUFOs.length; k++) {
-                    if (activeMissiles[i].withinRange(activeUFOs[k].getPosition())) {
-                        toExplode = addMissile(activeMissiles[i], toExplode);
+                // oder zünden wenn in nähe von ziel
+                for (UFO enemy : activeUFOs) {
+                    if (missile.withinRange(enemy.getPosition())) {
+                        toExplode.add(missile);
                     }
                 }
             }
         }
-        // Ignite Missiles toExplode
-        for (int i = 0; i < toExplode.length; i++) explodeMissile(toExplode[i]);
+        toExplode.forEach(missile -> explodeMissile(missile));
     }
 
     private void destructionRoutine() {
-        UFO[] toExplode = new UFO[0];
         // get UFOs to Explode
-        for (int i = 0; i < activeUFOs.length; i++) {
-            for (int k = 0; k < activeExplosions.length; k++) {
-                if (activeExplosions[k].withinRange(activeUFOs[i].getPosition()))
-                    toExplode = addUFO(activeUFOs[i], toExplode);
+        List<UFO> toExplode = new ArrayList<>();
+        for (UFO ufo : activeUFOs) {
+            for (Explosion explosion : activeExplosions) {
+                if (explosion.withinRange(ufo.getPosition())) {
+                    toExplode.add(ufo);
+                }
             }
         }
-        // Explode UFO
-        for (int i = 0; i < toExplode.length; i++) explodeUFO(toExplode[i]);
+        toExplode.forEach(ufo -> explodeUFO(ufo));
     }
 
+
     private void impactRoutine() {
-        UFO[] toExplode = new UFO[0];
-        // ufos die einschlagen ermitteln
-        for (int i = 0; i < activeUFOs.length; i++) {
-            int hoehe = activeUFOs[i].getPosition().getY();
-            if (hoehe < 0) {
-                toExplode = addUFO(activeUFOs[i], toExplode);
+        List<UFO> toExplode = new ArrayList<UFO>();
+        // ufos die einschlagen ermitteln und explodieren lassen
+        for (UFO ufo : activeUFOs) {
+            if (ufo.getPosition().getY() < 0) {
+                toExplode.add(ufo);
             }
         }
-        // ufos explodieren lassen
-        for (int i = 0; i < toExplode.length; i++) explodeUFO(toExplode[i]);
-        // schauen ob die basis putt ist
-        for (int i = 0; i < activeExplosions.length; i++) {
-            if (activeExplosions[i].withinRange(baseOp.getPosition())) baseOp.impact();
+        toExplode.forEach(ufo -> explodeUFO(ufo));
+
+        for (Explosion explosion : activeExplosions) {
+            if (explosion.withinRange(baseOp.getPosition())) baseOp.impact();
         }
+
         if (!baseOp.alive()) {
             gameOver = true;
             Explosion baeng = new Explosion(250, new Position(0, 0));
             this.addObserver(baeng);
-            activeExplosions = addExplosion(baeng, activeExplosions);
+            activeExplosions.add(baeng);
         }
     }
 
@@ -181,13 +192,13 @@ public class Core extends CoreSuper {
     }
 
     private void deleteDecayedExplosions() {
-        Explosion[] toDelete = new Explosion[0];
-        for (int i = 0; i < activeExplosions.length; i++) {
-            if (activeExplosions[i].getRange() < 0) {
-                toDelete = addExplosion(activeExplosions[i], toDelete);
+        List<Explosion> toBeRemoved = new ArrayList<>();
+        for (Explosion explosion : activeExplosions) {
+            if (explosion.getRange() < 0) {
+                toBeRemoved.add(explosion);
             }
         }
-        for (int i = 0; i < toDelete.length; i++) activeExplosions = removeExplosion(toDelete[i], activeExplosions);
+        toBeRemoved.forEach(explosion -> activeExplosions.remove(explosion));
     }
 
 }

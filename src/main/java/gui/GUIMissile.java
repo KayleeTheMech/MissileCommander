@@ -1,21 +1,26 @@
 package gui;
 
+import Util.ArrayUtil;
 import core.Missile;
 
-public class GUIMissile extends AbstractGUIObject {
+import java.awt.*;
+import java.util.List;
+
+public class GUIMissile extends GUIObject {
     static final long serialVersionUID = 2001;
-
-    private static final int laenge = 25;
-    private static final int breite = 10;
-
 
     GUIMissile(Missile missile) {
         super(missile);
         rotateShapeArrays(0);
         initialize();
+        fillColor = Color.gray;
+        borderColor = Color.white;
     }
 
-    int[] getXShape() {
+    protected List<GUIPosition> getShape() {
+        final int laenge = 25;
+        final int breite = 10;
+
         int[] xShape = {
                 -(laenge * 1 / 2),
                 -(laenge * 3 / 8),
@@ -27,10 +32,6 @@ public class GUIMissile extends AbstractGUIObject {
                 -(laenge * 1 / 4),
                 -(laenge / 2 * 3 / 4)
         };
-        return xShape;
-    }
-
-    int[] getYShape() {
         int[] yShape = {
                 +0,
                 -(breite * 1 / 2),
@@ -42,6 +43,8 @@ public class GUIMissile extends AbstractGUIObject {
                 (breite * 1 / 4),
                 (breite * 1 / 2)
         };
-        return yShape;
+        return ArrayUtil.getListFromArrays(xShape, yShape);
     }
+
+
 }
