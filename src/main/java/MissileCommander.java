@@ -4,16 +4,11 @@ import gui.KampfschirmFenster;
 
 public class MissileCommander {
 
-
     public static void main(String[] args) {
-        Core kern;
-        Controller controller;
-        KampfschirmFenster gui;
-        kern = new Core();
-        controller = new Controller(kern);
-        gui = new KampfschirmFenster(kern, controller, "Missile Commander");
+        Core core = new Core();
+        Controller controller = new Controller(core);
+        KampfschirmFenster gui = new KampfschirmFenster(core, controller, "Missile Commander");
         gui.setVisible(true);
         controller.resume();
     }
-
 }
