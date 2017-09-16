@@ -6,7 +6,9 @@ import core.Explosion;
 import core.Missile;
 import core.UFO;
 
-import java.awt.*;
+import java.util.List;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Observable;
 
 public class Kampfschirm extends KampfschirmSuper {
@@ -35,28 +37,28 @@ public class Kampfschirm extends KampfschirmSuper {
         g.setColor(Color.white);
         g.fillPolygon(base);
         // Spielobjekte bekommen
-        UFO[] ufos = spielkern.getActiveUFOs();
-        Missile[] raketen = spielkern.getActiveMissiles();
-        Explosion[] explosionen = spielkern.getActiveExplosions();
+        List<UFO> ufos = spielkern.getActiveUFOs();
+        List<Missile> raketen = spielkern.getActiveMissiles();
+        List<Explosion> explosions = spielkern.getActiveExplosions();
         // ufos malen
-        for (int i = 0; i < ufos.length; i++) {
-            GUIUfo poly = new GUIUfo(ufos[i]);
+        for (UFO ufo : ufos) {
+            GUIUfo poly = new GUIUfo(ufo);
             g.setColor(Color.green);
             g.fillPolygon(poly);
             g.setColor(Color.yellow);
             g.drawPolygon(poly);
         }
         // raketen malen
-        for (int i = 0; i < raketen.length; i++) {
-            GUIMissile poly = new GUIMissile(raketen[i]);
+        for(Missile missile:raketen){
+            GUIMissile poly = new GUIMissile(missile);
             g.setColor(Color.gray);
             g.fillPolygon(poly);
             g.setColor(Color.white);
             g.drawPolygon(poly);
         }
         // explosionen malen
-        for (int i = 0; i < explosionen.length; i++) {
-            GUIExplosion poly = new GUIExplosion(explosionen[i]);
+        for(Explosion explosion:explosions){
+            GUIExplosion poly = new GUIExplosion(explosion);
             g.setColor(Color.yellow);
             g.fillPolygon(poly);
             g.setColor(Color.red);
