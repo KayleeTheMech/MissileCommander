@@ -18,7 +18,7 @@ public class Missile extends FlightObject {
         return location.add(flightVector);
     }
 
-    public void setRange(int range) {
+    public void setMaxFlightDistance(int range) {
         this.maxFlightDistance = range;
     }
 
@@ -31,9 +31,6 @@ public class Missile extends FlightObject {
 
     public boolean reachedTarget() {
         if (getPosition().subtract(this.location).getLength() >= maxFlightDistance) {
-            //return true;
-        }
-        if (getPosition().subtract(getTargetVector()).getLength() <= detonationRadius) {
             return true;
         }
         return false;

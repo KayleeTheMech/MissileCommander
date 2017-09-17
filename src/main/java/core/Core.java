@@ -42,7 +42,7 @@ public class Core extends Observable {
             Missile missile = new Missile();
             missile.setDetonationRadius(missileDetonationRange);
             missile.setTargetVector(target);
-            missile.setRange(range);
+            missile.setMaxFlightDistance(range);
             missile.setPosition(baseOp.getPosition());
             this.addObserver(missile);
             baseOp.addScore(-10);
