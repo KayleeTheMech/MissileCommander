@@ -61,12 +61,15 @@ public class Core extends Observable {
 
         impactRoutine();
 
-        if (100 * Math.random() < 1 * difficulty + 5) createEnemy();
-        //alte Explosionen löschen
-        deleteDecayedExplosions();
+        // Propability for creating a new enemy ship
+        if (100 * Math.random() < 1 * difficulty + 5) {
+            createEnemy();
+        }
 
+        deleteDecayedExplosions();
+        // if player alive let's see...
         if (baseOp.isAlive()) {
-            // neue Schwierigkeit einstellen
+            // set new difficulty level
             if (baseOp.getScore() < 0) {
                 difficulty = 1;
             } else {
@@ -123,14 +126,11 @@ public class Core extends Observable {
 
     private void missileIgnitionRoutine() {
         List<Missile> toExplode = new ArrayList<>();
-        List<UFO> ufos = getObjectType(UFO.class);
-        List<Missile> activeMissiles = getObjectType(Missile.class);
-
-        for (Missile missile : activeMissiles) {
+        for (Missile missile : getObjectType(Missile.class)) {
             if (missile.reachedTarget()) {
                 toExplode.add(missile);
             } else {
-                for (UFO ufo : ufos) {
+                for (UFO ufo : getObjectType(UFO.class)) {
                     if (missile.withinRange(ufo.getPosition())) {
                         toExplode.add(missile);
                     }
@@ -141,7 +141,6 @@ public class Core extends Observable {
     }
 
     private void destructionRoutine() {
-
         List<GameObject> toExplode = new ArrayList<>();
         List<Explosion> explosions = getObjectType(Explosion.class);
         List<GameObject> notExplosions = getGameObjects();
