@@ -7,19 +7,19 @@ public class Explosion extends GameObject implements Observer {
 
     private double decayConstant = 0.125;
 
-    Explosion(int detonationRadius, Position location) {
-        super(location);
-        this.detonationRadius = detonationRadius;
+    Explosion(){
+        super();
+        this.clock=0;
+    }
+
+    Explosion(int detonationRadius) {
+        super();
         this.clock = 0;
+        this.detonationRadius = detonationRadius;
     }
-
-    public Position getPosition() {
-        return location;
-    }
-
 
     public boolean withinRange(Position abs) {
-        Position rel = abs.subtract(this.location);
+        Position rel = abs.subtract(this.position);
         if (rel.getLength() < detonationRadius)
             return true;
         else return false;

@@ -7,9 +7,9 @@ import core.Core;
 import core.Position;
 
 public class Controller extends Observable {
-    Core kern;
-    TimerRoutine takt;
-    Timer timer;
+    private Core kern;
+    private TimerRoutine takt;
+    private Timer timer;
     long delay = 10;
     long runtime = 50;
     boolean pause;
@@ -40,7 +40,10 @@ public class Controller extends Observable {
     }
 
     public void action(Position p) {
-        if (!pause) kern.shootMissile(p, (int) Math.sqrt(p.getX() * p.getX() + p.getY() * p.getY()));
-        else resume();
+        if (!pause) {
+            kern.shootMissile(p);
+        } else {
+            resume();
+        }
     }
 }

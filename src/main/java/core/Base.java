@@ -3,8 +3,8 @@ package core;
 public class Base extends GameObject {
     private int score;
 
-    Base(Position location) {
-        super(location);
+    Base() {
+        super();
         this.score = 0;
     }
 

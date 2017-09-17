@@ -3,6 +3,7 @@ package core;
 import java.util.*;
 
 public class Core extends Observable {
+    // Some constants that later need to move
     public final static int gameBoardX = 500;
     public final static int gameBoardY = 1000;
     private final int missileDetonationRange = 20;
@@ -12,19 +13,18 @@ public class Core extends Observable {
     private final int basePositionY = 0;
     private final int startDifficulty = 1;
 
+    // Actual variables
     private List<GameObject> gameObjects;
+    private GameObjectFactory objectFactory;
     private Base baseOp;
 
     private int difficulty;
 
-    /*
-     * Konstruktor und öffentliche Methoden
-     * */
     public Core() {
         difficulty = startDifficulty;
-        baseOp = new Base(new Position(basePositionX, basePositionY));
-        baseOp.setDetonationRadius(basePeng);
         gameObjects = new ArrayList<>();
+        objectFactory = new GameObjectFactory();
+        baseOp = objectFactory.makeBase(new Position(basePositionX, basePositionY), basePeng);
         addGameObject(baseOp);
     }
 
@@ -77,11 +77,11 @@ public class Core extends Observable {
     }
 
 
-    private void explodeObject(GameObject o) {
-        gameObjects.remove(o);
-        o.kill();
-        Explosion baeng = new Explosion(o.getDetonationRadius(), o.getPosition());
-        addGameObject(baeng);
+    private void explodeObject(GameObject object) {
+        gameObjects.remove(object);
+        object.kill();
+        Explosion explosion = objectFactory.makeExplosion(object.getPosition(), object.getDetonationRadius());
+        addGameObject(explosion);
     }
 
     private void explodeUFO(UFO o) {
@@ -94,8 +94,8 @@ public class Core extends Observable {
     private void explodePlanet() {
         int detonationRadius = (int) (baseOp.getDetonationRadius() * Math.random());
         int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
-        Explosion baeng = new Explosion(detonationRadius, new Position(xpos, 0));
-        addGameObject(baeng);
+        Explosion explosion = objectFactory.makeExplosion(new Position(xpos, 0), detonationRadius);
+        addGameObject(explosion);
     }
 
     private void missileIgnitionRoutine() {
@@ -152,38 +152,31 @@ public class Core extends Observable {
         toBeRemoved.forEach(explosion -> gameObjects.remove(explosion));
     }
 
+    private void newUFO(Position position, Position target, int speed) {
+        UFO ufo = objectFactory.makeUFO(position, target, speed, ufoPeng);
+        addGameObject(ufo);
+    }
 
-    private void newUFO(Position r, Position target, int speed) {
-        UFO o = new UFO();
-        o.setTargetVector(target);
-        o.setPosition(r);
-        o.setDetonationRadius(ufoPeng);
-        o.setSpeed(speed);
-        addGameObject(o);
+    public void shootMissile(Position target) {
+        if (baseOp.isAlive()) {
+            baseOp.addScore(-10);
+            Missile missile = objectFactory.makeMissile(baseOp.getPosition(), target, missileDetonationRange);
+            addGameObject(missile);
+        }
     }
 
     private void createEnemy() {
+        int speed = (int) (difficulty * Math.random() * 10 + 10) / 2;
         int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
         int ypos = gameBoardY;
-        Position target;
-        int speed = (int) (difficulty * Math.random() * 10 + 10) / 2;
         Position p = new Position(xpos, ypos);
-        if (Math.random() < 0.1 * difficulty) target = baseOp.getPosition();
-        else target = new Position((int) (gameBoardX * Math.random() - gameBoardX / 2), 0);
-        newUFO(p, target, speed);
-    }
-
-    // Aktionsmethoden
-    public void shootMissile(Position target, int range) {
-        if (baseOp.isAlive()) {
-            baseOp.addScore(-10);
-            Missile missile = new Missile();
-            missile.setDetonationRadius(missileDetonationRange);
-            missile.setTargetVector(target);
-            missile.setMaxFlightDistance(range);
-            missile.setPosition(baseOp.getPosition());
-            addGameObject(missile);
+        Position target;
+        if (Math.random() < 0.1 * difficulty) {
+            target = baseOp.getPosition();
+        } else {
+            target = new Position((int) (gameBoardX * Math.random() - gameBoardX / 2), 0);
         }
+        newUFO(p, target, speed);
     }
 
     private void addGameObject(GameObject object) {
