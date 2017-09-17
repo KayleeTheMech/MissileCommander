@@ -1,34 +1,39 @@
 package core;
 
 public class GameObjectFactory {
+
+
     public Base makeBase(Position home, int detonationRadius) {
-        Base base = new Base();
-        base.setPosition(home);
-        base.setDetonationRadius(detonationRadius);
-        return base;
-    }
-
-    public UFO makeUFO(Position position, Position target, int speed, int detonationRadius) {
-        UFO ufo = new UFO();
-        ufo.setSpeed(speed);
-        ufo.setTargetVector(target);
-        ufo.setPosition(position);
-        ufo.setDetonationRadius(detonationRadius);
-        return ufo;
-    }
-
-    public Missile makeMissile(Position position, Position target, int detonationRadius) {
-        Missile missile = new Missile();
-        missile.setPosition(position);
-        missile.setTargetVector(target);
-        missile.setDetonationRadius(detonationRadius);
-        return missile;
+        return makeGameObject(home, detonationRadius, Base.class);
     }
 
     public Explosion makeExplosion(Position position, int detonationRadius) {
-        Explosion explosion = new Explosion();
-        explosion.setPosition(position);
-        explosion.setDetonationRadius(detonationRadius);
-        return explosion;
+        return makeGameObject(position, detonationRadius, Explosion.class);
+    }
+
+    public Missile makeMissile(Position position, Position target, int detonationRadius) {
+        Missile missile = makeGameObject(position, detonationRadius, Missile.class);
+        missile.setTargetVector(target);
+        return missile;
+    }
+
+    public UFO makeUFO(Position position, Position target, int speed, int detonationRadius) {
+        UFO ufo = makeGameObject(position, detonationRadius, UFO.class);
+        ufo.setSpeed(speed);
+        ufo.setTargetVector(target);
+        return ufo;
+    }
+
+    private <T extends GameObject> T makeGameObject(Position position, int detonationRadius, Class<T> objectClass) {
+        T object;
+        try {
+            object = objectClass.newInstance();
+        } catch (IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        object.setPosition(position);
+        object.setDetonationRadius(detonationRadius);
+        return object;
     }
 }
