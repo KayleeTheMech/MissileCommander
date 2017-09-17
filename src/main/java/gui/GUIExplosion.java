@@ -17,7 +17,7 @@ public class GUIExplosion extends GUIObject {
     }
 
     public List<GUIPosition> getShape() {
-        int radius = ((Explosion) this.gameObject).getRange();
+        int radius = ((Explosion) this.gameObject).getDetonationRadius();
         int numberOfPoints = (int) (radius * 2 * Math.PI) / 4;
         double winkelabschnitt = 2 * Math.PI / numberOfPoints;
         List<GUIPosition> points = new ArrayList<GUIPosition>();

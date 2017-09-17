@@ -5,6 +5,8 @@ import java.util.Observer;
 
 public abstract class GameObject implements IGameObject, Observer {
 
+    private boolean alive;
+
     protected int detonationRadius;
 
     protected int clock;
@@ -13,10 +15,21 @@ public abstract class GameObject implements IGameObject, Observer {
 
     GameObject(Position location) {
         this.location = location;
+        this.alive = true;
     }
 
     public Position getPosition() {
         return location;
+    }
+
+    @Override
+    public boolean isAlive() {
+        return alive;
+    }
+
+    @Override
+    public void kill() {
+        alive = false;
     }
 
     public void setPosition(Position r) {

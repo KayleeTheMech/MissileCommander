@@ -2,12 +2,10 @@ package core;
 
 public class Base extends GameObject {
     private int score;
-    private boolean dead;
-    
+
     Base(Position location) {
         super(location);
         this.score = 0;
-        this.dead = false;
     }
 
     public void addScore(int score) {
@@ -18,11 +16,4 @@ public class Base extends GameObject {
         return score;
     }
 
-    public boolean alive() {
-        return !dead;
-    }
-
-    public void impact() {
-        dead = true;
-    }
 }

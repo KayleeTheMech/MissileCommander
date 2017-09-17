@@ -5,12 +5,11 @@ import java.util.Observer;
 
 public class Explosion extends GameObject implements Observer {
 
-    private int range;
     private double decayConstant = 0.125;
 
-    Explosion(int range, Position location) {
+    Explosion(int detonationRadius, Position location) {
         super(location);
-        this.range = range;
+        this.detonationRadius = detonationRadius;
         this.clock = 0;
     }
 
@@ -18,21 +17,21 @@ public class Explosion extends GameObject implements Observer {
         return location;
     }
 
-    public int getRange() {
-        return range;
-    }
 
     public boolean withinRange(Position abs) {
-        Position rel = new Position(abs.getX() - location.getX(), abs.getY() - location.getY());
-        if (Math.sqrt(rel.getX() * rel.getX() + rel.getY() * rel.getY()) < range)
+        Position rel = abs.subtract(this.location);
+        if (rel.getLength() < detonationRadius)
             return true;
         else return false;
     }
 
     @Override
     public void update(Observable arg0, Object arg1) {
-        if (clock > 2) range = (int) (range - clock * decayConstant * range);
-        else if (clock == 1 || clock == 2) range = (int) (range * 1.2);
+        if (clock > 2) {
+            detonationRadius = (int) (detonationRadius - clock * decayConstant * detonationRadius);
+        } else if (clock == 1 || clock == 2) {
+            detonationRadius = (int) (detonationRadius * 1.2);
+        }
         clock++;
     }
 
