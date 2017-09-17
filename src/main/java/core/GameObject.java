@@ -9,7 +9,7 @@ public abstract class GameObject implements IGameObject, Observer {
 
     protected int clock;
 
-    Position location;
+    protected Position location;
 
     GameObject(Position location) {
         this.location = location;

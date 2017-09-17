@@ -2,7 +2,6 @@ package core;
 
 public class Missile extends FlightObject {
     private int speed = 50;
-    private int startrunden = 3;
     private int maxFlightDistance;
 
     Missile() {

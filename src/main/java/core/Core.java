@@ -1,27 +1,29 @@
 package core;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 
 public class Core extends Observable {
-    public static int gameBoardX = 500;
-    public static int gameBoardY = 1000;
-    private int difficulty = 1; // number from 1 to infinity
-    private int missileDetonationRange = 20;
-    private int ufoPeng = 50;
-    private int basePeng = 120;
-    private Position basePosition = new Position(0, 0);
+    public final static int gameBoardX = 500;
+    public final static int gameBoardY = 1000;
+    private final int missileDetonationRange = 20;
+    private final int ufoPeng = 50;
+    private final int basePeng = 120;
+    private final int basePositionX = 0;
+    private final int basePositionY = 0;
+    private final int startDifficulty = 1;
+
     private List<GameObject> gameObjects;
     private Base baseOp;
-    private boolean gameOver;
+
+    private int difficulty;
 
     /*
      * Konstruktor und öffentliche Methoden
      * */
     public Core() {
-        baseOp = new Base(basePosition);
-        gameOver = false;
+        difficulty = startDifficulty;
+        baseOp = new Base(new Position(basePositionX, basePositionY));
+        baseOp.setDetonationRadius(basePeng);
         gameObjects = new ArrayList<>();
         gameObjects.add(baseOp);
     }
@@ -53,7 +55,7 @@ public class Core extends Observable {
     public void tick() {
         this.setChanged();
         this.notifyObservers();
-        if (!gameOver) {
+        if (baseOp.alive()) {
             // Raketen zünden
             missileIgnitionRoutine();
             // UFOs kaputt machen
@@ -67,7 +69,9 @@ public class Core extends Observable {
             // neue Schwierigkeit einstellen
             if (baseOp.getScore() < 0) difficulty = 1;
             else difficulty = baseOp.getScore() / 10000 + 1;
-        } else explodeBase();
+        } else {
+            explodePlanet();
+        }
     }
 
     /*
@@ -106,12 +110,10 @@ public class Core extends Observable {
         baseOp.addScore(250);
     }
 
-    private void explodeBase() {
-        gameObjects.remove(baseOp);
-        int bang = (int) (basePeng * Math.random());
+    private void explodePlanet() {
+        int detonationRadius = (int) (baseOp.getDetonationRadius() * Math.random());
         int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
-        Position pos = new Position(xpos, basePosition.getY());
-        Explosion baeng = new Explosion(bang, pos);
+        Explosion baeng = new Explosion(detonationRadius, new Position(xpos, 0));
         this.addObserver(baeng);
         gameObjects.add(baeng);
     }
@@ -138,15 +140,25 @@ public class Core extends Observable {
 
     private void destructionRoutine() {
         // get UFOs to Explode
-        List<UFO> toExplode = new ArrayList<>();
-        for (UFO ufo : getObjectType(UFO.class)) {
-            for (Explosion explosion : getObjectType(Explosion.class)) {
-                if (explosion.withinRange(ufo.getPosition())) {
-                    toExplode.add(ufo);
+        List<GameObject> toExplode = new ArrayList<>();
+        List<Explosion> explosions = getObjectType(Explosion.class);
+        List<GameObject> notExplosions = getGameObjects();
+        notExplosions.removeAll(explosions);
+        for (GameObject gameObject : notExplosions) {
+            for (Explosion explosion : explosions) {
+                if (explosion.withinRange(gameObject.getPosition())) {
+                    toExplode.add(gameObject);
                 }
             }
         }
-        toExplode.forEach(ufo -> explodeUFO(ufo));
+
+        toExplode.forEach(gameObject -> {
+            if (gameObject instanceof UFO) {
+                explodeUFO((UFO) gameObject);
+            } else {
+                explodeObject(gameObject);
+            }
+        });
     }
 
 
@@ -165,7 +177,6 @@ public class Core extends Observable {
         }
 
         if (!baseOp.alive()) {
-            gameOver = true;
             Explosion baeng = new Explosion(250, new Position(0, 0));
             this.addObserver(baeng);
             gameObjects.add(baeng);
