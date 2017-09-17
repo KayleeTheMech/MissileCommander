@@ -38,18 +38,6 @@ public class Core extends Observable {
         return baseOp;
     }
 
-    // Aktionsmethoden
-    public void shootMissile(Position target, int range) {
-        if (baseOp.isAlive()) {
-            baseOp.addScore(-10);
-            Missile missile = new Missile();
-            missile.setDetonationRadius(missileDetonationRange);
-            missile.setTargetVector(target);
-            missile.setMaxFlightDistance(range);
-            missile.setPosition(baseOp.getPosition());
-            addGameObject(missile);
-        }
-    }
 
     public void tick() {
         this.setChanged();
@@ -58,8 +46,6 @@ public class Core extends Observable {
         missileIgnitionRoutine();
 
         destructionRoutine();
-
-        impactRoutine();
 
         // Propability for creating a new enemy ship
         if (100 * Math.random() < 1 * difficulty + 5) {
@@ -80,10 +66,6 @@ public class Core extends Observable {
         }
     }
 
-    /*
-     * Private Methoden!!
-     * Alles weitere wird nur vom Kern verwendet
-     * */
     private <Type> List<Type> getObjectType(Class<Type> typeClass) {
         List<Type> retList = new ArrayList<>();
         for (GameObject object : getGameObjects()) {
@@ -94,14 +76,6 @@ public class Core extends Observable {
         return retList;
     }
 
-    private void newUFO(Position r, Position target, int speed) {
-        UFO o = new UFO();
-        o.setTargetVector(target);
-        o.setPosition(r);
-        o.setDetonationRadius(ufoPeng);
-        o.setSpeed(speed);
-        addGameObject(o);
-    }
 
     private void explodeObject(GameObject o) {
         gameObjects.remove(o);
@@ -151,6 +125,11 @@ public class Core extends Observable {
                     toExplode.add(gameObject);
                 }
             }
+
+            if ((gameObject.getPosition().getY() < 0) && gameObject instanceof UFO) {
+                toExplode.add(gameObject);
+            }
+
         }
 
         toExplode.forEach(gameObject -> {
@@ -162,20 +141,25 @@ public class Core extends Observable {
         });
     }
 
-    private void addGameObject(GameObject object) {
-        this.addObserver(object);
-        this.gameObjects.add(object);
-    }
-
-    private void impactRoutine() {
-        List<UFO> toExplode = new ArrayList<>();
-
-        for (UFO ufo : getObjectType(UFO.class)) {
-            if (ufo.getPosition().getY() < 0) {
-                toExplode.add(ufo);
+    private void deleteDecayedExplosions() {
+        List<Explosion> toBeRemoved = new ArrayList<>();
+        List<Explosion> allExplosions = getObjectType(Explosion.class);
+        for (Explosion explosion : allExplosions) {
+            if (explosion.getDetonationRadius() <= 1) {
+                toBeRemoved.add(explosion);
             }
         }
-        toExplode.forEach(ufo -> explodeUFO(ufo));
+        toBeRemoved.forEach(explosion -> gameObjects.remove(explosion));
+    }
+
+
+    private void newUFO(Position r, Position target, int speed) {
+        UFO o = new UFO();
+        o.setTargetVector(target);
+        o.setPosition(r);
+        o.setDetonationRadius(ufoPeng);
+        o.setSpeed(speed);
+        addGameObject(o);
     }
 
     private void createEnemy() {
@@ -189,15 +173,23 @@ public class Core extends Observable {
         newUFO(p, target, speed);
     }
 
-    private void deleteDecayedExplosions() {
-        List<Explosion> toBeRemoved = new ArrayList<>();
-        List<Explosion> allExplosions = getObjectType(Explosion.class);
-        for (Explosion explosion : allExplosions) {
-            if (explosion.getDetonationRadius() <= 1) {
-                toBeRemoved.add(explosion);
-            }
+    // Aktionsmethoden
+    public void shootMissile(Position target, int range) {
+        if (baseOp.isAlive()) {
+            baseOp.addScore(-10);
+            Missile missile = new Missile();
+            missile.setDetonationRadius(missileDetonationRange);
+            missile.setTargetVector(target);
+            missile.setMaxFlightDistance(range);
+            missile.setPosition(baseOp.getPosition());
+            addGameObject(missile);
         }
-        toBeRemoved.forEach(explosion -> gameObjects.remove(explosion));
     }
+
+    private void addGameObject(GameObject object) {
+        this.addObserver(object);
+        this.gameObjects.add(object);
+    }
+
 
 }
