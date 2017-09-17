@@ -1,11 +1,9 @@
 package core;
 
-public interface IFlightObject {
-    public void setInitialCoordinates(Position r);
+public interface IFlightObject extends IGameObject {
 
-    public void setTargetVector(Position tar);
+    void setTargetVector(Position tar);
 
-    public Position getTargetVector();
+    Position getTargetVector();
 
-    public Position getPosition();
 }

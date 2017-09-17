@@ -2,12 +2,14 @@ package gui;
 
 import core.Position;
 
+import static core.Core.gameBoardX;
+import static core.Core.gameBoardY;
 import static gui.Kampfschirm.WindowHeight;
 import static gui.Kampfschirm.WindowWidth;
 
 public class GUIPosition {
-    private static double stretchX = ((double) WindowWidth) / ((double) Position.gameBoardX);
-    private static double stretchY = ((double) WindowHeight) / ((double) Position.gameBoardY);
+    private static double stretchX = ((double) WindowWidth) / ((double) gameBoardX);
+    private static double stretchY = ((double) WindowHeight) / ((double) gameBoardY);
     private int x;
     private int y;
 
@@ -23,8 +25,8 @@ public class GUIPosition {
     }
 
     public Position getBoardPosition() {
-        int x = ((int) (this.x / stretchX) - Position.gameBoardX / 2);
-        int y = (Position.gameBoardY - (int) (this.y / stretchY));
+        int x = ((int) (this.x / stretchX) - gameBoardX / 2);
+        int y = (gameBoardY - (int) (this.y / stretchY));
         Position pos = new Position(x, y);
         return pos;
     }
