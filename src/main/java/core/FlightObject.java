@@ -3,13 +3,11 @@ package core;
 import java.util.Observable;
 import java.util.Observer;
 
-public abstract class FlightObject extends GameObject implements IFlightObject, Observer {
+public abstract class FlightObject extends GameObject implements IFlightObject {
 
     protected Position flightVector;
     protected Position target;
-    protected int clock;
-    //FIXME seems dirty
-    protected int speed = 10; // immer überschreiben in den unterklassen
+    protected int speed;
 
     FlightObject() {
         super(null);
@@ -29,10 +27,6 @@ public abstract class FlightObject extends GameObject implements IFlightObject, 
 
     public Position getTargetVector() {
         return target;
-    }
-
-    public void update(Observable arg0, Object arg1) {
-        clock++;
     }
 
 }

@@ -6,17 +6,12 @@ import java.util.Observer;
 public class Explosion extends GameObject implements Observer {
 
     private int range;
-    private int ticks;
     private double decayConstant = 0.125;
 
     Explosion(int range, Position location) {
         super(location);
         this.range = range;
-        this.ticks = 0;
-    }
-
-    public int getTicks() {
-        return ticks;
+        this.clock = 0;
     }
 
     public Position getPosition() {
@@ -34,10 +29,11 @@ public class Explosion extends GameObject implements Observer {
         else return false;
     }
 
+    @Override
     public void update(Observable arg0, Object arg1) {
-        if (ticks > 2) range = (int) (range - ticks * decayConstant * range);
-        else if (ticks == 1 || ticks == 2) range = (int) (range * 1.2);
-        ticks++;
+        if (clock > 2) range = (int) (range - clock * decayConstant * range);
+        else if (clock == 1 || clock == 2) range = (int) (range * 1.2);
+        clock++;
     }
 
 }

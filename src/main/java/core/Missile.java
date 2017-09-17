@@ -1,7 +1,6 @@
 package core;
 
 public class Missile extends FlightObject {
-    private int detonationRadius;
     private int speed = 50;
     private int startrunden = 3;
     private int maxFlightDistance;
@@ -23,21 +22,21 @@ public class Missile extends FlightObject {
         this.maxFlightDistance = range;
     }
 
-    public void setDetonationRadius(int r) {
-        this.detonationRadius = r;
-    }
-
-    public int getDetonationRadius() {
-        return detonationRadius;
-    }
-
-    public boolean withinRange(Position abs) {
-        Position act = getPosition();
-        Position rel = abs.subtract(act);
-        Position rel2 = location.subtract(act);
-        if (rel.getLength() < detonationRadius && clock > startrunden || rel2.getLength() > maxFlightDistance)
+    public boolean withinRange(Position position) {
+        if (position.subtract(getPosition()).getLength() <= detonationRadius) {
             return true;
-        else return false;
+        }
+        return false;
+    }
+
+    public boolean reachedTarget() {
+        if (getPosition().subtract(this.location).getLength() >= maxFlightDistance) {
+            //return true;
+        }
+        if (getPosition().subtract(getTargetVector()).getLength() <= detonationRadius) {
+            return true;
+        }
+        return false;
     }
 
 }
