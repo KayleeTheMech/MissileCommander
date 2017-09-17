@@ -1,8 +1,5 @@
 package core;
 
-import java.util.Observable;
-import java.util.Observer;
-
 public abstract class FlightObject extends GameObject implements IFlightObject {
 
     protected Position flightVector;
@@ -16,9 +13,9 @@ public abstract class FlightObject extends GameObject implements IFlightObject {
 
     @Override
     public Position getPosition() {
-        flightVector = target.subtract(location);
+        flightVector = target.subtract(position);
         double norm = flightVector.getLength();
-        return location.add(flightVector.multiply((double) (clock * speed) / norm));
+        return position.add(flightVector.multiply((double) (clock * speed) / norm));
     }
 
     public void setTargetVector(Position target) {

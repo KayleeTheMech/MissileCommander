@@ -11,15 +11,23 @@ public abstract class GameObject implements IGameObject, Observer {
 
     protected int clock;
 
-    protected Position location;
+    protected Position position;
 
-    GameObject(Position location) {
-        this.location = location;
+    GameObject() {
+        this.alive = true;
+    }
+
+    GameObject(Position position) {
+        this.position = position;
         this.alive = true;
     }
 
     public Position getPosition() {
-        return location;
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     @Override
@@ -30,10 +38,6 @@ public abstract class GameObject implements IGameObject, Observer {
     @Override
     public void kill() {
         alive = false;
-    }
-
-    public void setPosition(Position r) {
-        this.location = r;
     }
 
     public void update(Observable arg0, Object arg1) {
