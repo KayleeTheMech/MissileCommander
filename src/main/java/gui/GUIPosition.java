@@ -8,12 +8,16 @@ import static gui.Kampfschirm.WindowHeight;
 import static gui.Kampfschirm.WindowWidth;
 
 public class GUIPosition {
+
     private static double stretchX = ((double) WindowWidth) / ((double) gameBoardX);
+
     private static double stretchY = ((double) WindowHeight) / ((double) gameBoardY);
+
     private int x;
+
     private int y;
 
-    public GUIPosition(int x, int y) {
+    GUIPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -38,8 +42,11 @@ public class GUIPosition {
         int skalarProdukt = vergleichX * vectorX;
         double laengeVector = Math.sqrt(vectorX * vectorX + vectorY * vectorY);
         double winkel = Math.acos(skalarProdukt / (10 * laengeVector));
-        if (vectorY < 0) return -(winkel);
-        else return (winkel);
+        if (vectorY < 0) {
+            return -(winkel);
+        } else {
+            return (winkel);
+        }
     }
 
     public int getX() {

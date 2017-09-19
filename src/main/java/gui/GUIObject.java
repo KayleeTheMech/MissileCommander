@@ -8,21 +8,14 @@ import java.util.List;
 
 public abstract class GUIObject extends Polygon {
 
-    protected Color fillColor;
-    protected Color borderColor;
+    private static final long serialVersionUID = -6454463921677482148L;
 
-    public Color getFillColor() {
-        return fillColor;
-    }
-
-
-    public Color getBorderColor() {
-        return borderColor;
-    }
-
+    protected Color fillColor = null;
+    protected Color borderColor = null;
 
     protected int[] x;
     protected int[] y;
+
     protected GUIPosition direction;
     protected GUIPosition centerOfMass;
     protected GameObject gameObject;
@@ -37,9 +30,17 @@ public abstract class GUIObject extends Polygon {
         writePolygon();
     }
 
+    public Color getFillColor() {
+        return fillColor;
+    }
+
+    public Color getBorderColor() {
+        return borderColor;
+    }
+
     /**
-     * This method needs to be overwritten by any GameObject.
-     * An ordered List of GUIPositions is expected in order to construct the edges of the polygon.
+     * This method needs to be overwritten by any GameObject. An ordered List of GUIPositions is expected in order to construct the
+     * edges of the polygon.
      *
      * @return
      */
@@ -85,9 +86,13 @@ public abstract class GUIObject extends Polygon {
         }
         for (int i = 0; i < (x.length + y.length) / 2; i++) {
             x[i] = centerOfMass.getX() + x[i];
-            if (x[i] < 0) x[i] = 0;
+            if (x[i] < 0) {
+                x[i] = 0;
+            }
             y[i] = centerOfMass.getY() + y[i];
-            if (y[i] < 0) y[i] = 0;
+            if (y[i] < 0) {
+                y[i] = 0;
+            }
         }
     }
 
@@ -97,6 +102,5 @@ public abstract class GUIObject extends Polygon {
         this.xpoints = x;
         this.ypoints = y;
     }
-
 
 }

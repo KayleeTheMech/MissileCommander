@@ -1,13 +1,14 @@
 package gui;
 
-import Util.ArrayUtil;
 import core.Missile;
 
 import java.awt.*;
 import java.util.List;
 
 public class GUIMissile extends GUIObject {
+
     static final long serialVersionUID = 2001;
+    private static final MissileShape shape = new MissileShape();
 
     GUIMissile(Missile missile) {
         super(missile);
@@ -17,34 +18,9 @@ public class GUIMissile extends GUIObject {
         borderColor = Color.white;
     }
 
+    @Override
     protected List<GUIPosition> getShape() {
-        final int laenge = 25;
-        final int breite = 10;
-
-        int[] xShape = {
-                -(laenge * 1 / 2),
-                -(laenge * 3 / 8),
-                -(laenge * 1 / 4),
-                +(laenge * 3 / 8),
-                +(laenge * 1 / 2),
-                +(laenge * 1 / 2),
-                +(laenge * 3 / 8),
-                -(laenge * 1 / 4),
-                -(laenge / 2 * 3 / 4)
-        };
-        int[] yShape = {
-                +0,
-                -(breite * 1 / 2),
-                -(breite * 1 / 4),
-                -(breite * 1 / 4),
-                -(breite * 1 / 2),
-                (breite * 1 / 2),
-                (breite * 1 / 4),
-                (breite * 1 / 4),
-                (breite * 1 / 2)
-        };
-        return ArrayUtil.getListFromArrays(xShape, yShape);
+        return shape.getMyShape();
     }
-
 
 }

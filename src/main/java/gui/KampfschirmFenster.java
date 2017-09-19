@@ -1,89 +1,106 @@
 package gui;
 
+import controller.Controller;
+import core.Core;
+
+import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JFrame;
-
-import controller.Controller;
-import core.Core;
 
 import static gui.Kampfschirm.WindowHeight;
 import static gui.Kampfschirm.WindowWidth;
 
-public class KampfschirmFenster extends JFrame implements MouseListener,
-        WindowListener, Observer {
-    static final long serialVersionUID = 2001;
-    private int click = 0;
-    private Core spielkern;
-    private Controller controller;
-    private Kampfschirm panel;
-    private String fensterzeile;
+public class KampfschirmFenster extends JFrame implements MouseListener, WindowListener, Observer {
 
-    public KampfschirmFenster(Core spielkern, Controller controller, String fensterzeile) {
-        super(fensterzeile + "   Score: " + spielkern.getBase().getScore());
-        this.fensterzeile = fensterzeile;
-        this.spielkern = spielkern;
-        this.controller = controller;
-        this.addMouseListener(this);
-        this.addWindowListener(this);
-        this.setSize(WindowWidth + 6, WindowHeight + 25);
-        panel = new Kampfschirm(spielkern, controller);
-        this.add(panel);
-        this.setResizable(false);
-        controller.addObserver(this);
-        controller.addObserver(panel);
-    }
+  static final long serialVersionUID = 2001;
 
-    public void windowActivated(WindowEvent arg0) {
-        controller.resume();
-    }
+  private int click = 0;
 
-    public void windowClosed(WindowEvent arg0) {
-        System.exit(0);
-    }
+  private Core spielkern;
 
+  private Controller controller;
 
-    public void windowClosing(WindowEvent arg0) {
-        arg0.getWindow().dispose();
-    }
+  private Kampfschirm panel;
 
-    public void windowDeactivated(WindowEvent arg0) {
-        controller.pause();
-    }
+  private String fensterzeile;
 
-    public void windowDeiconified(WindowEvent arg0) {
-    }
+  public KampfschirmFenster(Core spielkern, Controller controller, String fensterzeile) {
+    super(fensterzeile + "   Score: " + spielkern.getBase().getScore());
+    this.fensterzeile = fensterzeile;
+    this.spielkern = spielkern;
+    this.controller = controller;
+    this.addMouseListener(this);
+    this.addWindowListener(this);
+    this.setSize(WindowWidth + 6, WindowHeight + 25);
+    panel = new Kampfschirm(spielkern, controller);
+    this.add(panel);
+    this.setResizable(false);
+    controller.addObserver(this);
+    controller.addObserver(panel);
+  }
 
-    public void windowIconified(WindowEvent arg0) {
-    }
+  @Override
+  public void windowActivated(WindowEvent arg0) {
+    controller.resume();
+  }
 
-    public void windowOpened(WindowEvent arg0) {
-    }
+  @Override
+  public void windowClosed(WindowEvent arg0) {
+    System.exit(0);
+  }
 
-    public void mouseClicked(MouseEvent arg0) {
-    }
+  @Override
+  public void windowClosing(WindowEvent arg0) {
+    arg0.getWindow().dispose();
+  }
 
-    public void mouseEntered(MouseEvent arg0) {
-    }
+  @Override
+  public void windowDeactivated(WindowEvent arg0) {
+    controller.pause();
+  }
 
-    public void mouseExited(MouseEvent arg0) {
-    }
+  @Override
+  public void windowDeiconified(WindowEvent arg0) {
+  }
 
-    public void mousePressed(MouseEvent arg0) {
-        GUIPosition pos = new GUIPosition(arg0.getX(), arg0.getY());
-        controller.action(pos.getBoardPosition());
-    }
+  @Override
+  public void windowIconified(WindowEvent arg0) {
+  }
 
-    public void mouseReleased(MouseEvent arg0) {
-    }
+  @Override
+  public void windowOpened(WindowEvent arg0) {
+  }
 
-    public void update(Observable bla, Object blub) {
-        click++;
-        this.setTitle(fensterzeile + "  Score: " + spielkern.getBase().getScore() + " Takt:" + click);
-    }
+  @Override
+  public void mouseClicked(MouseEvent arg0) {
+  }
+
+  @Override
+  public void mouseEntered(MouseEvent arg0) {
+  }
+
+  @Override
+  public void mouseExited(MouseEvent arg0) {
+  }
+
+  @Override
+  public void mousePressed(MouseEvent arg0) {
+    GUIPosition pos = new GUIPosition(arg0.getX(), arg0.getY());
+    controller.action(pos.getBoardPosition());
+  }
+
+  @Override
+  public void mouseReleased(MouseEvent arg0) {
+  }
+
+  @Override
+  public void update(Observable bla, Object blub) {
+    click++;
+    this.setTitle(fensterzeile + "  Score: " + spielkern.getBase().getScore() + " Takt:" + click);
+  }
 
 }
