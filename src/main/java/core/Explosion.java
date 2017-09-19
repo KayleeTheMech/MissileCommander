@@ -12,12 +12,6 @@ public class Explosion extends GameObject implements Observer {
         this.clock=0;
     }
 
-    Explosion(int detonationRadius) {
-        super();
-        this.clock = 0;
-        this.detonationRadius = detonationRadius;
-    }
-
     public boolean withinRange(Position abs) {
         Position rel = abs.subtract(this.position);
         if (rel.getLength() < detonationRadius)

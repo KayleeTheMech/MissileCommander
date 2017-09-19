@@ -7,7 +7,7 @@ public abstract class FlightObject extends GameObject implements IFlightObject {
     protected int speed;
 
     FlightObject() {
-        super(null);
+        super();
         this.clock = 0;
     }
 
