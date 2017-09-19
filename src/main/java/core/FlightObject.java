@@ -6,24 +6,24 @@ public abstract class FlightObject extends GameObject implements IFlightObject {
     protected Position target;
     protected int speed;
 
-    FlightObject() {
-        super();
-        this.clock = 0;
-    }
-
     @Override
     public Position getPosition() {
         flightVector = target.subtract(position);
         double norm = flightVector.getLength();
-        return position.add(flightVector.multiply((double) (clock * speed) / norm));
+        return position.add(flightVector.multiply(clock * speed / norm));
     }
 
-    public void setTargetVector(Position target) {
-        this.target = target;
-    }
-
+    @Override
     public Position getTargetVector() {
         return target;
     }
 
+    @Override
+    public void setTargetVector(Position target) {
+        this.target = target;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
 }

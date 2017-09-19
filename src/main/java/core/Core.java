@@ -1,6 +1,8 @@
 package core;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observable;
 
 public class Core extends Observable {
     // Some constants that later need to move

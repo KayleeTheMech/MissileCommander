@@ -7,16 +7,9 @@ public class Explosion extends GameObject implements Observer {
 
     private double decayConstant = 0.125;
 
-    Explosion(){
-        super();
-        this.clock=0;
-    }
-
     public boolean withinRange(Position abs) {
         Position rel = abs.subtract(this.position);
-        if (rel.getLength() < detonationRadius)
-            return true;
-        else return false;
+        return rel.getLength() < detonationRadius;
     }
 
     @Override

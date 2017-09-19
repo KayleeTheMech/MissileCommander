@@ -1,5 +1,5 @@
-import core.Core;
 import controller.Controller;
+import core.Core;
 import gui.KampfschirmFenster;
 
 public class MissileCommander {

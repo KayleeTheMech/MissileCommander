@@ -5,22 +5,17 @@ import java.util.Observer;
 
 public abstract class GameObject implements IGameObject, Observer {
 
-    private boolean alive;
+    protected int detonationRadius = 0;
+    protected int clock = 0;
+    protected Position position = null;
+    private boolean alive = true;
 
-    protected int detonationRadius;
-
-    protected int clock;
-
-    protected Position position;
-
-    GameObject() {
-        this.alive = true;
-    }
-
+    @Override
     public Position getPosition() {
         return position;
     }
 
+    @Override
     public void setPosition(Position position) {
         this.position = position;
     }
@@ -35,17 +30,17 @@ public abstract class GameObject implements IGameObject, Observer {
         alive = false;
     }
 
+    @Override
     public void update(Observable arg0, Object arg1) {
         clock++;
-    }
-
-    public void setDetonationRadius(int r) {
-        this.detonationRadius = r;
     }
 
     public int getDetonationRadius() {
         return detonationRadius;
     }
 
+    public void setDetonationRadius(int r) {
+        this.detonationRadius = r;
+    }
 
 }
