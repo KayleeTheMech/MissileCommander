@@ -17,11 +17,6 @@ public abstract class GameObject implements IGameObject, Observer {
         this.alive = true;
     }
 
-    GameObject(Position position) {
-        this.position = position;
-        this.alive = true;
-    }
-
     public Position getPosition() {
         return position;
     }
