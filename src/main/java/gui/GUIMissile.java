@@ -1,6 +1,7 @@
 package gui;
 
 import core.Missile;
+import gui.shapes.MissileShape;
 
 import java.awt.*;
 import java.util.List;

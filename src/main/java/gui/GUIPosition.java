@@ -17,12 +17,12 @@ public class GUIPosition {
 
     private int y;
 
-    GUIPosition(int x, int y) {
+    public GUIPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    GUIPosition(Position boardPosition) {
+    public GUIPosition(Position boardPosition) {
         // Koordinatentransform intern to gui
         this.x = (int) (boardPosition.getX() * stretchX + WindowWidth / 2);
         this.y = (int) (WindowHeight - stretchX * boardPosition.getY());
