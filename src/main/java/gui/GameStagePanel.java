@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class GameStagePanel extends JPanel implements Observer {
+public class GameStagePanel extends GamePanel {
 
     public static final int WindowHeight = 750;
     public static final int WindowWidth = 400;
