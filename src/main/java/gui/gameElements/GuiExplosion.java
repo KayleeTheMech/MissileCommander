@@ -1,4 +1,4 @@
-package gui;
+package gui.gameElements;
 
 import core.Explosion;
 
@@ -6,11 +6,11 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUIExplosion extends GUIObject {
+public class GuiExplosion extends GuiObject {
 
     final static long serialVersionUID = 2001;
 
-    GUIExplosion(Explosion explosion) {
+    GuiExplosion(Explosion explosion) {
         super(explosion);
         initialize();
         fillColor = Color.yellow;
@@ -18,12 +18,12 @@ public class GUIExplosion extends GUIObject {
     }
 
     @Override
-    public List<GUIPosition> getShape() {
+    public List<GuiPosition> getShape() {
         int radius = ((Explosion) this.gameObject).getDetonationRadius();
         int numberOfPoints = (int) (radius * 2 * Math.PI) / 4;
         double winkelabschnitt = 2 * Math.PI / numberOfPoints;
 
-        List<GUIPosition> points = new ArrayList<>();
+        List<GuiPosition> points = new ArrayList<>();
         for (int i = 0; i < numberOfPoints; i++) {
             double r = 1;
             if (i % 2 == 1) {
@@ -31,7 +31,7 @@ public class GUIExplosion extends GUIObject {
             }
             int x = (int) (radius * r * Math.cos(i * winkelabschnitt));
             int y = (int) (radius * r * Math.sin(i * winkelabschnitt));
-            points.add(new GUIPosition(x, y));
+            points.add(new GuiPosition(x, y));
         }
         return points;
     }

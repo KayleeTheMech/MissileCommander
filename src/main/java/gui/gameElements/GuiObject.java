@@ -1,4 +1,4 @@
-package gui;
+package gui.gameElements;
 
 import core.FlightObject;
 import core.GameObject;
@@ -6,7 +6,7 @@ import core.GameObject;
 import java.awt.*;
 import java.util.List;
 
-public abstract class GUIObject extends Polygon {
+public abstract class GuiObject extends Polygon {
 
     private static final long serialVersionUID = -6454463921677482148L;
 
@@ -16,17 +16,17 @@ public abstract class GUIObject extends Polygon {
     protected int[] x;
     protected int[] y;
 
-    protected GUIPosition direction;
-    protected GUIPosition centerOfMass;
+    protected GuiPosition direction;
+    protected GuiPosition centerOfMass;
     protected GameObject gameObject;
 
-    GUIObject(GameObject gameObject) {
+    GuiObject(GameObject gameObject) {
         super();
         this.gameObject = gameObject;
         if (gameObject instanceof FlightObject) {
-            this.direction = new GUIPosition(((FlightObject) gameObject).getTargetVector());
+            this.direction = new GuiPosition(((FlightObject) gameObject).getTargetVector());
         }
-        this.centerOfMass = new GUIPosition(gameObject.getPosition());
+        this.centerOfMass = new GuiPosition(gameObject.getPosition());
         writePolygon();
     }
 
@@ -44,13 +44,13 @@ public abstract class GUIObject extends Polygon {
      *
      * @return
      */
-    protected abstract List<GUIPosition> getShape();
+    protected abstract List<GuiPosition> getShape();
 
     /**
      * Writes the points into the polygon array.
      */
     private void writePolygon() {
-        List<GUIPosition> shape = getShape();
+        List<GuiPosition> shape = getShape();
         x = new int[shape.size()];
         y = new int[shape.size()];
         for (int i = 0; i < shape.size(); i++) {

@@ -1,21 +1,21 @@
-package gui;
+package gui.gameElements;
 
 import core.*;
 
-public class GUIObjectFactory {
+public class GuiObjectFactory {
 
-    public GUIObject getGUIObject(GameObject gameObject) {
+    public GuiObject getGUIObject(GameObject gameObject) {
         if (gameObject instanceof UFO) {
             return new GuiUfo((UFO) gameObject);
 
         } else if (gameObject instanceof Missile) {
-            return new GUIMissile((Missile) gameObject);
+            return new GuiMissile((Missile) gameObject);
 
         } else if (gameObject instanceof Explosion) {
-            return new GUIExplosion((Explosion) gameObject);
+            return new GuiExplosion((Explosion) gameObject);
 
         } else if (gameObject instanceof Base) {
-            return new GUIBase((Base) gameObject);
+            return new GuiBase((Base) gameObject);
 
         } else {
             throw new RuntimeException("GameObject is of a not supported Class");

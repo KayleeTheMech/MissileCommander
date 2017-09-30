@@ -1,17 +1,17 @@
-package gui;
+package gui.gameElements;
 
 import core.Missile;
-import gui.shapes.MissileShape;
+import gui.gameElements.shapes.MissileShape;
 
 import java.awt.*;
 import java.util.List;
 
-public class GUIMissile extends GUIObject {
+public class GuiMissile extends GuiObject {
 
     static final long serialVersionUID = 2001;
     private static final MissileShape shape = new MissileShape();
 
-    GUIMissile(Missile missile) {
+    GuiMissile(Missile missile) {
         super(missile);
         rotateShapeArrays(0);
         initialize();
@@ -20,7 +20,7 @@ public class GUIMissile extends GUIObject {
     }
 
     @Override
-    protected List<GUIPosition> getShape() {
+    protected List<GuiPosition> getShape() {
         return shape.getMyShape();
     }
 

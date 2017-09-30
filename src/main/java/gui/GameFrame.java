@@ -2,6 +2,7 @@ package gui;
 
 import controller.Controller;
 import core.Core;
+import gui.gameElements.GuiPosition;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -11,10 +12,10 @@ import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import static gui.Kampfschirm.WindowHeight;
-import static gui.Kampfschirm.WindowWidth;
+import static gui.GameStagePanel.WindowHeight;
+import static gui.GameStagePanel.WindowWidth;
 
-public class KampfschirmFenster extends JFrame implements MouseListener, WindowListener, Observer {
+public class GameFrame extends JFrame implements MouseListener, WindowListener, Observer {
 
     static final long serialVersionUID = 2001;
 
@@ -24,11 +25,11 @@ public class KampfschirmFenster extends JFrame implements MouseListener, WindowL
 
     private Controller controller;
 
-    private Kampfschirm panel;
+    private GameStagePanel panel;
 
     private String fensterzeile;
 
-    public KampfschirmFenster(Core spielkern, Controller controller, String fensterzeile) {
+    public GameFrame(Core spielkern, Controller controller, String fensterzeile) {
         super(fensterzeile + "   Score: " + spielkern.getBase().getScore());
         this.fensterzeile = fensterzeile;
         this.spielkern = spielkern;
@@ -36,7 +37,7 @@ public class KampfschirmFenster extends JFrame implements MouseListener, WindowL
         this.addMouseListener(this);
         this.addWindowListener(this);
         this.setSize(WindowWidth + 6, WindowHeight + 25);
-        panel = new Kampfschirm(spielkern, controller);
+        panel = new GameStagePanel(spielkern, controller);
         this.add(panel);
         this.setResizable(false);
         controller.addObserver(this);
@@ -89,7 +90,7 @@ public class KampfschirmFenster extends JFrame implements MouseListener, WindowL
 
     @Override
     public void mousePressed(MouseEvent arg0) {
-        GUIPosition pos = new GUIPosition(arg0.getX(), arg0.getY());
+        GuiPosition pos = new GuiPosition(arg0.getX(), arg0.getY());
         controller.action(pos.getBoardPosition());
     }
 

@@ -3,24 +3,26 @@ package gui;
 import controller.Controller;
 import core.Core;
 import core.GameObject;
+import gui.gameElements.GuiObject;
+import gui.gameElements.GuiObjectFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Kampfschirm extends JPanel implements Observer {
+public class GameStagePanel extends JPanel implements Observer {
 
     public static final int WindowHeight = 750;
     public static final int WindowWidth = 400;
     static final long serialVersionUID = 2001;
-    private GUIObjectFactory factory;
+    private GuiObjectFactory factory;
 
     private Core core;
 
-    public Kampfschirm(Core core, Controller controller) {
+    public GameStagePanel(Core core, Controller controller) {
         super();
-        factory = new GUIObjectFactory();
+        factory = new GuiObjectFactory();
         this.setBackground(Color.black);
         this.setSize(WindowWidth, WindowHeight);
         this.core = core;
@@ -36,7 +38,7 @@ public class Kampfschirm extends JPanel implements Observer {
         super.paint(g);
         // Spielobjekte bekommen
         for (GameObject element : core.getGameObjects()) {
-            GUIObject graphicalObject = factory.getGUIObject(element);
+            GuiObject graphicalObject = factory.getGUIObject(element);
             g.setColor(graphicalObject.getFillColor());
             g.fillPolygon(graphicalObject);
             g.setColor(graphicalObject.getBorderColor());
