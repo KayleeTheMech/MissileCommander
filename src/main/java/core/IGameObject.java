@@ -6,7 +6,7 @@ public interface IGameObject {
 
     void kill();
 
-    void setPosition(Position r);
-
     Position getPosition();
+
+    void setPosition(Position r);
 }
