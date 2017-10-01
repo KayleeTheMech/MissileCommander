@@ -1,7 +1,13 @@
 package gui;
 
+import gui.gameElements.GuiPosition;
+import gui.menuElements.MenuButton;
+
 import java.awt.*;
 import java.util.Observable;
+
+import static gui.GameStagePanel.WindowHeight;
+import static gui.GameStagePanel.WindowWidth;
 
 public class GameMenuPanel extends GamePanel {
 
@@ -12,23 +18,8 @@ public class GameMenuPanel extends GamePanel {
 
     @Override
     public void paint(Graphics g) {
-        int height = GameStagePanel.WindowHeight;
-        int width = GameStagePanel.WindowWidth;
-        final int menuItemWidth = width / 2;
-        final int menuItemHeight = height / 10;
-        final int leftBorder = (width - menuItemWidth) / 2;
-        final String menuText = "New Game";
-        final Font menuFont = new Font("sans", Font.BOLD, 20);
-        g.setColor(Color.RED);
-
-
-        g.drawRect(leftBorder, (height - menuItemHeight) / 2, menuItemWidth, menuItemHeight);
-        g.setColor(Color.ORANGE);
-        g.fillRect(leftBorder, (height - menuItemHeight) / 2, menuItemWidth, menuItemHeight);
-        g.setColor(Color.BLACK);
-        g.setFont(menuFont);
-        int stringWidth = g.getFontMetrics(menuFont).stringWidth(menuText);
-        int stringHeight = g.getFontMetrics(menuFont).getHeight();
-        g.drawString("New Game", leftBorder + (menuItemWidth - stringWidth) / 2, (height) / 2 + stringHeight/4);
+        GuiPosition leftUpperCorner = new GuiPosition((WindowWidth - MenuButton.width) / 2, (WindowHeight - MenuButton.height) / 2);
+        MenuButton button = new MenuButton("New Game", leftUpperCorner);
+        button.paint(g);
     }
 }
