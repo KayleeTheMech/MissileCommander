@@ -9,6 +9,7 @@ public class MissileCommander {
         Controller controller = new Controller(core);
         GameFrame gui = new GameFrame(core, controller, "Missile Commander");
         gui.setVisible(true);
+        //TODO transfer core and controller to a scene regisseur
         controller.resume();
     }
 }

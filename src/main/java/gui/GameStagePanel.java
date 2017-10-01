@@ -2,14 +2,12 @@ package gui;
 
 import controller.Controller;
 import core.Core;
-import core.GameObject;
+import core.gameObjects.GameObject;
 import gui.gameElements.GuiObject;
 import gui.gameElements.GuiObjectFactory;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
-import java.util.Observer;
 
 public class GameStagePanel extends GamePanel {
 

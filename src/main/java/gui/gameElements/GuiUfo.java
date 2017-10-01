@@ -1,6 +1,6 @@
 package gui.gameElements;
 
-import core.UFO;
+import core.gameObjects.UFO;
 import gui.gameElements.shapes.UfoShape;
 
 import java.awt.*;

@@ -1,6 +1,6 @@
 package gui.gameElements;
 
-import core.Explosion;
+import core.gameObjects.Explosion;
 
 import java.awt.*;
 import java.util.ArrayList;

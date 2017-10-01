@@ -1,6 +1,6 @@
 package gui.gameElements;
 
-import core.Missile;
+import core.gameObjects.Missile;
 import gui.gameElements.shapes.MissileShape;
 
 import java.awt.*;

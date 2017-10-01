@@ -37,8 +37,8 @@ public class GameFrame extends JFrame implements MouseListener, WindowListener, 
         this.addMouseListener(this);
         this.addWindowListener(this);
         this.setSize(WindowWidth + 6, WindowHeight + 25);
-        //panel = new GameStagePanel(spielkern, controller);
-        panel= (GamePanel) new GameMenuPanel();
+        panel = new GameStagePanel(spielkern, controller);
+        //panel= (GamePanel) new GameMenuPanel();
         this.add(panel);
         this.setResizable(false);
         controller.addObserver(this);

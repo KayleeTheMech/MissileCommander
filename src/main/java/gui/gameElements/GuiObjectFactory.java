@@ -1,6 +1,6 @@
 package gui.gameElements;
 
-import core.*;
+import core.gameObjects.*;
 
 public class GuiObjectFactory {
 

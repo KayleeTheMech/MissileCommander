@@ -1,4 +1,4 @@
-package core;
+package core.gameObjects;
 
 public class Base extends GameObject {
 

@@ -1,6 +1,6 @@
 package gui.gameElements;
 
-import core.Base;
+import core.gameObjects.Base;
 import gui.gameElements.shapes.BaseShape;
 
 import java.awt.*;

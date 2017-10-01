@@ -1,7 +1,7 @@
 package gui.gameElements;
 
-import core.FlightObject;
-import core.GameObject;
+import core.gameObjects.FlightObject;
+import core.gameObjects.GameObject;
 
 import java.awt.*;
 import java.util.List;
