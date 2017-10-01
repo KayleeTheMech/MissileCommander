@@ -1,7 +1,6 @@
 package gui;
 
-import controller.Controller;
-import core.Core;
+import core.SceneDirector;
 import gui.gameElements.GuiPosition;
 
 import javax.swing.*;
@@ -21,33 +20,31 @@ public class GameFrame extends JFrame implements MouseListener, WindowListener, 
 
     private int click = 0;
 
-    private Core spielkern;
-
-    private Controller controller;
+    private SceneDirector director;
 
     private GamePanel panel;
 
     private String fensterzeile;
 
-    public GameFrame(Core spielkern, Controller controller, String fensterzeile) {
-        super(fensterzeile + "   Score: " + spielkern.getBase().getScore());
+    public GameFrame(String fensterzeile) {
+        super(fensterzeile + "   Score: ");
+        this.director = new SceneDirector();
         this.fensterzeile = fensterzeile;
-        this.spielkern = spielkern;
-        this.controller = controller;
         this.addMouseListener(this);
         this.addWindowListener(this);
         this.setSize(WindowWidth + 6, WindowHeight + 25);
-        panel = new GameStagePanel(spielkern, controller);
+        panel = new GameStagePanel(director);
         //panel= (GamePanel) new GameMenuPanel();
         this.add(panel);
         this.setResizable(false);
-        controller.addObserver(this);
-        controller.addObserver(panel);
+        director.newGame();
+        director.addObserver(this);
+        director.addObserver(panel);
     }
 
     @Override
     public void windowActivated(WindowEvent arg0) {
-        controller.resume();
+        director.resume();
     }
 
     @Override
@@ -62,7 +59,7 @@ public class GameFrame extends JFrame implements MouseListener, WindowListener, 
 
     @Override
     public void windowDeactivated(WindowEvent arg0) {
-        controller.pause();
+        director.pause();
     }
 
     @Override
@@ -92,7 +89,7 @@ public class GameFrame extends JFrame implements MouseListener, WindowListener, 
     @Override
     public void mousePressed(MouseEvent arg0) {
         GuiPosition pos = new GuiPosition(arg0.getX(), arg0.getY());
-        controller.action(pos.getBoardPosition());
+        director.mouseClick(pos.getBoardPosition());
     }
 
     @Override
@@ -102,7 +99,7 @@ public class GameFrame extends JFrame implements MouseListener, WindowListener, 
     @Override
     public void update(Observable bla, Object blub) {
         click++;
-        this.setTitle(fensterzeile + "  Score: " + spielkern.getBase().getScore() + " Takt:" + click);
+        this.setTitle(fensterzeile + "  Score: " + director.getScore());
     }
 
 }

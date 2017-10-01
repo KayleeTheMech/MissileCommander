@@ -39,7 +39,7 @@ public class Controller extends Observable {
         }
     }
 
-    public void action(Position p) {
+    public void fireMissile(Position p) {
         if (!pause) {
             core.shootMissile(p);
         } else {

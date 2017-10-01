@@ -18,7 +18,7 @@ public class GuiObjectFactory {
             return new GuiBase((Base) gameObject);
 
         } else {
-            throw new RuntimeException("GameObject is of a not supported Class");
+            throw new RuntimeException("GameObject " + gameObject.getClass().toString() + "is of a not supported Class");
         }
     }
 }

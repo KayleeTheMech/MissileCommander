@@ -2,6 +2,7 @@ package gui;
 
 import controller.Controller;
 import core.Core;
+import core.SceneDirector;
 import core.gameObjects.GameObject;
 import gui.gameElements.GuiObject;
 import gui.gameElements.GuiObjectFactory;
@@ -16,14 +17,14 @@ public class GameStagePanel extends GamePanel {
     static final long serialVersionUID = 2001;
     private GuiObjectFactory factory;
 
-    private Core core;
+    private SceneDirector director;
 
-    public GameStagePanel(Core core, Controller controller) {
+    public GameStagePanel(SceneDirector director) {
         super();
         factory = new GuiObjectFactory();
         this.setBackground(Color.black);
         this.setSize(WindowWidth, WindowHeight);
-        this.core = core;
+        this.director = director;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class GameStagePanel extends GamePanel {
     public void paint(Graphics g) {
         super.paint(g);
         // Spielobjekte bekommen
-        for (GameObject element : core.getGameObjects()) {
+        for (GameObject element : director.getGameObjects()) {
             GuiObject graphicalObject = factory.getGUIObject(element);
             g.setColor(graphicalObject.getFillColor());
             g.fillPolygon(graphicalObject);
