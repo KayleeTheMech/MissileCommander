@@ -32,11 +32,15 @@ public class SceneDirector implements Observer {
     }
 
     public void pause() {
-        controller.pause();
+        if (controller != null) {
+            controller.pause();
+        }
     }
 
     public void resume() {
-        controller.resume();
+        if (controller != null) {
+            controller.resume();
+        }
     }
 
     public void mouseClick(Position boardPosition) {

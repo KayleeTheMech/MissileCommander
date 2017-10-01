@@ -35,6 +35,6 @@ public class MenuButton {
 
     public boolean isLocatedWithinShape(GuiPosition p) {
         return (((p.getX() > leftUpperCorner.getX()) && (p.getX() < leftUpperCorner.getX() + width)) &&
-                ((p.getY() > leftUpperCorner.getY()) && (leftUpperCorner.getY() < leftUpperCorner.getY() + height)));
+                ((p.getY() > leftUpperCorner.getY()) && (p.getY() < leftUpperCorner.getY() + height)));
     }
 }

@@ -6,8 +6,10 @@ import core.SceneDirector;
 import core.gameObjects.GameObject;
 import gui.gameElements.GuiObject;
 import gui.gameElements.GuiObjectFactory;
+import gui.gameElements.GuiPosition;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.Observable;
 
 public class GameStagePanel extends GamePanel {
@@ -43,5 +45,11 @@ public class GameStagePanel extends GamePanel {
             g.setColor(graphicalObject.getBorderColor());
             g.drawPolygon(graphicalObject);
         }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent event) {
+        GuiPosition pos = new GuiPosition(event.getX(), event.getY());
+        director.mouseClick(pos.getBoardPosition());
     }
 }

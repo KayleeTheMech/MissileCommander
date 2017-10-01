@@ -1,7 +1,6 @@
 package gui;
 
 import core.SceneDirector;
-import gui.gameElements.GuiPosition;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -14,32 +13,60 @@ import java.util.Observer;
 import static gui.GameStagePanel.WindowHeight;
 import static gui.GameStagePanel.WindowWidth;
 
+//FIXME remove the static nastiness by introducing an eventbus
 public class GameFrame extends JFrame implements MouseListener, WindowListener, Observer {
 
     static final long serialVersionUID = 2001;
 
-    private int click = 0;
+    private static SceneDirector director;
 
-    private SceneDirector director;
+    private static GameStagePanel gameStagePanel;
 
-    private GamePanel panel;
+    private static GameMenuPanel gameMenuPanel;
+
+    private static GamePanel activePanel;
+    private static GameFrame thisFrame;
 
     private String fensterzeile;
 
     public GameFrame(String fensterzeile) {
         super(fensterzeile + "   Score: ");
+        thisFrame = this;
         this.director = new SceneDirector();
         this.fensterzeile = fensterzeile;
         this.addMouseListener(this);
         this.addWindowListener(this);
         this.setSize(WindowWidth + 6, WindowHeight + 25);
-        panel = new GameStagePanel(director);
-        //panel= (GamePanel) new GameMenuPanel();
-        this.add(panel);
+        gameStagePanel = new GameStagePanel(director);
+        gameMenuPanel = new GameMenuPanel();
+        showMenu();
         this.setResizable(false);
+    }
+
+    private static void startNewGame() {
+        if (activePanel != null) {
+            thisFrame.remove(activePanel);
+        }
+        thisFrame.activePanel = gameStagePanel;
+        thisFrame.add(gameStagePanel);
+
         director.newGame();
-        director.addObserver(this);
-        director.addObserver(panel);
+        director.addObserver(thisFrame);
+        director.addObserver(gameStagePanel);
+    }
+
+    public static void showMenu() {
+        if (activePanel != null) {
+            thisFrame.remove(gameStagePanel);
+        }
+        thisFrame.activePanel = gameMenuPanel;
+        thisFrame.add(gameMenuPanel);
+    }
+
+    public static void newGame() {
+        if (activePanel != null && thisFrame != null) {
+            startNewGame();
+        }
     }
 
     @Override
@@ -88,8 +115,7 @@ public class GameFrame extends JFrame implements MouseListener, WindowListener, 
 
     @Override
     public void mousePressed(MouseEvent arg0) {
-        GuiPosition pos = new GuiPosition(arg0.getX(), arg0.getY());
-        director.mouseClick(pos.getBoardPosition());
+        this.activePanel.mousePressed(arg0);
     }
 
     @Override
@@ -97,8 +123,7 @@ public class GameFrame extends JFrame implements MouseListener, WindowListener, 
     }
 
     @Override
-    public void update(Observable bla, Object blub) {
-        click++;
+    public void update(Observable arg0, Object arg1) {
         this.setTitle(fensterzeile + "  Score: " + director.getScore());
     }
 
