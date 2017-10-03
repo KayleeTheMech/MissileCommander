@@ -8,7 +8,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class SceneDirector implements Observer {
-    private int clock;
     private Core core;
     private Controller controller;
 
@@ -53,5 +52,9 @@ public class SceneDirector implements Observer {
 
     public List<GameObject> getGameObjects() {
         return core.getGameObjects();
+    }
+
+    public boolean isGameOngoing() {
+        return core.getBase().isAlive();
     }
 }

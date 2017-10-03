@@ -13,6 +13,10 @@ import static gui.GameStagePanel.WindowWidth;
 public class GameMenuPanel extends GamePanel {
     MenuButton button;
 
+    GameMenuPanel(GameFrame parent) {
+        super(parent);
+    }
+
     @Override
     public void update(Observable o, Object arg) {
         this.repaint();
@@ -29,7 +33,7 @@ public class GameMenuPanel extends GamePanel {
     public void mousePressed(MouseEvent event) {
         GuiPosition clickedHere = new GuiPosition(event.getX(), event.getY());
         if (button != null && button.isLocatedWithinShape(clickedHere)) {
-            GameFrame.newGame();
+            parent.newGame();
         }
     }
 }

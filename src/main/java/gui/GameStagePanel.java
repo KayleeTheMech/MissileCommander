@@ -1,7 +1,5 @@
 package gui;
 
-import controller.Controller;
-import core.Core;
 import core.SceneDirector;
 import core.gameObjects.GameObject;
 import gui.gameElements.GuiObject;
@@ -21,8 +19,8 @@ public class GameStagePanel extends GamePanel {
 
     private SceneDirector director;
 
-    public GameStagePanel(SceneDirector director) {
-        super();
+    public GameStagePanel(GameFrame parent, SceneDirector director) {
+        super(parent);
         factory = new GuiObjectFactory();
         this.setBackground(Color.black);
         this.setSize(WindowWidth, WindowHeight);
