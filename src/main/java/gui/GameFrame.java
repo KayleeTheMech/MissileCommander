@@ -114,6 +114,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
 
     @Override
     public void mousePressed(MouseEvent arg0) {
+        System.out.println("Mouse clicked");
         this.activePanel.mousePressed(arg0);
     }
 

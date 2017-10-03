@@ -56,4 +56,12 @@ public class GuiPosition {
     public int getY() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return "GuiPosition{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }
