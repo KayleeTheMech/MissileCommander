@@ -1,13 +1,13 @@
-package gui;
+package gui.gameElements;
 
 import core.Position;
 
 import static core.Core.gameBoardX;
 import static core.Core.gameBoardY;
-import static gui.Kampfschirm.WindowHeight;
-import static gui.Kampfschirm.WindowWidth;
+import static gui.GameStagePanel.WindowHeight;
+import static gui.GameStagePanel.WindowWidth;
 
-public class GUIPosition {
+public class GuiPosition {
 
     private static double stretchX = ((double) WindowWidth) / ((double) gameBoardX);
 
@@ -17,12 +17,12 @@ public class GUIPosition {
 
     private int y;
 
-    public GUIPosition(int x, int y) {
+    public GuiPosition(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public GUIPosition(Position boardPosition) {
+    public GuiPosition(Position boardPosition) {
         // Koordinatentransform intern to gui
         this.x = (int) (boardPosition.getX() * stretchX + WindowWidth / 2);
         this.y = (int) (WindowHeight - stretchX * boardPosition.getY());
@@ -35,7 +35,7 @@ public class GUIPosition {
         return pos;
     }
 
-    public double getDrehWinkel(GUIPosition p) {
+    public double getDrehWinkel(GuiPosition p) {
         int vergleichX = -10; // und (y=0)
         int vectorX = p.x - this.x;
         int vectorY = p.y - this.y;
@@ -55,5 +55,13 @@ public class GUIPosition {
 
     public int getY() {
         return y;
+    }
+
+    @Override
+    public String toString() {
+        return "GuiPosition{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

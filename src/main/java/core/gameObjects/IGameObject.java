@@ -1,4 +1,6 @@
-package core;
+package core.gameObjects;
+
+import core.Position;
 
 public interface IGameObject {
 
@@ -6,7 +8,7 @@ public interface IGameObject {
 
     void kill();
 
-    void setPosition(Position r);
-
     Position getPosition();
+
+    void setPosition(Position r);
 }

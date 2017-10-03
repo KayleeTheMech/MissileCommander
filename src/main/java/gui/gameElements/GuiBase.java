@@ -1,18 +1,18 @@
-package gui;
+package gui.gameElements;
 
-import core.Base;
-import gui.shapes.BaseShape;
+import core.gameObjects.Base;
+import gui.gameElements.shapes.BaseShape;
 
 import java.awt.*;
 import java.util.List;
 
-public class GUIBase extends GUIObject {
+public class GuiBase extends GuiObject {
 
     static final long serialVersionUID = 2001;
     private static final BaseShape baseShape = new BaseShape();
 
 
-    GUIBase(Base base) {
+    GuiBase(Base base) {
         super(base);
 
         initialize();
@@ -21,7 +21,7 @@ public class GUIBase extends GUIObject {
     }
 
     @Override
-    protected List<GUIPosition> getShape() {
+    protected List<GuiPosition> getShape() {
         return baseShape.getMyShape();
     }
 }

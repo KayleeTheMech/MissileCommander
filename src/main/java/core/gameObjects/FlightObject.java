@@ -1,4 +1,6 @@
-package core;
+package core.gameObjects;
+
+import core.Position;
 
 public abstract class FlightObject extends GameObject implements IFlightObject {
 

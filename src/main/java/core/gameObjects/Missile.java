@@ -1,4 +1,6 @@
-package core;
+package core.gameObjects;
+
+import core.Position;
 
 public class Missile extends FlightObject {
 
