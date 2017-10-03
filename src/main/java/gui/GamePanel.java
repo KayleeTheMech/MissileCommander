@@ -1,15 +1,24 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.Observer;
 
+import static gui.GameStagePanel.WindowHeight;
+import static gui.GameStagePanel.WindowWidth;
+
 public abstract class GamePanel extends JPanel implements Observer {
+
+
+    static final long serialVersionUID = 2001;
 
     protected GameFrame parent;
 
     GamePanel(GameFrame parent) {
         this.parent = parent;
+        this.setBackground(Color.black);
+        this.setSize(WindowWidth, WindowHeight);
     }
 
     public abstract void mousePressed(MouseEvent event);

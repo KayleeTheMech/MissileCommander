@@ -11,10 +11,9 @@ import java.awt.event.MouseEvent;
 import java.util.Observable;
 
 public class GameStagePanel extends GamePanel {
-
     public static final int WindowHeight = 750;
     public static final int WindowWidth = 400;
-    static final long serialVersionUID = 2001;
+    
     private GuiObjectFactory factory;
 
     private SceneDirector director;
@@ -22,8 +21,6 @@ public class GameStagePanel extends GamePanel {
     public GameStagePanel(GameFrame parent, SceneDirector director) {
         super(parent);
         factory = new GuiObjectFactory();
-        this.setBackground(Color.black);
-        this.setSize(WindowWidth, WindowHeight);
         this.director = director;
     }
 
@@ -43,6 +40,28 @@ public class GameStagePanel extends GamePanel {
             g.setColor(graphicalObject.getBorderColor());
             g.drawPolygon(graphicalObject);
         }
+
+        if (!director.isGameOngoing()) {
+            paintGameOver(g);
+        }
+    }
+
+    private void paintGameOver(Graphics g) {
+        Font bigHeading = new Font("sans", Font.BOLD, 40);
+        Font normalText = new Font("sans", Font.PLAIN, 12);
+        String gameOver = "GAME OVER";
+        String exitToMenu = "Press ESC to return to menu";
+
+        paintStringCentered(g, gameOver, Color.red, bigHeading, getHeight() / 3);
+
+        paintStringCentered(g, exitToMenu, Color.red, normalText, getHeight() * 2 / 3);
+
+    }
+
+    private void paintStringCentered(Graphics g, String string, Color color, Font font, int height) {
+        g.setColor(color);
+        g.setFont(font);
+        g.drawString(string, (getWidth() - g.getFontMetrics(font).stringWidth(string)) / 2, height);
     }
 
     @Override
@@ -50,4 +69,6 @@ public class GameStagePanel extends GamePanel {
         GuiPosition pos = new GuiPosition(event.getX() - getWidthOffset(), event.getY() - getHeightOffset());
         director.mouseClick(pos.getBoardPosition());
     }
+
+
 }
