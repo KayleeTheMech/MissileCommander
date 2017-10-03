@@ -47,7 +47,7 @@ public class GameStagePanel extends GamePanel {
 
     @Override
     public void mousePressed(MouseEvent event) {
-        GuiPosition pos = new GuiPosition(event.getX(), event.getY());
+        GuiPosition pos = new GuiPosition(event.getX() - getWidthOffset(), event.getY() - getHeightOffset());
         director.mouseClick(pos.getBoardPosition());
     }
 }

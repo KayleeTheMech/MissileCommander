@@ -34,14 +34,17 @@ public class GameMenuPanel extends GamePanel {
         exitButton.paint(g);
     }
 
-    @Override
     public void mousePressed(MouseEvent event) {
-        GuiPosition clickedHere = new GuiPosition(event.getX(), event.getY());
+
+        GuiPosition clickedHere = new GuiPosition(event.getX() - getWidthOffset(), event.getY() - getHeightOffset());
+        System.out.println("Position is:" + clickedHere);
         if (newGameButton.isLocatedWithinShape(clickedHere)) {
             parent.newGame();
         } else if (exitButton.isLocatedWithinShape(clickedHere)) {
             parent.exitGame();
         }
     }
+
+
 }
 
