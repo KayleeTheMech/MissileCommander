@@ -9,7 +9,7 @@ import static gui.GameStagePanel.WindowWidth;
 
 public class MenuButton {
     public static final int width = WindowWidth / 2;
-    public static final int height = WindowHeight / 10;
+    public static final int height = WindowHeight / 15;
 
     private final int leftBorder;
     private final int rightBorder;
@@ -34,7 +34,7 @@ public class MenuButton {
     public void paint(Graphics g) {
         g.setColor(Color.RED);
         g.drawRect(leftBorder, topBorder, width, height);
-        g.setColor(Color.yellow);
+        g.setColor(Color.ORANGE);
         g.fillRect(leftBorder + 1, topBorder + 1, width - 1, height - 1);
         g.setColor(Color.BLACK);
         g.setFont(menuFont);
