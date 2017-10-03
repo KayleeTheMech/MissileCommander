@@ -30,7 +30,7 @@ public class MenuButton {
         g.setFont(menuFont);
         int stringWidth = g.getFontMetrics(menuFont).stringWidth(buttonText);
         int stringHeight = g.getFontMetrics(menuFont).getHeight();
-        g.drawString("New Game", leftUpperCorner.getX() + (width - stringWidth) / 2, leftUpperCorner.getY() + height / 2 + stringHeight / 4);
+        g.drawString(buttonText, leftUpperCorner.getX() + (width - stringWidth) / 2, leftUpperCorner.getY() + height / 2 + stringHeight / 4);
     }
 
     public boolean isLocatedWithinShape(GuiPosition p) {

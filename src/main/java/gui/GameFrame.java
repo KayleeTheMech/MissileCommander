@@ -3,6 +3,7 @@ package gui;
 import core.SceneDirector;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -133,7 +134,6 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            System.out.println("Escape pressed.");
             if (director != null && !director.isGameOngoing()) {
                 showMenu();
             }
@@ -143,5 +143,12 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
     @Override
     public void keyReleased(KeyEvent keyEvent) {
 
+    }
+
+    public void exitGame() {
+        for (Window window : this.getOwnedWindows()) {
+            window.dispose();
+        }
+        System.exit(0);
     }
 }
