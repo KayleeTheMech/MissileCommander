@@ -10,6 +10,7 @@ import java.util.Observer;
 public class SceneDirector implements Observer {
     private Core core;
     private Controller controller;
+    private SceneAssistant assistant;
 
     private int difficulty;
 
@@ -28,7 +29,7 @@ public class SceneDirector implements Observer {
 
         // Propability for creating a new enemy ship
         if (100 * Math.random() < 1 * difficulty + 5) {
-            core.createEnemy(difficulty);
+            assistant.createEnemy(difficulty);
         }
     }
 
@@ -36,6 +37,7 @@ public class SceneDirector implements Observer {
         difficulty = 1;
         core = new Core();
         controller = new Controller(core);
+        assistant = new SceneAssistant(core);
         core.addObserver(this);
 
     }
@@ -66,7 +68,7 @@ public class SceneDirector implements Observer {
 
     public void fireMissile(Position p) {
         if (!controller.isPaused()) {
-            core.shootMissile(p);
+            assistant.shootMissile(p);
         } else {
             resume();
         }

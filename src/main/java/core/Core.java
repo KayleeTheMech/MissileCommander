@@ -10,16 +10,14 @@ public class Core extends Observable {
     // Some constants that later need to move
     public final static int gameBoardX = 500;
     public final static int gameBoardY = 1000;
-    private final int missileDetonationRange = 20;
-    private final int ufoPeng = 50;
     private final int basePeng = 120;
     private final int basePositionX = 0;
     private final int basePositionY = 0;
 
     // Actual variables
     private List<GameObject> gameObjects;
-    private GameObjectFactory objectFactory;
     private Base baseOp;
+    private GameObjectFactory objectFactory;
 
     public Core() {
         gameObjects = new ArrayList<>();
@@ -40,14 +38,10 @@ public class Core extends Observable {
 
 
     public void tick() {
-
         missileIgnitionRoutine();
-
         destructionRoutine();
-
         this.setChanged();
         this.notifyObservers();
-
         deleteDecayedExplosions();
 
         // if player alive let's see...
@@ -142,34 +136,7 @@ public class Core extends Observable {
         toBeRemoved.forEach(explosion -> gameObjects.remove(explosion));
     }
 
-    private void newUFO(Position position, Position target, int speed) {
-        UFO ufo = objectFactory.makeUFO(position, target, speed, ufoPeng);
-        addGameObject(ufo);
-    }
-
-    public void shootMissile(Position target) {
-        if (baseOp.isAlive()) {
-            baseOp.addScore(-10);
-            Missile missile = objectFactory.makeMissile(baseOp.getPosition(), target, missileDetonationRange);
-            addGameObject(missile);
-        }
-    }
-
-    public void createEnemy(int difficulty) {
-        int speed = (int) (difficulty * Math.random() * 10 + 10) / 2;
-        int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
-        int ypos = gameBoardY;
-        Position p = new Position(xpos, ypos);
-        Position target;
-        if (Math.random() < 0.1 * difficulty) {
-            target = baseOp.getPosition();
-        } else {
-            target = new Position((int) (gameBoardX * Math.random() - gameBoardX / 2), 0);
-        }
-        newUFO(p, target, speed);
-    }
-
-    private void addGameObject(GameObject object) {
+    void addGameObject(GameObject object) {
         this.addObserver(object);
         this.gameObjects.add(object);
     }
