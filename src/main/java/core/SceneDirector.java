@@ -11,19 +11,40 @@ public class SceneDirector implements Observer {
     private Core core;
     private Controller controller;
 
+    private int difficulty;
 
     public SceneDirector() {
+        difficulty = 1;
     }
 
     @Override
     public void update(Observable observable, Object o) {
 
+        // set new difficulty level
+        if (getScore() < 0) {
+            difficulty = 1;
+        } else {
+            difficulty = getScore() / 10000 + 1;
+        }
+
+        // Propability for creating a new enemy ship
+        if (100 * Math.random() < 1 * difficulty + 5) {
+            core.createEnemy(difficulty);
+        }
+
+
     }
 
     public void newGame() {
+        difficulty = 1;
         core = new Core();
         controller = new Controller(core);
         core.addObserver(this);
+
+    }
+
+    int getDifficulty() {
+        return difficulty;
     }
 
     public void addObserver(Observer object) {

@@ -19,7 +19,8 @@ public class GuiExplosion extends GuiObject {
 
     @Override
     public List<GuiPosition> getShape() {
-        int radius = ((Explosion) this.gameObject).getDetonationRadius();
+        //fixme SCALE radius to resolution
+        int radius = this.gameObject.getDetonationRadius();
         int numberOfPoints = (int) (radius * 2 * Math.PI) / 4;
         double winkelabschnitt = 2 * Math.PI / numberOfPoints;
 

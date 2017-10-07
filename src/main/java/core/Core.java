@@ -15,17 +15,13 @@ public class Core extends Observable {
     private final int basePeng = 120;
     private final int basePositionX = 0;
     private final int basePositionY = 0;
-    private final int startDifficulty = 1;
 
     // Actual variables
     private List<GameObject> gameObjects;
     private GameObjectFactory objectFactory;
     private Base baseOp;
 
-    private int difficulty;
-
     public Core() {
-        difficulty = startDifficulty;
         gameObjects = new ArrayList<>();
         objectFactory = new GameObjectFactory();
         baseOp = objectFactory.makeBase(new Position(basePositionX, basePositionY), basePeng);
@@ -44,28 +40,20 @@ public class Core extends Observable {
 
 
     public void tick() {
-        this.setChanged();
-        this.notifyObservers();
 
         missileIgnitionRoutine();
 
         destructionRoutine();
 
-        // Propability for creating a new enemy ship
-        if (100 * Math.random() < 1 * difficulty + 5) {
-            createEnemy();
-        }
+
+        this.setChanged();
+        this.notifyObservers();
+
 
         deleteDecayedExplosions();
         // if player alive let's see...
-        if (baseOp.isAlive()) {
-            // set new difficulty level
-            if (baseOp.getScore() < 0) {
-                difficulty = 1;
-            } else {
-                difficulty = baseOp.getScore() / 10000 + 1;
-            }
-        } else {
+        if (!baseOp.isAlive()) {
+
             explodePlanet();
         }
     }
@@ -169,7 +157,7 @@ public class Core extends Observable {
         }
     }
 
-    private void createEnemy() {
+    public void createEnemy(int difficulty) {
         int speed = (int) (difficulty * Math.random() * 10 + 10) / 2;
         int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
         int ypos = gameBoardY;
