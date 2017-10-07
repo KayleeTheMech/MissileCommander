@@ -19,7 +19,6 @@ public class SceneDirector implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-
         // set new difficulty level
         if (getScore() < 0) {
             difficulty = 1;
@@ -31,8 +30,6 @@ public class SceneDirector implements Observer {
         if (100 * Math.random() < 1 * difficulty + 5) {
             core.createEnemy(difficulty);
         }
-
-
     }
 
     public void newGame() {
@@ -64,7 +61,16 @@ public class SceneDirector implements Observer {
     }
 
     public void mouseClick(Position boardPosition) {
-        controller.fireMissile(boardPosition);
+        fireMissile(boardPosition);
+    }
+
+    public void fireMissile(Position p) {
+        if (!controller.isPaused()) {
+            core.shootMissile(p);
+        } else {
+            resume();
+        }
+
     }
 
     public int getScore() {

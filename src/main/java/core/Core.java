@@ -45,15 +45,13 @@ public class Core extends Observable {
 
         destructionRoutine();
 
-
         this.setChanged();
         this.notifyObservers();
 
-
         deleteDecayedExplosions();
+
         // if player alive let's see...
         if (!baseOp.isAlive()) {
-
             explodePlanet();
         }
     }
