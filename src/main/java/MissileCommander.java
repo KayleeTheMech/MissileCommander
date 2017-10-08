@@ -1,5 +1,3 @@
-import controller.Controller;
-import core.Core;
 import gui.GameFrame;
 
 public class MissileCommander {

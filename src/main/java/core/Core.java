@@ -1,6 +1,8 @@
 package core;
 
 import core.gameObjects.*;
+import events.EventUtil;
+import events.SurfaceHitMessageEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,20 +12,15 @@ public class Core extends Observable {
     // Some constants that later need to move
     public final static int gameBoardX = 500;
     public final static int gameBoardY = 1000;
-    private final int basePeng = 120;
-    private final int basePositionX = 0;
-    private final int basePositionY = 0;
+
 
     // Actual variables
     private List<GameObject> gameObjects;
-    private Base baseOp;
     private GameObjectFactory objectFactory;
 
     public Core() {
         gameObjects = new ArrayList<>();
         objectFactory = new GameObjectFactory();
-        baseOp = objectFactory.makeBase(new Position(basePositionX, basePositionY), basePeng);
-        addGameObject(baseOp);
     }
 
     public List<GameObject> getGameObjects() {
@@ -32,22 +29,12 @@ public class Core extends Observable {
         return returnList;
     }
 
-    public Base getBase() {
-        return baseOp;
-    }
-
-
     public void tick() {
         missileIgnitionRoutine();
         destructionRoutine();
         this.setChanged();
         this.notifyObservers();
         deleteDecayedExplosions();
-
-        // if player alive let's see...
-        if (!baseOp.isAlive()) {
-            explodePlanet();
-        }
     }
 
     private <Type> List<Type> getObjectType(Class<Type> typeClass) {
@@ -60,7 +47,6 @@ public class Core extends Observable {
         return retList;
     }
 
-
     private void explodeObject(GameObject object) {
         gameObjects.remove(object);
         object.kill();
@@ -68,19 +54,6 @@ public class Core extends Observable {
         addGameObject(explosion);
     }
 
-    private void explodeUFO(UFO o) {
-        explodeObject(o);
-        if (baseOp.isAlive()) {
-            baseOp.addScore(250);
-        }
-    }
-
-    private void explodePlanet() {
-        int detonationRadius = (int) (baseOp.getDetonationRadius() * Math.random());
-        int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
-        Explosion explosion = objectFactory.makeExplosion(new Position(xpos, 0), detonationRadius);
-        addGameObject(explosion);
-    }
 
     private void missileIgnitionRoutine() {
         List<Missile> toExplode = new ArrayList<>();
@@ -111,17 +84,13 @@ public class Core extends Observable {
             }
 
             if ((gameObject.getPosition().getY() < 0) && gameObject instanceof UFO) {
+                EventUtil.eventBus.post(new SurfaceHitMessageEvent());
                 toExplode.add(gameObject);
             }
-
         }
 
         toExplode.forEach(gameObject -> {
-            if (gameObject instanceof UFO) {
-                explodeUFO((UFO) gameObject);
-            } else {
-                explodeObject(gameObject);
-            }
+            explodeObject(gameObject);
         });
     }
 

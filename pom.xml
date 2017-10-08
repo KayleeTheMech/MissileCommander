@@ -8,6 +8,14 @@
     <artifactId>MissileCommander</artifactId>
     <packaging>jar</packaging>
     <version>v0.9</version>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>micom</finalName>
         <plugins>

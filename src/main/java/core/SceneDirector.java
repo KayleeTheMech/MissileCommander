@@ -31,6 +31,10 @@ public class SceneDirector implements Observer {
         if (100 * Math.random() < 1 * difficulty + 5) {
             assistant.createEnemy(difficulty);
         }
+
+        if (!assistant.isPlayerAlive()) {
+            assistant.gameOverSimulation();
+        }
     }
 
     public void newGame() {
@@ -39,11 +43,8 @@ public class SceneDirector implements Observer {
         controller = new Controller(core);
         assistant = new SceneAssistant(core);
         core.addObserver(this);
+        assistant.addPlayer();
 
-    }
-
-    int getDifficulty() {
-        return difficulty;
     }
 
     public void addObserver(Observer object) {
@@ -76,7 +77,7 @@ public class SceneDirector implements Observer {
     }
 
     public int getScore() {
-        return core.getBase().getScore();
+        return assistant.getScore();
     }
 
     public List<GameObject> getGameObjects() {
@@ -84,6 +85,6 @@ public class SceneDirector implements Observer {
     }
 
     public boolean isGameOngoing() {
-        return core.getBase().isAlive();
+        return assistant.isPlayerAlive();
     }
 }
