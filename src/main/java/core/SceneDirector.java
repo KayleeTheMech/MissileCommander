@@ -10,20 +10,41 @@ import java.util.Observer;
 public class SceneDirector implements Observer {
     private Core core;
     private Controller controller;
+    private SceneAssistant assistant;
 
+    private int difficulty;
 
     public SceneDirector() {
+        difficulty = 1;
     }
 
     @Override
     public void update(Observable observable, Object o) {
+        // set new difficulty level
+        if (getScore() < 0) {
+            difficulty = 1;
+        } else {
+            difficulty = getScore() / 10000 + 1;
+        }
 
+        // Propability for creating a new enemy ship
+        if (100 * Math.random() < 1 * difficulty + 5) {
+            assistant.createEnemy(difficulty);
+        }
+
+        if (!assistant.isPlayerAlive()) {
+            assistant.gameOverSimulation();
+        }
     }
 
     public void newGame() {
+        difficulty = 1;
         core = new Core();
         controller = new Controller(core);
+        assistant = new SceneAssistant(core);
         core.addObserver(this);
+        assistant.addPlayer();
+
     }
 
     public void addObserver(Observer object) {
@@ -43,11 +64,20 @@ public class SceneDirector implements Observer {
     }
 
     public void mouseClick(Position boardPosition) {
-        controller.fireMissile(boardPosition);
+        fireMissile(boardPosition);
+    }
+
+    public void fireMissile(Position p) {
+        if (!controller.isPaused()) {
+            assistant.shootMissile(p);
+        } else {
+            resume();
+        }
+
     }
 
     public int getScore() {
-        return core.getBase().getScore();
+        return assistant.getScore();
     }
 
     public List<GameObject> getGameObjects() {
@@ -55,6 +85,6 @@ public class SceneDirector implements Observer {
     }
 
     public boolean isGameOngoing() {
-        return core.getBase().isAlive();
+        return assistant.isPlayerAlive();
     }
 }

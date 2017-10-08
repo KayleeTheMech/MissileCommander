@@ -1,7 +1,6 @@
 package controller;
 
 import core.Core;
-import core.Position;
 
 import java.util.Observable;
 import java.util.Timer;
@@ -23,6 +22,10 @@ public class Controller extends Observable {
 
     }
 
+    public boolean isPaused() {
+        return pause;
+    }
+
     public void pause() {
         pause = true;
     }
@@ -37,14 +40,5 @@ public class Controller extends Observable {
             this.setChanged();
             this.notifyObservers();
         }
-    }
-
-    public void fireMissile(Position p) {
-        if (!pause) {
-            core.shootMissile(p);
-        } else {
-            resume();
-        }
-
     }
 }

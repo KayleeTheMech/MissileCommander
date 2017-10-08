@@ -1,6 +1,8 @@
 package core.gameObjects;
 
 import core.Position;
+import events.EventUtil;
+import events.ObjectDeadMessageEvent;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -29,6 +31,7 @@ public abstract class GameObject implements IGameObject, Observer {
 
     @Override
     public void kill() {
+        EventUtil.eventBus.post(new ObjectDeadMessageEvent<>(getClass()));
         alive = false;
     }
 
