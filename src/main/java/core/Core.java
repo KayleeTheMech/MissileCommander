@@ -2,7 +2,8 @@ package core;
 
 import core.gameObjects.*;
 import events.EventUtil;
-import events.SurfaceHitMessageEvent;
+import events.GameEvent;
+import events.GameEventType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +52,7 @@ public class Core extends Observable {
         gameObjects.remove(object);
         object.kill();
         Explosion explosion = objectFactory.makeExplosion(object.getPosition(), object.getDetonationRadius());
+        EventUtil.eventBus.post(new GameEvent(GameEventType.EXPLOSION));
         addGameObject(explosion);
     }
 
@@ -79,19 +81,20 @@ public class Core extends Observable {
         for (GameObject gameObject : notExplosions) {
             for (Explosion explosion : explosions) {
                 if (explosion.withinRange(gameObject.getPosition())) {
+                    if (gameObject instanceof UFO) {
+                        EventUtil.eventBus.post(new GameEvent(GameEventType.ENEMY_SHIP_KILLED));
+                    }
                     toExplode.add(gameObject);
                 }
             }
 
             if ((gameObject.getPosition().getY() < 0) && gameObject instanceof UFO) {
-                EventUtil.eventBus.post(new SurfaceHitMessageEvent());
+                EventUtil.eventBus.post(new GameEvent(GameEventType.SURFACE_HIT_BY_ENEMY));
                 toExplode.add(gameObject);
             }
         }
 
-        toExplode.forEach(gameObject -> {
-            explodeObject(gameObject);
-        });
+        toExplode.forEach(gameObject -> explodeObject(gameObject));
     }
 
     private void deleteDecayedExplosions() {
