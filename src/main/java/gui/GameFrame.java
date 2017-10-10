@@ -11,7 +11,6 @@ import java.util.Observer;
 import static gui.GameStagePanel.WindowHeight;
 import static gui.GameStagePanel.WindowWidth;
 
-//FIXME remove the static nastiness by introducing an eventbus
 public class GameFrame extends JFrame implements KeyListener, MouseListener, WindowListener, Observer {
 
     static final long serialVersionUID = 2001;

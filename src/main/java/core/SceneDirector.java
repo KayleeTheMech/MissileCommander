@@ -2,12 +2,14 @@ package core;
 
 import controller.Controller;
 import core.gameObjects.GameObject;
+import events.EventUtil;
 
 import java.util.List;
-import java.util.Observable;
 import java.util.Observer;
 
-public class SceneDirector implements Observer {
+import static events.GameEventType.NEW_GAME_HAS_BEGUN;
+
+public class SceneDirector {
     private Core core;
     private Controller controller;
     private SceneAssistant assistant;
@@ -18,8 +20,8 @@ public class SceneDirector implements Observer {
         difficulty = 1;
     }
 
-    @Override
-    public void update(Observable observable, Object o) {
+
+    public void tick() {
         // set new difficulty level
         if (getScore() < 0) {
             difficulty = 1;
@@ -27,23 +29,21 @@ public class SceneDirector implements Observer {
             difficulty = getScore() / 10000 + 1;
         }
 
-        // Propability for creating a new enemy ship
-        if (100 * Math.random() < 1 * difficulty + 5) {
+        if (!assistant.isPlayerAlive()) {
+            assistant.gameOverSimulation();
+        } else if (200 * Math.random() < 1 * difficulty + 5) {
             assistant.createEnemy(difficulty);
         }
 
-        if (!assistant.isPlayerAlive()) {
-            assistant.gameOverSimulation();
-        }
     }
 
     public void newGame() {
         difficulty = 1;
         core = new Core();
-        controller = new Controller(core);
         assistant = new SceneAssistant(core);
-        core.addObserver(this);
         assistant.addPlayer();
+        controller = new Controller(core, this);
+        EventUtil.eventBus.post(NEW_GAME_HAS_BEGUN);
 
     }
 
