@@ -8,9 +8,9 @@ import java.util.Timer;
 
 public class Controller extends Observable {
 
-    long delay = 10;
-    long runtime = 50;
-    boolean pause;
+    public static final long DELAY = 5;
+    public static final long PERIOD = 25;
+    private boolean pause;
     private Core core;
     private SceneDirector director;
     private TimerRoutine timerRoutine;
@@ -21,7 +21,7 @@ public class Controller extends Observable {
         this.director = director;
         this.timerRoutine = new TimerRoutine(this);
         timer = new Timer();
-        timer.schedule(timerRoutine, delay, runtime);
+        timer.schedule(timerRoutine, DELAY, PERIOD);
     }
 
     public boolean isPaused() {
@@ -36,10 +36,10 @@ public class Controller extends Observable {
         pause = false;
     }
 
-    protected void tick() {
+    protected void newFrame() {
         if (!pause) {
-            core.tick();
-            director.tick();
+            core.newFrame();
+            director.newFrame();
         }
     }
 }

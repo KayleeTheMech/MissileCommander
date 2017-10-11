@@ -10,9 +10,8 @@ import java.util.List;
 import java.util.Observable;
 
 public class Core extends Observable {
-    // Some constants that later need to move
-    public final static int gameBoardX = 500;
-    public final static int gameBoardY = 1000;
+    public final static int GAME_BOARD_WIDTH = 500;
+    public final static int GAME_BOARD_HEIGHT = 1000;
 
 
     // Actual variables
@@ -30,7 +29,7 @@ public class Core extends Observable {
         return returnList;
     }
 
-    public void tick() {
+    public void newFrame() {
         missileIgnitionRoutine();
         destructionRoutine();
         this.setChanged();
@@ -105,7 +104,7 @@ public class Core extends Observable {
                 toBeRemoved.add(explosion);
             }
         }
-        toBeRemoved.forEach(explosion -> gameObjects.remove(explosion));
+        gameObjects.removeAll(toBeRemoved);
     }
 
     void addGameObject(GameObject object) {

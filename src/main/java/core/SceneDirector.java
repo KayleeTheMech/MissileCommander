@@ -10,6 +10,8 @@ import java.util.Observer;
 import static events.GameEventType.NEW_GAME_HAS_BEGUN;
 
 public class SceneDirector {
+    public static final int FRAME_RATE_SCALING = 1;
+    public static final int BASE_CHANCE_FOR_ENEMY_THIS_FRAME = 1;
     private Core core;
     private Controller controller;
     private SceneAssistant assistant;
@@ -21,7 +23,7 @@ public class SceneDirector {
     }
 
 
-    public void tick() {
+    public void newFrame() {
         // set new difficulty level
         if (getScore() < 0) {
             difficulty = 1;
@@ -30,8 +32,12 @@ public class SceneDirector {
         }
 
         if (!assistant.isPlayerAlive()) {
-            assistant.gameOverSimulation();
-        } else if (200 * Math.random() < 1 * difficulty + 5) {
+            if (100 * Math.random() < 5 / FRAME_RATE_SCALING) {
+                // GAME_OVER_SIMULATION: X percent chance to for an explosion on surface per frame
+                assistant.randomExplosionOnSurface();
+            }
+        } else if (100 * Math.random() < (difficulty + BASE_CHANCE_FOR_ENEMY_THIS_FRAME) / FRAME_RATE_SCALING) {
+            // X percent to create enemy while playing
             assistant.createEnemy(difficulty);
         }
 
@@ -67,7 +73,7 @@ public class SceneDirector {
         fireMissile(boardPosition);
     }
 
-    public void fireMissile(Position p) {
+    private void fireMissile(Position p) {
         if (!controller.isPaused()) {
             assistant.shootMissile(p);
         } else {

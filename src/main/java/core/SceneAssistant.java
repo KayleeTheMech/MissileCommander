@@ -1,28 +1,35 @@
 package core;
 
 import com.google.common.eventbus.Subscribe;
-import core.gameObjects.*;
+import core.gameObjects.Explosion;
+import core.gameObjects.GameObjectFactory;
+import core.gameObjects.Missile;
+import core.gameObjects.UFO;
 import events.EventUtil;
 import events.GameEvent;
 
-import static core.Core.gameBoardX;
-import static core.Core.gameBoardY;
+import static core.Core.GAME_BOARD_HEIGHT;
+import static core.Core.GAME_BOARD_WIDTH;
 import static events.GameEventType.*;
 
 public class SceneAssistant {
-    public final int basePeng = 120;
     //FIXME get these variables into a file
-    private final int missileDetonationRange = 20;
-    private final int ufoPeng = 50;
-    private final int basePositionX = 0;
-    private final int basePositionY = 0;
+    public static final int MISSILE_FIRED_PENALTY = -10;
+    public static final int SURFACE_HIT_BY_ENEMY_PENALTY = -250;
+    public static final int ENEMY_KILLED_BOUNTY = 250;
+    public static final int BASE_EXPLOSIVE_PAYLOAD = 120;
+    public static final int MISSILE_DETONATION_RANGE = 20;
+    public static final int UFO_EXPLOSIVE_PAYLOAD = 50;
+    public static final int BASE_UFO_SPEED = 3;
+    public static final int FRAME_RATE_SCALING = 1;
+    public static final Position HOME = new Position(0, 0);
+
 
     private Core core;
-
-    //FIXME let the assistant handle the score and get it out of the base
-    private Base baseOp;
-
     private GameObjectFactory objectFactory;
+
+    private int score = 0;
+    private boolean playerAlive;
 
     //FIXME inject the dependency on the eventBus
     SceneAssistant(Core core) {
@@ -32,23 +39,22 @@ public class SceneAssistant {
     }
 
     public void addPlayer() {
-        baseOp = objectFactory.makeBase(new Position(basePositionX, basePositionY), basePeng);
-        core.addGameObject(baseOp);
+        core.addGameObject(objectFactory.makeBase(HOME, BASE_EXPLOSIVE_PAYLOAD));
+        playerAlive = true;
     }
 
     public boolean isPlayerAlive() {
-        return baseOp.isAlive();
+        return playerAlive;
     }
 
     public int getScore() {
-        if (baseOp == null) return 0;
-        return baseOp.getScore();
+        return score;
     }
 
     public void shootMissile(Position target) {
-        if (baseOp.isAlive()) {
-            baseOp.addScore(-10);
-            Missile missile = objectFactory.makeMissile(baseOp.getPosition(), target, missileDetonationRange);
+        if (isPlayerAlive()) {
+            addScore(MISSILE_FIRED_PENALTY);
+            Missile missile = objectFactory.makeMissile(HOME, target, MISSILE_DETONATION_RANGE);
             core.addGameObject(missile);
             EventUtil.eventBus.post(new GameEvent(ROCKET_FIRED));
         }
@@ -56,45 +62,50 @@ public class SceneAssistant {
 
     public void createEnemy(int difficulty) {
         EventUtil.eventBus.post(new GameEvent(NEW_ENEMY_INBOUND));
-        int speed = (int) (difficulty * Math.random() * 10 + 10) / 2;
-        int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
-        int ypos = gameBoardY;
-        Position p = new Position(xpos, ypos);
-        Position target;
+        int enemySpeed = (int) (FRAME_RATE_SCALING * BASE_UFO_SPEED * (difficulty * Math.random() + 1));
+        int randomX = (int) (GAME_BOARD_WIDTH * Math.random() - GAME_BOARD_WIDTH / 2);
+        Position entryPointForEnemy = new Position(randomX, GAME_BOARD_HEIGHT);
+        Position enemyTarget;
         if (Math.random() < 0.1 * difficulty) {
-            target = baseOp.getPosition();
+            // ENEMY GET'S YOUR COORDINATES
+            EventUtil.eventBus.post(new GameEvent(ENEMY_HAS_YOUR_LOCATION));
+            enemyTarget = HOME;
         } else {
-            target = new Position((int) (gameBoardX * Math.random() - gameBoardX / 2), 0);
+            // ENEMY GET'S RANDOM SURFACE TARGET
+            enemyTarget = new Position((int) (GAME_BOARD_WIDTH * Math.random() - GAME_BOARD_WIDTH / 2), 0);
         }
-        newUFO(p, target, speed);
+        newUFO(entryPointForEnemy, enemyTarget, enemySpeed);
     }
 
     private void newUFO(Position position, Position target, int speed) {
-        UFO ufo = objectFactory.makeUFO(position, target, speed, ufoPeng);
+        UFO ufo = objectFactory.makeUFO(position, target, speed, UFO_EXPLOSIVE_PAYLOAD);
         core.addGameObject(ufo);
     }
 
     @Subscribe()
     public void eventHandler(GameEvent event) {
         if (event.getEventType() == SURFACE_HIT_BY_ENEMY) {
-            addScore(-250);
+            addScore(SURFACE_HIT_BY_ENEMY_PENALTY);
         }
 
         if (event.getEventType() == ENEMY_SHIP_KILLED) {
-            addScore(250);
+            addScore(ENEMY_KILLED_BOUNTY);
+        }
+
+        if (event.getEventType() == PLAYER_HAS_DIED) {
+            playerAlive = false;
         }
     }
 
     public void addScore(int score) {
         if (isPlayerAlive()) {
-            baseOp.addScore(score);
+            this.score = this.score + score;
         }
     }
 
-    public void gameOverSimulation() {
-        //FIXME retrieve basepeng differently
-        int detonationRadius = (int) (basePeng * Math.random());
-        int xpos = (int) (gameBoardX * Math.random() - gameBoardX / 2);
+    public void randomExplosionOnSurface() {
+        int detonationRadius = (int) (BASE_EXPLOSIVE_PAYLOAD * Math.random());
+        int xpos = (int) (GAME_BOARD_WIDTH * Math.random() - GAME_BOARD_WIDTH / 2);
         Explosion explosion = objectFactory.makeExplosion(new Position(xpos, 0), detonationRadius);
         core.addGameObject(explosion);
     }

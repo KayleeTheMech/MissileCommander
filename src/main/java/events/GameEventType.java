@@ -2,6 +2,7 @@ package events;
 
 public enum GameEventType {
     NEW_ENEMY_INBOUND,
+    ENEMY_HAS_YOUR_LOCATION,
     SURFACE_HIT_BY_ENEMY,
     ENEMY_SHIP_KILLED,
     ROCKET_FIRED,
