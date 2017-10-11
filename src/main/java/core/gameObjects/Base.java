@@ -7,16 +7,6 @@ import static events.GameEventType.PLAYER_HAS_DIED;
 
 public class Base extends GameObject {
 
-    private int score = 0;
-
-    public void addScore(int score) {
-        this.score += score;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
     @Override
     public void kill() {
         super.kill();

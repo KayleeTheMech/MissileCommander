@@ -4,7 +4,7 @@ import core.Position;
 
 public class Missile extends FlightObject {
 
-    private static final int SPEED = 50;
+    private static final int SPEED = 25;
 
     @Override
     public Position getPosition() {

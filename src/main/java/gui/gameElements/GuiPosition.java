@@ -2,16 +2,16 @@ package gui.gameElements;
 
 import core.Position;
 
-import static core.Core.gameBoardX;
-import static core.Core.gameBoardY;
+import static core.Core.GAME_BOARD_HEIGHT;
+import static core.Core.GAME_BOARD_WIDTH;
 import static gui.GameStagePanel.WindowHeight;
 import static gui.GameStagePanel.WindowWidth;
 
 public class GuiPosition {
 
-    private static double stretchX = ((double) WindowWidth) / ((double) gameBoardX);
+    private static double stretchX = ((double) WindowWidth) / ((double) GAME_BOARD_WIDTH);
 
-    private static double stretchY = ((double) WindowHeight) / ((double) gameBoardY);
+    private static double stretchY = ((double) WindowHeight) / ((double) GAME_BOARD_HEIGHT);
 
     private int x;
 
@@ -29,13 +29,12 @@ public class GuiPosition {
     }
 
     public Position getBoardPosition() {
-        int x = ((int) (this.x / stretchX) - gameBoardX / 2);
-        int y = (gameBoardY - (int) (this.y / stretchY));
-        Position pos = new Position(x, y);
-        return pos;
+        int x = ((int) (this.x / stretchX) - GAME_BOARD_WIDTH / 2);
+        int y = (GAME_BOARD_HEIGHT - (int) (this.y / stretchY));
+        return new Position(x, y);
     }
 
-    public double getDrehWinkel(GuiPosition p) {
+    double getDrehWinkel(GuiPosition p) {
         int vergleichX = -10; // und (y=0)
         int vectorX = p.x - this.x;
         int vectorY = p.y - this.y;

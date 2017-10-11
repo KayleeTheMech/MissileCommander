@@ -10,7 +10,7 @@ public class TimerRoutine extends TimerTask {
     }
 
     public void run() {
-        controller.tick();
+        controller.newFrame();
     }
 
 }
