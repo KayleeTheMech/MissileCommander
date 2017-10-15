@@ -1,5 +1,6 @@
 package core;
 
+import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import core.gameObjects.Explosion;
 import core.gameObjects.GameObjectFactory;
@@ -12,7 +13,7 @@ import static core.Core.GAME_BOARD_HEIGHT;
 import static core.Core.GAME_BOARD_WIDTH;
 import static events.GameEventType.*;
 
-public class SceneAssistant {
+public class SceneAssistant implements IDeactivate {
     //FIXME get these variables into a file
     public static final int MISSILE_FIRED_PENALTY = -10;
     public static final int SURFACE_HIT_BY_ENEMY_PENALTY = -250;
@@ -28,30 +29,34 @@ public class SceneAssistant {
     private Core core;
     private GameObjectFactory objectFactory;
 
+    //FIXME inject the dependency on the eventBus
+    private EventBus eventBus = EventUtil.eventBus;
+
     private int score = 0;
     private boolean playerAlive;
 
-    //FIXME inject the dependency on the eventBus
     SceneAssistant(Core core) {
         this.core = core;
         this.objectFactory = new GameObjectFactory();
-        EventUtil.eventBus.register(this);
+        eventBus.register(this);
+        addPlayer();
     }
 
-    public void addPlayer() {
+    private void addPlayer() {
         core.addGameObject(objectFactory.makeBase(HOME, BASE_EXPLOSIVE_PAYLOAD));
         playerAlive = true;
     }
 
-    public boolean isPlayerAlive() {
+    boolean isPlayerAlive() {
         return playerAlive;
     }
 
-    public int getScore() {
+    int getScore() {
         return score;
     }
 
-    public void shootMissile(Position target) {
+    void shootMissile(Position target) {
+        internalCheck();
         if (isPlayerAlive()) {
             addScore(MISSILE_FIRED_PENALTY);
             Missile missile = objectFactory.makeMissile(HOME, target, MISSILE_DETONATION_RANGE);
@@ -60,7 +65,8 @@ public class SceneAssistant {
         }
     }
 
-    public void createEnemy(int difficulty) {
+    void createEnemy(int difficulty) {
+        internalCheck();
         EventUtil.eventBus.post(new GameEvent(NEW_ENEMY_INBOUND));
         int enemySpeed = (int) (FRAME_RATE_SCALING * BASE_UFO_SPEED * (difficulty * Math.random() + 1));
         int randomX = (int) (GAME_BOARD_WIDTH * Math.random() - GAME_BOARD_WIDTH / 2);
@@ -97,17 +103,32 @@ public class SceneAssistant {
         }
     }
 
-    public void addScore(int score) {
+    void addScore(int score) {
         if (isPlayerAlive()) {
             this.score = this.score + score;
         }
     }
 
-    public void randomExplosionOnSurface() {
+    void randomExplosionOnSurface() {
+        internalCheck();
         int detonationRadius = (int) (BASE_EXPLOSIVE_PAYLOAD * Math.random());
         int xpos = (int) (GAME_BOARD_WIDTH * Math.random() - GAME_BOARD_WIDTH / 2);
         Explosion explosion = objectFactory.makeExplosion(new Position(xpos, 0), detonationRadius);
         core.addGameObject(explosion);
     }
 
+    public void deactivate() {
+        internalCheck();
+        eventBus.unregister(this);
+        this.eventBus = null;
+        this.core = null;
+        this.objectFactory = null;
+
+    }
+
+    private void internalCheck() {
+        if (eventBus == null || core == null || objectFactory == null) {
+            throw new RuntimeException("Should not access SceneAssistant after deactivation");
+        }
+    }
 }

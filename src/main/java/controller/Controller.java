@@ -1,12 +1,13 @@
 package controller;
 
 import core.Core;
+import core.IDeactivate;
 import core.SceneDirector;
 
 import java.util.Observable;
 import java.util.Timer;
 
-public class Controller extends Observable {
+public class Controller extends Observable implements IDeactivate {
 
     public static final long DELAY = 5;
     public static final long PERIOD = 25;
@@ -25,21 +26,41 @@ public class Controller extends Observable {
     }
 
     public boolean isPaused() {
+        internalCheck();
         return pause;
     }
 
     public void pause() {
+        internalCheck();
         pause = true;
     }
 
     public void resume() {
+        internalCheck();
         pause = false;
     }
 
-    protected void newFrame() {
+    void newFrame() {
         if (!pause) {
             core.newFrame();
             director.newFrame();
         }
+    }
+
+    private void internalCheck() {
+        if (((timer == null) || (timerRoutine == null) || (core == null) || (director == null))) {
+            throw new RuntimeException("Should not access controller after deactivation");
+        }
+    }
+
+    public void deactivate() {
+        internalCheck();
+        this.deleteObservers();
+        timer.cancel();
+        timerRoutine.cancel();
+        timerRoutine = null;
+        timer = null;
+        core = null;
+        director = null;
     }
 }

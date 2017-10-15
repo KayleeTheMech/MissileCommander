@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Core extends Observable {
+public class Core extends Observable implements IDeactivate {
     public final static int GAME_BOARD_WIDTH = 500;
     public final static int GAME_BOARD_HEIGHT = 1000;
 
@@ -18,18 +18,20 @@ public class Core extends Observable {
     private List<GameObject> gameObjects;
     private GameObjectFactory objectFactory;
 
-    public Core() {
+    Core() {
         gameObjects = new ArrayList<>();
         objectFactory = new GameObjectFactory();
     }
 
     public List<GameObject> getGameObjects() {
+        internalCheck();
         List<GameObject> returnList = new ArrayList<>();
         returnList.addAll(gameObjects);
         return returnList;
     }
 
     public void newFrame() {
+        internalCheck();
         missileIgnitionRoutine();
         destructionRoutine();
         this.setChanged();
@@ -69,7 +71,7 @@ public class Core extends Observable {
                 }
             }
         }
-        toExplode.forEach(missile -> explodeObject(missile));
+        toExplode.forEach(this::explodeObject);
     }
 
     private void destructionRoutine() {
@@ -93,7 +95,7 @@ public class Core extends Observable {
             }
         }
 
-        toExplode.forEach(gameObject -> explodeObject(gameObject));
+        toExplode.forEach(this::explodeObject);
     }
 
     private void deleteDecayedExplosions() {
@@ -108,8 +110,23 @@ public class Core extends Observable {
     }
 
     void addGameObject(GameObject object) {
+        internalCheck();
         this.addObserver(object);
         this.gameObjects.add(object);
+    }
+
+    public void deactivate() {
+        internalCheck();
+        this.deleteObservers();
+        this.gameObjects.clear();
+        this.gameObjects = null;
+        this.objectFactory = null;
+    }
+
+    private void internalCheck() {
+        if (((gameObjects == null) || (this.objectFactory == null))) {
+            throw new RuntimeException("Should not access core after deactivation");
+        }
     }
 
 
