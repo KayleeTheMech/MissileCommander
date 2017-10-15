@@ -1,6 +1,6 @@
 package events;
 
-public abstract class GameEventMetaData<T> {
+public class GameEventMetaData<T> {
 
     private String contentDescription;
 

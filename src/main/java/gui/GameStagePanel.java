@@ -13,7 +13,7 @@ import java.util.Observable;
 public class GameStagePanel extends GamePanel {
     public static final int WindowHeight = 750;
     public static final int WindowWidth = 400;
-    
+
     private GuiObjectFactory factory;
 
     private SceneDirector director;
@@ -35,10 +35,7 @@ public class GameStagePanel extends GamePanel {
         // Spielobjekte bekommen
         for (GameObject element : director.getGameObjects()) {
             GuiObject graphicalObject = factory.getGUIObject(element);
-            g.setColor(graphicalObject.getFillColor());
-            g.fillPolygon(graphicalObject);
-            g.setColor(graphicalObject.getBorderColor());
-            g.drawPolygon(graphicalObject);
+            graphicalObject.paint(g);
         }
 
         if (!director.isGameOngoing()) {

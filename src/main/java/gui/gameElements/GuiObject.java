@@ -10,15 +10,14 @@ public abstract class GuiObject extends Polygon {
 
     private static final long serialVersionUID = -6454463921677482148L;
 
-    protected Color fillColor = null;
-    protected Color borderColor = null;
+    Color fillColor = null;
+    Color borderColor = null;
+    GameObject gameObject;
 
-    protected int[] x;
-    protected int[] y;
-
-    protected GuiPosition direction;
-    protected GuiPosition centerOfMass;
-    protected GameObject gameObject;
+    private int[] x;
+    private int[] y;
+    private GuiPosition direction;
+    private GuiPosition centerOfMass;
 
     GuiObject(GameObject gameObject) {
         super();
@@ -30,11 +29,11 @@ public abstract class GuiObject extends Polygon {
         writePolygon();
     }
 
-    public Color getFillColor() {
+    private Color getFillColor() {
         return fillColor;
     }
 
-    public Color getBorderColor() {
+    private Color getBorderColor() {
         return borderColor;
     }
 
@@ -42,7 +41,7 @@ public abstract class GuiObject extends Polygon {
      * This method needs to be overwritten by any GameObject. An ordered List of GUIPositions is expected in order to construct the
      * edges of the polygon.
      *
-     * @return
+     * @return a List of GuiPositions that define the objects shape
      */
     protected abstract List<GuiPosition> getShape();
 
@@ -62,7 +61,7 @@ public abstract class GuiObject extends Polygon {
     /**
      * Turning the polygon array
      */
-    protected void rotateShapeArrays(double extraAngle) {
+    void rotateShapeArrays(double extraAngle) {
         if (direction == null || centerOfMass == null) {
             throw new RuntimeException("Class not correctly extended. To rotate there needs to be a center of mass and a direction");
         }
@@ -79,7 +78,7 @@ public abstract class GuiObject extends Polygon {
     /**
      * Moving the polygon array to the position on screen
      */
-    protected void moveShapeArrays() {
+    private void moveShapeArrays() {
         if (centerOfMass == null) {
             throw new RuntimeException("Class not correctly extended. To move the array there needs to be a center of mass.");
 
@@ -96,11 +95,18 @@ public abstract class GuiObject extends Polygon {
         }
     }
 
-    protected void initialize() {
+    void initialize() {
         moveShapeArrays();
         this.npoints = (x.length + y.length) / 2;
         this.xpoints = x;
         this.ypoints = y;
+    }
+
+    public void paint(Graphics g) {
+        g.setColor(this.getFillColor());
+        g.fillPolygon(this);
+        g.setColor(this.getBorderColor());
+        g.drawPolygon(this);
     }
 
 }
