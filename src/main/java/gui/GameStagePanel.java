@@ -93,15 +93,16 @@ public class GameStagePanel extends GamePanel {
 
     @Subscribe()
     public void eventHandler(GameEvent event) {
-        if (event.getEventType() == GameEventType.ATTACK_WAVE_IS_OVER) {
-            console.add(new DelayedInfoString("Attack wave has ended.", 1000));
-        }
-
-        if (event.getEventType() == GameEventType.NEW_ATTACK_WAVE_INCOMING && event.getMetaData() != null) {
+        if (event.getEventType() == GameEventType.ATTACK_WAVE_IS_OVER && event.getMetaData() != null) {
             if (event.getMetaData().getContentDescription().equals("level")) {
                 int level = (int) event.getMetaData().getData();
-                console.add(new DelayedInfoString("Attack wave level " + level + " incoming!", 1000));
+                console.add(new DelayedInfoString("Wave " + level + "  cleared.", 2500));
             }
+
+        }
+
+        if (event.getEventType() == GameEventType.NEW_ATTACK_WAVE_INCOMING) {
+            console.add(new DelayedInfoString("New wave of fighters incoming!", 1000));
         }
 
         if (event.getEventType() == GameEventType.NEW_GAME_HAS_BEGUN) {

@@ -48,7 +48,7 @@ public class SceneDirector {
     private void gameRound() {
         if (frames % NUMBER_OF_FRAMES_PER_ROUND * FRAME_RATE_SCALING == 0) {
             // reset round counter
-            frames = 0;
+            frames = 1;
             // increase level
             difficulty++;
             // inform everyone who's interested
