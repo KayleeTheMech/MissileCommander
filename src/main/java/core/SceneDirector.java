@@ -3,7 +3,6 @@ package core;
 import com.google.common.eventbus.EventBus;
 import controller.Controller;
 import core.gameObjects.GameObject;
-import events.EventUtil;
 import events.GameEvent;
 import events.GameEventMetaData;
 import events.GameEventType;
@@ -22,12 +21,13 @@ public class SceneDirector {
     private int difficulty;
 
     //fixme inject the eventBus
-    private EventBus eventBus = EventUtil.eventBus;
+    private EventBus eventBus;
     private Core core;
     private Controller controller;
     private SceneAssistant assistant;
 
-    public SceneDirector() {
+    public SceneDirector(EventBus eventBus) {
+        this.eventBus = eventBus;
     }
 
     /**
@@ -48,7 +48,7 @@ public class SceneDirector {
     private void gameRound() {
         if (frames % NUMBER_OF_FRAMES_PER_ROUND * FRAME_RATE_SCALING == 0) {
             // reset round counter
-            frames = 0;
+            frames = 1;
             // increase level
             difficulty++;
             // inform everyone who's interested
@@ -95,8 +95,8 @@ public class SceneDirector {
      */
     public void newGame() {
         frames = 0;
-        core = deactivateAndReturnObject(core, new Core());
-        assistant = deactivateAndReturnObject(assistant, new SceneAssistant(core));
+        core = deactivateAndReturnObject(core, new Core(eventBus));
+        assistant = deactivateAndReturnObject(assistant, new SceneAssistant(eventBus, core));
         controller = deactivateAndReturnObject(controller, new Controller(core, this));
 
         eventBus.post(NEW_GAME_HAS_BEGUN);

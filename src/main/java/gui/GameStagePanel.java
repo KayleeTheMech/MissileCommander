@@ -4,7 +4,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import core.SceneDirector;
 import core.gameObjects.GameObject;
-import events.EventUtil;
 import events.GameEvent;
 import events.GameEventType;
 import gui.gameElements.GuiObject;
@@ -27,9 +26,9 @@ public class GameStagePanel extends GamePanel {
     private List<DelayedInfoString> console;
     private GuiObjectFactory factory;
     private SceneDirector director;
-    private EventBus eventBus = EventUtil.eventBus;
+    private EventBus eventBus;
 
-    GameStagePanel(GameFrame parent, SceneDirector director) {
+    GameStagePanel(EventBus eventBus, GameFrame parent, SceneDirector director) {
         super(parent);
         factory = new GuiObjectFactory();
         this.director = director;
@@ -93,15 +92,16 @@ public class GameStagePanel extends GamePanel {
 
     @Subscribe()
     public void eventHandler(GameEvent event) {
-        if (event.getEventType() == GameEventType.ATTACK_WAVE_IS_OVER) {
-            console.add(new DelayedInfoString("Attack wave has ended.", 1000));
-        }
-
-        if (event.getEventType() == GameEventType.NEW_ATTACK_WAVE_INCOMING && event.getMetaData() != null) {
+        if (event.getEventType() == GameEventType.ATTACK_WAVE_IS_OVER && event.getMetaData() != null) {
             if (event.getMetaData().getContentDescription().equals("level")) {
                 int level = (int) event.getMetaData().getData();
-                console.add(new DelayedInfoString("Attack wave level " + level + " incoming!", 1000));
+                console.add(new DelayedInfoString("Wave " + level + "  cleared.", 2500));
             }
+
+        }
+
+        if (event.getEventType() == GameEventType.NEW_ATTACK_WAVE_INCOMING) {
+            console.add(new DelayedInfoString("New wave of fighters incoming!", 1000));
         }
 
         if (event.getEventType() == GameEventType.NEW_GAME_HAS_BEGUN) {
