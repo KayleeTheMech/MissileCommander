@@ -4,7 +4,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import core.SceneDirector;
 import core.gameObjects.GameObject;
-import events.EventUtil;
 import events.GameEvent;
 import events.GameEventType;
 import gui.gameElements.GuiObject;
@@ -27,9 +26,9 @@ public class GameStagePanel extends GamePanel {
     private List<DelayedInfoString> console;
     private GuiObjectFactory factory;
     private SceneDirector director;
-    private EventBus eventBus = EventUtil.eventBus;
+    private EventBus eventBus;
 
-    GameStagePanel(GameFrame parent, SceneDirector director) {
+    GameStagePanel(EventBus eventBus, GameFrame parent, SceneDirector director) {
         super(parent);
         factory = new GuiObjectFactory();
         this.director = director;

@@ -1,12 +1,16 @@
 package core.gameObjects;
 
+import com.google.common.eventbus.EventBus;
 import core.Position;
 
 public class GameObjectFactory {
 
 
-    public Base makeBase(Position home, int detonationRadius) {
-        return makeGameObject(home, detonationRadius, Base.class);
+    public Base makeBase(EventBus eventBus, Position home, int detonationRadius) {
+        Base base = new Base(eventBus);
+        base.setDetonationRadius(detonationRadius);
+        base.setPosition(home);
+        return base;
     }
 
     public Explosion makeExplosion(Position position, int detonationRadius) {

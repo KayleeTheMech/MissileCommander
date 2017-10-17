@@ -6,7 +6,6 @@ import core.gameObjects.Explosion;
 import core.gameObjects.GameObjectFactory;
 import core.gameObjects.Missile;
 import core.gameObjects.UFO;
-import events.EventUtil;
 import events.GameEvent;
 
 import static core.Core.GAME_BOARD_HEIGHT;
@@ -29,21 +28,21 @@ public class SceneAssistant implements IDeactivate {
     private Core core;
     private GameObjectFactory objectFactory;
 
-    //FIXME inject the dependency on the eventBus
-    private EventBus eventBus = EventUtil.eventBus;
+    private EventBus eventBus;
 
     private int score = 0;
     private boolean playerAlive;
 
-    SceneAssistant(Core core) {
+    SceneAssistant(EventBus eventBus, Core core) {
         this.core = core;
         this.objectFactory = new GameObjectFactory();
-        eventBus.register(this);
+        this.eventBus = eventBus;
+        this.eventBus.register(this);
         addPlayer();
     }
 
     private void addPlayer() {
-        core.addGameObject(objectFactory.makeBase(HOME, BASE_EXPLOSIVE_PAYLOAD));
+        core.addGameObject(objectFactory.makeBase(eventBus, HOME, BASE_EXPLOSIVE_PAYLOAD));
         playerAlive = true;
     }
 
@@ -61,20 +60,20 @@ public class SceneAssistant implements IDeactivate {
             addScore(MISSILE_FIRED_PENALTY);
             Missile missile = objectFactory.makeMissile(HOME, target, MISSILE_DETONATION_RANGE);
             core.addGameObject(missile);
-            EventUtil.eventBus.post(new GameEvent(ROCKET_FIRED));
+            eventBus.post(new GameEvent(ROCKET_FIRED));
         }
     }
 
     void createEnemy(int difficulty) {
         internalCheck();
-        EventUtil.eventBus.post(new GameEvent(NEW_ENEMY_INBOUND));
+        eventBus.post(new GameEvent(NEW_ENEMY_INBOUND));
         int enemySpeed = (int) (FRAME_RATE_SCALING * BASE_UFO_SPEED * (difficulty * Math.random() + 1));
         int randomX = (int) (GAME_BOARD_WIDTH * Math.random() - GAME_BOARD_WIDTH / 2);
         Position entryPointForEnemy = new Position(randomX, GAME_BOARD_HEIGHT);
         Position enemyTarget;
         if (Math.random() < 0.1 * difficulty) {
             // ENEMY GET'S YOUR COORDINATES
-            EventUtil.eventBus.post(new GameEvent(ENEMY_HAS_YOUR_LOCATION));
+            eventBus.post(new GameEvent(ENEMY_HAS_YOUR_LOCATION));
             enemyTarget = HOME;
         } else {
             // ENEMY GET'S RANDOM SURFACE TARGET

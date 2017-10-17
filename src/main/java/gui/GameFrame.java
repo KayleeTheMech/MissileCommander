@@ -1,9 +1,10 @@
 package gui;
 
+import com.google.common.eventbus.EventBus;
 import core.SceneDirector;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Window;
 import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
@@ -24,18 +25,18 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
     private GamePanel activePanel;
 
 
-    private String fensterzeile;
+    private String titleBarString;
 
-    public GameFrame(String fensterzeile) {
-        super(fensterzeile + "   Score: ");
-        this.director = new SceneDirector();
-        this.fensterzeile = fensterzeile;
+    public GameFrame(EventBus eventBus, SceneDirector director, String titleBarString) {
+        super(titleBarString + "   Score: ");
+        this.director = director;
+        this.titleBarString = titleBarString;
         this.addMouseListener(this);
         this.addWindowListener(this);
         this.addKeyListener(this);
         this.setSize(WindowWidth + 6, WindowHeight + 25);
-        gameStagePanel = new GameStagePanel(this, director);
-        gameMenuPanel = new GameMenuPanel(this);
+        this.gameStagePanel = new GameStagePanel(eventBus, this, director);
+        this.gameMenuPanel = new GameMenuPanel(this);
         showMenu();
         this.setResizable(false);
     }
@@ -53,7 +54,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
         repaint();
     }
 
-    void showMenu() {
+    private void showMenu() {
         if (activePanel != null) {
             this.remove(gameStagePanel);
         }
@@ -122,7 +123,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
 
     @Override
     public void update(Observable arg0, Object arg1) {
-        this.setTitle(fensterzeile + "  Score: " + director.getScore());
+        this.setTitle(titleBarString + "  Score: " + director.getScore());
     }
 
     @Override
@@ -144,7 +145,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
 
     }
 
-    public void exitGame() {
+    void exitGame() {
         for (Window window : this.getOwnedWindows()) {
             window.dispose();
         }
