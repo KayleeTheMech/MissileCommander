@@ -14,7 +14,7 @@ dependencies {
 }
 
 group = 'org.individual.KayleeTheMech'
-version = 'v0.9'
+version = System.getenv('RELEASE_VERSION')
 description = 'MissileCommander'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
