@@ -11,3 +11,6 @@ When I find the time I'll make it a bit nicer and finally port it to Android or 
 
 # How to build jar
 Execute `./gradlew jar` in project root.
+
+# How to run
+Execute `java -jar build/libs/MissileCommander-v0.9.1.jar`
