@@ -1,4 +1,4 @@
-name: buildJar
+name: lintAndBuildJar
 
 on:
   push:
@@ -13,6 +13,13 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 8
+
+      - uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: verGJF
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          configuration-cache-enabled: true
 
       - uses: eskatos/gradle-command-action@v1
         with:

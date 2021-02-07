@@ -6,12 +6,12 @@ import gui.GameFrame;
 
 public class MissileCommander {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        EventBus eventBus = new EventBus();
-        SceneDirector director = new SceneDirector(eventBus);
+    EventBus eventBus = new EventBus();
+    SceneDirector director = new SceneDirector(eventBus);
 
-        GameFrame gui = new GameFrame(eventBus, director, "Missile Commander");
-        gui.setVisible(true);
-    }
+    GameFrame gui = new GameFrame(eventBus, director, "Missile Commander");
+    gui.setVisible(true);
+  }
 }

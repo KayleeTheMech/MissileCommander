@@ -4,8 +4,7 @@ import core.Position;
 
 public interface IFlightObject extends IGameObject {
 
-    Position getTargetVector();
+  Position getTargetVector();
 
-    void setTargetVector(Position tar);
-
+  void setTargetVector(Position tar);
 }

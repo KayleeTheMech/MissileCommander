@@ -4,11 +4,11 @@ import core.Position;
 
 public interface IGameObject {
 
-    boolean isAlive();
+  boolean isAlive();
 
-    void kill();
+  void kill();
 
-    Position getPosition();
+  Position getPosition();
 
-    void setPosition(Position r);
+  void setPosition(Position r);
 }

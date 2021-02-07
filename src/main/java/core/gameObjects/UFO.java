@@ -1,5 +1,3 @@
 package core.gameObjects;
 
-public class UFO extends FlightObject {
-
-}
+public class UFO extends FlightObject {}

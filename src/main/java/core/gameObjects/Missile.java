@@ -4,23 +4,23 @@ import core.Position;
 
 public class Missile extends FlightObject {
 
-    private static final int SPEED = 25;
+  private static final int SPEED = 25;
 
-    @Override
-    public Position getPosition() {
-        double currentSpeed = (SPEED * Math.exp(-(20 / (clock + 0.0000000001))));
-        flightVector = target.subtract(position);
-        double alpha = (currentSpeed * clock / flightVector.getLength());
-        flightVector = flightVector.multiply(alpha);
-        return position.add(flightVector);
-    }
+  @Override
+  public Position getPosition() {
+    double currentSpeed = (SPEED * Math.exp(-(20 / (clock + 0.0000000001))));
+    flightVector = target.subtract(position);
+    double alpha = (currentSpeed * clock / flightVector.getLength());
+    flightVector = flightVector.multiply(alpha);
+    return position.add(flightVector);
+  }
 
-    public boolean withinRange(Position position) {
-        return position.subtract(getPosition()).getLength() <= detonationRadius;
-    }
+  public boolean withinRange(Position position) {
+    return position.subtract(getPosition()).getLength() <= detonationRadius;
+  }
 
-    public boolean reachedTarget() {
-        return getPosition().subtract(this.position).getLength() >= getTargetVector().subtract(this.position).getLength();
-    }
-
+  public boolean reachedTarget() {
+    return getPosition().subtract(this.position).getLength()
+        >= getTargetVector().subtract(this.position).getLength();
+  }
 }
