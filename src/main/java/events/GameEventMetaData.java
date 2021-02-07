@@ -2,9 +2,9 @@ package events;
 
 public class GameEventMetaData<T> {
 
-    private String contentDescription;
+    private final String contentDescription;
 
-    private T data;
+    private final T data;
 
     public GameEventMetaData(String contentDescription, T data) {
         this.data = data;

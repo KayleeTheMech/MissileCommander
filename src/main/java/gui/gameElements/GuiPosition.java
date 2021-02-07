@@ -9,13 +9,13 @@ import static gui.GameStagePanel.WindowWidth;
 
 public class GuiPosition {
 
-    private static double stretchX = ((double) WindowWidth) / ((double) GAME_BOARD_WIDTH);
+    private static final double stretchX = ((double) WindowWidth) / ((double) GAME_BOARD_WIDTH);
 
-    private static double stretchY = ((double) WindowHeight) / ((double) GAME_BOARD_HEIGHT);
+    private static final double stretchY = ((double) WindowHeight) / ((double) GAME_BOARD_HEIGHT);
 
-    private int x;
+    private final int x;
 
-    private int y;
+    private final int y;
 
     public GuiPosition(int x, int y) {
         this.x = x;

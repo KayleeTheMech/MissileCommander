@@ -4,6 +4,7 @@ import gui.gameElements.GuiPosition;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("PointlessArithmeticExpression")
 public class MissileShape extends AbstractShape {
 
     public MissileShape() {

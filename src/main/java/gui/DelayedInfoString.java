@@ -6,10 +6,10 @@ import java.util.concurrent.TimeUnit;
 
 class DelayedInfoString {
 
-    private String string;
-    private int millis;
+    private final String string;
+    private final int millis;
 
-    private Stopwatch sw;
+    private final Stopwatch sw;
 
     DelayedInfoString(String text, int millis) {
         this.millis = millis;

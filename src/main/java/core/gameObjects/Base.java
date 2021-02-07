@@ -7,7 +7,7 @@ import static events.GameEventType.PLAYER_HAS_DIED;
 
 public class Base extends GameObject {
 
-    private EventBus eventBus;
+    private final EventBus eventBus;
 
     Base(EventBus eventBus) {
         super();

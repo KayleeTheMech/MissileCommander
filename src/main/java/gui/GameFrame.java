@@ -16,16 +16,16 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
 
     static final long serialVersionUID = 2001;
 
-    private SceneDirector director;
+    private final SceneDirector director;
 
-    private GameStagePanel gameStagePanel;
+    private final GameStagePanel gameStagePanel;
 
-    private GameMenuPanel gameMenuPanel;
+    private final GameMenuPanel gameMenuPanel;
 
     private GamePanel activePanel;
 
 
-    private String titleBarString;
+    private final String titleBarString;
 
     public GameFrame(EventBus eventBus, SceneDirector director, String titleBarString) {
         super(titleBarString + "   Score: ");
@@ -134,7 +134,7 @@ public class GameFrame extends JFrame implements KeyListener, MouseListener, Win
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            if (director != null && !director.isGameOngoing()) {
+            if (director != null && director.isGameOver()) {
                 showMenu();
             }
         }

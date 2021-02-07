@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'maven-publish'
     id 'idea'
+//    id 'checkstyle'
 }
 
 repositories {
@@ -22,10 +22,8 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 jar {
     doFirst {
         manifest {
-            if (!configurations.runtime.isEmpty()) {
-                attributes('Class-Path':
-                        configurations.runtime.collect{it.toURI().toString()}.join(' '))
-            }
+            attributes('Class-Path':
+                    configurations.runtime.collect { it.toURI().toString() }.join(' '))
         }
     }
 

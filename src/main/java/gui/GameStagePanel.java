@@ -21,12 +21,12 @@ import java.util.Observable;
 public class GameStagePanel extends GamePanel {
     public static final int WindowHeight = 750;
     public static final int WindowWidth = 400;
-    private Font bigHeading = new Font("sans", Font.BOLD, 40);
-    private Font normalText = new Font("sans", Font.PLAIN, 12);
-    private List<DelayedInfoString> console;
-    private GuiObjectFactory factory;
-    private SceneDirector director;
-    private EventBus eventBus;
+    private final Font bigHeading = new Font("sans", Font.BOLD, 40);
+    private final Font normalText = new Font("sans", Font.PLAIN, 12);
+    private final List<DelayedInfoString> console;
+    private final GuiObjectFactory factory;
+    private final SceneDirector director;
+
 
     GameStagePanel(EventBus eventBus, GameFrame parent, SceneDirector director) {
         super(parent);
@@ -50,7 +50,7 @@ public class GameStagePanel extends GamePanel {
             graphicalObject.paint(g);
         }
 
-        if (!director.isGameOngoing()) {
+        if (director.isGameOver()) {
             paintGameOver(g);
         }
 

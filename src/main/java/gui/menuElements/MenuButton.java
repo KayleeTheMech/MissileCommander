@@ -16,13 +16,11 @@ public class MenuButton {
     private final int topBorder;
     private final int bottomBorder;
 
-    private Font menuFont = new Font("sans", Font.BOLD, 20);
+    private final Font menuFont = new Font("sans", Font.BOLD, 20);
 
-    private GuiPosition leftUpperCorner;
-    private String buttonText;
+    private final String buttonText;
 
     public MenuButton(String buttonText, GuiPosition leftUpperCorner) {
-        this.leftUpperCorner = leftUpperCorner;
         this.buttonText = buttonText;
 
         leftBorder = leftUpperCorner.getX();

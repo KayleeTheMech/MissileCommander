@@ -12,12 +12,12 @@ public abstract class GuiObject extends Polygon {
 
     Color fillColor = null;
     Color borderColor = null;
-    GameObject gameObject;
+    final GameObject gameObject;
 
     private int[] x;
     private int[] y;
     private GuiPosition direction;
-    private GuiPosition centerOfMass;
+    private final GuiPosition centerOfMass;
 
     GuiObject(GameObject gameObject) {
         super();

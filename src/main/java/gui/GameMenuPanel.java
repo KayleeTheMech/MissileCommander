@@ -13,8 +13,8 @@ import static gui.GameStagePanel.WindowWidth;
 public class GameMenuPanel extends GamePanel {
 
 
-    private MenuButton newGameButton;
-    private MenuButton exitButton;
+    private final MenuButton newGameButton;
+    private final MenuButton exitButton;
 
     GameMenuPanel(GameFrame parent) {
         super(parent);

@@ -18,7 +18,7 @@ public class Core extends Observable implements IDeactivate {
     private List<GameObject> gameObjects;
     private GameObjectFactory objectFactory;
 
-    private EventBus eventBus;
+    private final EventBus eventBus;
 
     Core(EventBus eventBus) {
         gameObjects = new ArrayList<>();
@@ -28,9 +28,7 @@ public class Core extends Observable implements IDeactivate {
 
     public List<GameObject> getGameObjects() {
         internalCheck();
-        List<GameObject> returnList = new ArrayList<>();
-        returnList.addAll(gameObjects);
-        return returnList;
+        return new ArrayList<>(gameObjects);
     }
 
     public void newFrame() {
@@ -42,6 +40,7 @@ public class Core extends Observable implements IDeactivate {
         deleteDecayedExplosions();
     }
 
+    @SuppressWarnings("unchecked")
     private <Type> List<Type> getObjectType(Class<Type> typeClass) {
         List<Type> retList = new ArrayList<>();
         for (GameObject object : getGameObjects()) {

@@ -13,7 +13,7 @@ public abstract class GamePanel extends JPanel implements Observer {
 
     static final long serialVersionUID = 2001;
 
-    protected GameFrame parent;
+    protected final GameFrame parent;
 
     GamePanel(GameFrame parent) {
         this.parent = parent;

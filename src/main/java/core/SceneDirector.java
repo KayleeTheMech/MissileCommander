@@ -13,7 +13,7 @@ import java.util.Observer;
 import static events.GameEventType.NEW_GAME_HAS_BEGUN;
 
 public class SceneDirector {
-    public static final int FRAME_RATE_SCALING = 1;
+    public static final float FRAME_RATE_SCALING = 1.0f;
     public static final int BASE_CHANCE_FOR_ENEMY_THIS_FRAME = 1;
     public static final int NUMBER_OF_FRAMES_PER_ROUND = 1000;
     public static final int NUMBER_OF_FRAMES_OF_ACTIVE_WAVE = 750;
@@ -21,7 +21,7 @@ public class SceneDirector {
     private int difficulty;
 
     //fixme inject the eventBus
-    private EventBus eventBus;
+    private final EventBus eventBus;
     private Core core;
     private Controller controller;
     private SceneAssistant assistant;
@@ -165,9 +165,9 @@ public class SceneDirector {
     }
 
     /**
-     * @return true if player alive, false otherwise
+     * @return false if player alive, true otherwise
      */
-    public boolean isGameOngoing() {
-        return assistant.isPlayerAlive();
+    public boolean isGameOver() {
+        return !assistant.isPlayerAlive();
     }
 }

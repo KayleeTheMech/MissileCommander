@@ -1,9 +1,9 @@
 package events;
 
 public class GameEvent {
-    private GameEventType eventType;
+    private final GameEventType eventType;
 
-    private GameEventMetaData metaData;
+    private final GameEventMetaData metaData;
 
     public GameEvent(GameEventType eventType) {
         this.eventType = eventType;
@@ -17,12 +17,6 @@ public class GameEvent {
 
     public GameEventType getEventType() {
         return eventType;
-    }
-
-    public boolean hasMetaData() {
-        if (metaData == null) {
-            return false;
-        } else return true;
     }
 
     public GameEventMetaData getMetaData() {
