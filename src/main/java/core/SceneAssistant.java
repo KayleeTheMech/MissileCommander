@@ -11,6 +11,7 @@ import core.gameObjects.GameObjectFactory;
 import core.gameObjects.Missile;
 import core.gameObjects.UFO;
 import events.GameEvent;
+import java.util.Random;
 
 public class SceneAssistant implements IDeactivate {
   // FIXME get these variables into a file
@@ -31,6 +32,7 @@ public class SceneAssistant implements IDeactivate {
 
   private int score = 0;
   private boolean playerAlive;
+  private static final Random random = new Random();
 
   SceneAssistant(EventBus eventBus, Core core) {
     this.core = core;
@@ -110,8 +112,8 @@ public class SceneAssistant implements IDeactivate {
 
   void randomExplosionOnSurface() {
     internalCheck();
-    int detonationRadius = (int) (BASE_EXPLOSIVE_PAYLOAD * Math.random());
-    int xpos = (int) (GAME_BOARD_WIDTH * Math.random() - GAME_BOARD_WIDTH / 2);
+    int detonationRadius = random.nextInt(BASE_EXPLOSIVE_PAYLOAD);
+    int xpos = random.nextInt(GAME_BOARD_WIDTH) - GAME_BOARD_WIDTH / 2;
     Explosion explosion = objectFactory.makeExplosion(new Position(xpos, 0), detonationRadius);
     core.addGameObject(explosion);
   }

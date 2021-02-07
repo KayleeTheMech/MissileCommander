@@ -26,7 +26,7 @@ public class GuiExplosion extends GuiObject {
     List<GuiPosition> points = new ArrayList<>();
     for (int i = 0; i < numberOfPoints; i++) {
       double r = 1;
-      if (i % 2 == 1) {
+      if (i % 2 != 0) {
         r = r * 1.2;
       }
       int x = (int) (radius * r * Math.cos(i * winkelabschnitt));

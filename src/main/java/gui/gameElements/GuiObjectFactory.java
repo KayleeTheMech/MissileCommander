@@ -17,9 +17,6 @@ public class GuiObjectFactory {
       if (gameObject == null) {
         throw new RuntimeException("null is not a GameObject");
       }
-      if (gameObject.getClass() == null) {
-        throw new RuntimeException("GameObject " + gameObject.toString() + " has no class. Weird.");
-      }
       throw new RuntimeException(
           "GameObject " + gameObject.getClass().toString() + "is of a not supported Class");
     }
