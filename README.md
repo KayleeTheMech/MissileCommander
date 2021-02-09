@@ -14,4 +14,4 @@ If this ever receives sound effects I will give it a version 1.
 Execute `./gradlew jar` in project root.
 
 # How to run
-Execute `java -jar build/libs/MissileCommander-v0.9.1.jar`
+Execute `java -jar build/libs/MissileCommander.jar`
